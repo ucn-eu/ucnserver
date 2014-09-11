@@ -1,0 +1,22 @@
+/var/log/openvpn/ucnvpn_tcp.log /var/log/openvpn/ucnvpn_udp.log {
+  	weekly
+  	missingok
+  	rotate 5
+  	compress
+  	delaycompress
+  	notifempty
+  	sharedscripts
+  	postrotate
+		[ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn restart > /dev/null
+  	endscript
+}
+
+/var/log/openvpn/script.log {
+        weekly
+        missingok
+        rotate 5
+	copytruncate
+        compress
+        delaycompress
+        notifempty
+}

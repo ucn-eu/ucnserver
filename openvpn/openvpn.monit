@@ -1,0 +1,16 @@
+ check process openvpn with pidfile /var/run/openvpn.ucnvpn_tcp.pid
+   group adm
+   group proxy
+   start program = "/etc/init.d/openvpn start"
+   stop program = "/etc/init.d/openvpn stop"
+   if 5 restarts with 5 cycles then timeout
+   depend openvpn_bin
+   depend openvpn_rc
+
+ check file openvpn_bin with path /usr/sbin/openvpn
+   group proxy
+   include /etc/monit/templates/rootbin
+
+ check file openvpn_rc with path /etc/init.d/openvpn
+   group proxy
+   include /etc/monit/templates/rootbin
