@@ -10,12 +10,12 @@ Depends on
 
 To install required dependencies, run
 
-''npm install
+    npm install
 
 To run, do
 
-''[DEBUG=ucnweb:* DBNAME=<database> DBHOST=<mongoserver> PORT=<listenport>] node bin/www
+    [DEBUG=ucnweb:* DBNAME=<database> DBHOST=<mongoserver> PORT=<listenport>] node bin/www
 
 or run a cluster with pm2, 
 
-''npm start
+    npm start
