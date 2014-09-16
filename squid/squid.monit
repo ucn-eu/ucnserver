@@ -1,0 +1,16 @@
+ check process squid with pidfile /var/run/squid.pid
+   group adm
+   group proxy
+   start program = "/etc/init.d/squid start"
+   stop program = "/etc/init.d/squid stop"
+   if 5 restarts with 5 cycles then timeout
+   depend squid_bin
+   depend squid_rc
+
+ check file squid_bin with path /usr/sbin/squid
+   group proxy
+   include /etc/monit/templates/rootbin
+
+ check file squid_rc with path /etc/init.d/squid
+   group proxy
+   include /etc/monit/templates/rootbin

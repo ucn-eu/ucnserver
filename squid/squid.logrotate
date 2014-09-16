@@ -1,0 +1,19 @@
+/var/log/squid/*.log {
+	daily
+        rotate 7
+        copytruncate
+	dateext
+        compress
+	delaycompress
+        notifempty
+        missingok
+	sharedscripts
+        # This script asks squid to rotate its logs on its own.
+        # Restarting squid is a long process and it is not worth
+        # doing it just to rotate logs
+        postrotate
+		[ ! -f /var/run/squid.pid ] || /usr/sbin/squid -k rotate
+                chown proxy:adm /var/log/squid/*.gz
+                chmod a+r /var/log/squid/*gz
+        endscript
+}

@@ -29,9 +29,9 @@ from datetime import datetime
 
 # -------------------------------
 # Configure your backend here
-mongohost = 'localhost'
+mongohost = 'ucn'
 mongoport = 27017
-mongodb = "ucntest"
+mongodb = "ucnexp"
 userc = "users"
 logc = "vpn_server_logs"
 # -------------------------------
@@ -83,30 +83,34 @@ def main():
             user = db[userc].find_one({"email": username})
 
             if (user != None and  u'password' in user):
-                hashed = user[u'password'].encode('ascii', 'ignore')
-                if (bcrypt.hashpw(password, hashed) == hashed):
-                    # set success now, will be success even if logging
-                    # fails for whatev reason
-                    retval = 0
+                if (user[u'isactivated'] && !user[u'isadmin']):
 
-                    # store succesful authentication to the db
-                    r = {'common_name' : username,
-                         'username' : username,
-                         'authenticated' : datetime.utcnow(),
-                         'proto' : getenv("proto"),
-                         'dev' : getenv("dev"),
-                         'config' : getenv("config"),
-                         'ifconfig_local' : getenv("ifconfig_local"),
-                         'ifconfig_remote' : getenv("ifconfig_remote"),
-                         'untrusted_client_ip' : getenv("untrusted_ip")}
+                    hashed = user[u'password'].encode('ascii', 'ignore') 
+                    if (bcrypt.hashpw(password, hashed) == hashed):
+                        # set success now, will be success even if logging
+                        # fails for whatev reason
+                        retval = 0
 
-                    if (r['proto'] == None):
-                        r['proto'] = getenv("proto_1")
+                        # store succesful authentication to the db
+                        r = {'common_name' : username,
+                             'username' : username,
+                             'authenticated' : datetime.utcnow(),
+                             'proto' : getenv("proto"),
+                             'dev' : getenv("dev"),
+                             'config' : getenv("config"),
+                             'ifconfig_local' : getenv("ifconfig_local"),
+                             'ifconfig_remote' : getenv("ifconfig_remote"),
+                             'untrusted_client_ip' : getenv("untrusted_ip")}
 
-                    logging.debug(r)
+                        if (r['proto'] == None):
+                            r['proto'] = getenv("proto_1")
 
-                    db[logc].insert(r)
-                    mongoc.close()            
+                        logging.debug(r)
+
+                        db[logc].insert(r)
+                        mongoc.close()            
+                    else:
+                        logging.warn("user '%s' account not active"%username)
                 else:
                     logging.warn("user '%s' invalid password"%username)
             else:

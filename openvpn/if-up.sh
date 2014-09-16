@@ -8,7 +8,7 @@ MAXSIZE=100 # rotate files bigger than x Mbytes
 TCPDUMP=/usr/sbin/tcpdump
 LOGDIR=/var/log/openvpn/pcaps
 PCAPFILE=$LOGDIR/$dev.pcap
-COMPSCRIPT=/etc/openvpn/tcpdump-compress.sh
+COMPSCRIPT=/etc/openvpn/compress.sh
 
 if [ ! -d $LOGDIR ]
 then
