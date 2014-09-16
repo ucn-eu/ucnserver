@@ -12,8 +12,6 @@
     "cwd"          : "/home/nodeapp/apps/ucn.git",
     "env": {
         "NODE_ENV" : "production",
-        "PORT"     : 3002,
-        "USERDB"   : "ucntest",
         "DEBUG"    : "ucnweb:*"
     }
   }]

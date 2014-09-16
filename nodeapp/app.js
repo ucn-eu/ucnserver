@@ -29,14 +29,13 @@ i18n.configure({
   directory: __dirname + "/locales"
 });
 
-// configurations (defaults to testing)
-app.set('dbname', process.env.DBNAME || 'ucntest');
-app.set('dbhost', process.env.DBHOST || 'localhost');
-app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
-app.set('port', process.env.PORT || 3002);
-
 if (app.get('env') === 'production') {
     debug('setting up in production environment (cmon)');
+
+    app.set('dbname', 'ucnexp');
+    app.set('dbhost', 'ucn');
+    app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
+    app.set('port', 3002);
 
     app.set('trust proxy', 1); // trust first proxy
 
@@ -52,20 +51,25 @@ if (app.get('env') === 'production') {
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
 
-    // TODO
+    // FIXME
+    throw "missing ukproduction configs";
 
 } else {
     debug('setting up in development environment');
+
+    app.set('dbname', 'ucntest');
+    app.set('dbhost', 'localhost');
+    app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
+    app.set('port', 3002);
 
     app.set('mailerconfig', {
 	service: "Gmail",
 	auth: {
             user: "annakaisa.pietilainen@gmail.com",
-            pass: "k0val4nrannant!e"
+            pass: (app.get('GML') || "")
 	}
     });
-    app.set('mailer', "Anna-Kaisa Pietilainen <annakaisa.pietilainen@gmail.com>");
-
+    app.set('mailer', "annakaisa.pietilainen@gmail.com");
     app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn/');
 
     // strip proxy path from all urls in testing (done by the proxy in prod)
