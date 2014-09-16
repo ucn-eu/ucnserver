@@ -5,7 +5,7 @@ Depends on
 
 * MongoDB for storing user accounts
 * Redis for session store
-* Node to run the app
+* node.js to run the app
 * pm2 (node app) to run the cluster
 
 To install required dependencies, run
@@ -14,8 +14,8 @@ To install required dependencies, run
 
 To run, do
 
-    [DEBUG=ucnweb:* DBNAME=<database> DBHOST=<mongoserver> PORT=<listenport>] node bin/www
+    [DEBUG=ucnweb:* GMLU=gmailuser GMLP=gmailpassword] node bin/www
 
-or run a cluster with pm2, 
+Or run a cluster with pm2 (check processes.json/app.js for configs): 
 
     npm start

@@ -54,6 +54,23 @@ if (app.get('env') === 'production') {
     // FIXME
     throw "missing ukproduction configs";
 
+
+    app.set('dbname', 'ucnexp');
+    app.set('dbhost', '');
+    app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
+    app.set('port', 3002);
+
+    app.set('trust proxy', 1); // trust first proxy
+
+    app.set('mailerconfig', {
+	host: '127.0.0.1',
+	port: 25,
+	ignoreTLS : true,
+	secure : false
+    });
+    app.set('mailer', "ucn@cmon.lip6.fr");
+    app.set('baseurl', 'https://cmon.lip6.fr/ucn/');
+
 } else {
     debug('setting up in development environment');
 
@@ -65,10 +82,11 @@ if (app.get('env') === 'production') {
     app.set('mailerconfig', {
 	service: "Gmail",
 	auth: {
-            user: "annakaisa.pietilainen@gmail.com",
-            pass: (app.get('GML') || "")
+            user: (process.env.GMLU || ""),
+            pass: (process.env.GMLP || "")
 	}
     });
+
     app.set('mailer', "annakaisa.pietilainen@gmail.com");
     app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn/');
 
@@ -80,8 +98,6 @@ if (app.get('env') === 'production') {
 	next();
     });
 }
-
-app.disable('etag');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
