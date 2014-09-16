@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UCN Experiment - Register</title>
+
+  <!-- Mobile Specific Metas ================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- CSS  ================================================== -->
+  <link rel="stylesheet" href="/ucn/stylesheets/base.css">
+  <link rel="stylesheet" href="/ucn/stylesheets/skeleton.css">
+  <link rel="stylesheet" href="/ucn/stylesheets/layout.css">
+  <link rel="stylesheet" href="/ucn/stylesheets/style.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="/ucn/favicon.ico">
+
+</head>
+<body>
+<div class="container">
+   <div class="sixteen columns">
+     <header>
+     <h1 style="margin-top: 40px">UCN Experiment - Register</h1>
+     </header>
+     <hr/>
+     
+     <div id="step1">
+     <h3>1/4 Register</h3>
+
+     <p>Please fill the following information to register for the
+       experiment.
+     </p>
+
+     <div id="error" style="display:none"></div>
+
+     <label for="email">Email</label>
+     <input type="text" id="email" />
+	 
+     <label for="password">Password</label>
+     <input type="password" id="password" />
+
+     <label for="password2">Re-type password</label>
+     <input type="password" id="password2" />
+
+     <button id="b1">Next</button>
+     <button id="back" onclick="window.location='/ucn'">Back</button>
+     </div> <!-- step1 -->
+
+     <div id="step2" style="display:none">
+     <h3>2/4 Setup VPN</h3>
+     <p>For the experiment we ask you to connect to the Internet
+       through a VPN tunnel that will route your network traffic
+       via our server for traffic analysis. Select your operating 
+       system below for detailed installation instructions:
+     </p>
+
+     {{> helpvpn}}
+
+     <button id="b2">Next</button>
+     </div> <!-- step2 -->
+
+     <div id="step3" style="display:none">
+     <h3>3/4 Install activity logger</h3>
+     <p>If you are on a mobile device (Android or iOS), install
+     an activity logger software to your device. Otherwise you can
+     proceed directly to the last step.
+     </p>
+       
+     {{> helplogger}}
+
+     <button id="b3">Next</button>
+     </div> <!-- step3 -->
+
+     <div id="step4" style="display:none">
+     <h3>4/4 Ready</h3>
+     <p>You can now connect to the participant dashboard to manage
+     your settings, see what data is being collected about you and to
+     explore your internet usage patterns. The dashboard contains a
+     link to the previous installation instructions and a FAQ in case
+     you did not manage to install all the software succesfully or you
+     want to join other devices to the experiment (no need to register again!).
+     </p>
+
+     <button id="b4" onclick="window.location='/ucn'">Go back to the login</button>
+     </div> <!-- step4 -->
+
+     {{> footer}}
+   </div>
+</div>
+<script src="/ucn/javascripts/jquery.min.js"></script>
+<script>
+// check the optional target
+if (window.location.hash) {
+    $('#step1').hide(); // hide the default
+    $(window.location.hash).show();
+}
+
+function error(msg) {
+    $('#error').html('<p class="errorblock">'+msg+'<p>');
+    $('#error').show();
+};
+
+function shownextstep(step) {
+    $('#step'+step).hide();
+    $('#step'+(step+1)).show();
+};
+
+$('#b1').click(function() {
+    if (!$('#email').val()) {
+       error("Missing required field: email");
+    } else if ($('#email').val().indexOf('@') < 0) {
+       // FIXME: very basic... 
+       error("Invalid email address");
+    } else if (!$('#password').val()) {
+       error("Missing required field: password");
+    } else if (!$('#password2').val()) {
+       error("Missing required field: password confirmation");
+    } else if ($('#password').val() !== $('#password2').val()) {
+       error("Passwords do not match");
+    } else {
+        var u = {
+             email:$('#email').val(),
+             password:$('#password').val(),
+        };
+
+	// call the createuser API 
+        var req = $.ajax({
+	   url: "/ucn/newuser",
+           type: "POST",
+	   data: u
+        });
+        req.done(function(data) {
+	      if (data.error)
+	         error("Registration failed:" + data.error);
+              else
+	 	shownextstep(1);
+        });
+        req.fail(function(jqxhr, status, err) {
+	      error(status + ": " + err);
+        });
+    }
+});
+
+$('#b2').click(function() {
+   shownextstep(2);
+});
+
+$('#b3').click(function() {
+   shownextstep(3);
+});
+
+</script>
+</body>
+</html>

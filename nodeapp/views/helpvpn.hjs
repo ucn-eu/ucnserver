@@ -1,0 +1,122 @@
+<div class="row clearfix">
+<!-- OpenVPN install on Android -->
+<a href="#" onclick="$('#android').toggle()"><h5>Android</h5></a>
+<div style="display:none" id="android">
+  <p>
+    <ul class="square">
+      <li>Install 
+	<a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from Play Store</a>
+      </li>
+      <li>
+	Install our <a href="/ucn/dl/ca.crt">CA certificate</a> on
+	your device (click on the link and accept install on your device). 
+      </li>
+      <li>
+	Download the <a href="/ucn/dl/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+      </li>
+      <li>
+	Start OpenVPN for Android on your device
+      </li>
+      <li>
+	Click on IMPORT on upper right corner of the app
+      </li>
+      <li>
+	Select the downloaded configuration file (usually at <span class="emph">/sdcard/Downloads/cmon.lip6.fr.ovpn</span>) and import
+      </li>
+      <li>
+	Configure few settings in tunnel preferences:
+	<ul class="disc">
+	  <li>Basic -> Username : type in the email you used to
+	  register to the experiment</li>
+	  <li>Basic -> Password : type in the password you received
+	  upon registration</li>
+	  <li>Routing -> Select IPV4/Use default Route</li>
+	  <li>Routing -> Select IPV6/Use default Route</li>
+	  <li>In case of connection problems, change Basic -> UDP to
+	  TCP (toggle the button to change to TCP)</li>
+        </ul>
+      </li>
+      <li>
+	Click on the tunnel name to activate the tunnel.
+      </li>
+    </ul>
+  </p>
+</div>
+
+<!-- OpenVPN install on iOS -->
+<a href="#" onclick="$('#ios').toggle()"><h5>iOS</h5></a>
+<div style="display:none" id="ios">
+  <p>
+    <ul class="square">
+      <li>
+      Install <a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from App Store</a>
+      </li>
+      <li>
+	Install our <a href="/ucn/dl/ca.crt">CA certificate</a> on your device (click on the link and accept install on your device)
+      </li>
+      <li>
+	Click on the cmon.lip6.fr.ovpn file attachement you received with the welcome email and open with OpenVPN Connect
+      </li>
+      <li>
+	Configure your username (email address you used to register) and password (received upon registration) in OpenVPN Connect
+      </li>
+      <li>
+	Click on the slider to activate the tunnel
+      </li>
+    </ul>
+  </p>
+</div>
+     
+<!-- OpenVPN install on Linux -->
+<a href="#" onclick="$('#linux').toggle()"><h5>Linux</h5></a>
+<div style="display:none" id="linux">
+  <p>
+    <ul class="square">
+      <li>
+	Install openvpn client using your distro's package
+	manager, e.g. <code>apt-get install openvpn</code>
+      </li>
+      <li>
+	Download the <a href="/ucn/dl/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+      </li>
+      <li>
+	Start the client: <code>openvpn --config cmon.lip6.fr.ovpn</code>
+      </li>
+    </ul>
+  </p>
+</div>
+
+<!-- OpenVPN install on OS X -->
+<a href="#" onclick="$('#osx').toggle()"><h5>Mac OS X</h5></a>
+<div style="display:none" id="osx">
+  <p>
+    <ul class="square">
+      <li>Install 
+	<a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
+      </li>
+      <li>
+	Download the <a href="/ucn/dl/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+      </li>
+      <li>
+	Double-click on the cmon.lip6.fr.ovpn file and follow the installation instructions
+      </li>
+      <li>
+	Click on the Tunnelblick icon in the taskbar and select "Connect cmon.lip6.fr"
+      </li>
+      <li>
+	Use your email and the received password as your connection credentials.
+      </li>
+    </ul>
+  </p>
+</div>
+
+<!-- OpenVPN install on Windows PC -->
+<a href="#" onclick="$('#win').toggle()"><h5>Windows</h5></a>
+<div style="display:none" id="win">
+  <p>
+    <ul class="square">
+      <li>TODO</li>
+    </ul>
+  </p>
+</div>
+</div> <!-- row -->

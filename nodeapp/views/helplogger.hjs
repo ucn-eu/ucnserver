@@ -1,0 +1,40 @@
+<div class="row clearfix">
+
+<a href="#" onclick="$('#androida').toggle()"><h5>Android</h5></a>
+<div id="androida" style="display:none">
+  <p>
+    <ul class="square">
+      <li>
+	Enable installation from untrusted sources: Settings -> Security
+      </li>
+      <li>
+	Click on the following link to <a href="/ucn/dl/UCNDataCollector.apk">install the data collector</a>
+      </li>
+      <li>
+	Launch the data collector on your device: Applications -> UCNDataCollector and toggle ON to enable data collection
+      </li>
+      <li>
+	Additionally, we are interested in collecting data from other context apps such as Llama or IFTTT. Follow the instructions below if you are using one of them:
+	<ul>
+	  <li>
+	    <a href="https://play.google.com/store/apps/details?id=com.kebab.Llama">Llama</a>: Once you have trained new locations in the app, click on "Import/Export" data (the activity logger will then collect the location data from the exported files automatically)
+	  </li>
+	  <li>
+	    <a href="https://play.google.com/store/apps/details?id=com.ifttt.ifttt">IFTTT</a>: Create an email receipe for the most common locations you visit (trigger: enterorexit area, action: send email to ucndata@cmon.lip6.fr, change in the email subject 'an area' to the name of the area e.g. 'work' or 'home')
+	  </li>
+	</ul>
+      </li>
+    </ul>
+  </p>
+</div>
+
+<a href="#" onclick="$('#iosa').toggle()"><h5>iOS</h5></a>
+<div id="iosa" style="display:none">
+  <p>
+    <ul class="square">
+      <li>TODO: </li>
+    </ul>
+  </p>
+</div>
+
+</div>

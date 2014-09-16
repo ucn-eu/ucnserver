@@ -1,0 +1,105 @@
+/*
+ * Customization.
+ */
+
+/* Doc nav */
+nav {
+    margin-bottom: 0px; 
+    margin-top: -20px; 
+}
+nav ul {
+    float: left;  
+    line-height: 1;
+    margin: 0px;
+    padding: 0px;
+    list-style: none outside none;
+    border: medium none;
+}
+nav ul li {
+    display: block;
+    margin: 10px;
+    float: left;
+    position: relative;
+    z-index: 99;
+}
+nav ul li a,
+nav ul li a:visited,
+nav ul li a:active  {
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    font-weight: bold; 
+}
+nav ul li a:hover,
+nav ul li a:focus {
+    color: #ff6666; 
+    text-decoration: underline;
+}
+
+.emph {
+    font-style: italic;
+}
+
+.errorblock {
+    background-color : #FF6666;
+    display: block;
+    margin: 5px; 
+}
+
+.remove-bottom {
+    margin-bottom: 0px !important;
+}
+
+.remove-top {
+    margin-top: 0px !important;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0; 
+}
+table th {
+    padding: 10px; 
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    font-weight: bold; 
+}
+table td {
+    padding: 10px; 
+    font-size: 14px;
+    color: #222;
+    text-decoration: none;
+}
+
+.error { 
+  margin:1px 0px;
+  padding:2px 2px 2px 8px;
+  border-left: 4px solid #e04040;
+  background:#fff0f0;
+}
+
+.noerror { 
+  margin:0px;
+  padding:0px;
+  border-left: #fff;
+  background: #fff;
+}
+
+.success { 
+  margin:1px 0px;
+  padding:2px 2px 2px 8px;
+  border-left: 4px solid #90e070;
+  background:#f0fff0;
+}
+
+.stack { 
+  margin:10px;
+  padding:2px;
+}
+
+.logo { 
+  vertical-align:middle;
+  padding-left:15px;
+}
+

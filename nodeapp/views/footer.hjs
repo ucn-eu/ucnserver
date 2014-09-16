@@ -1,0 +1,20 @@
+<!-- footer -->
+<div class="row clearfix">
+  <hr/>
+
+  <div align="right">
+    <a href="http://www.inria.fr" target="_blank">
+      <img class="logo" src="/ucn/images/inrialogo.png" alt="Inria Logo"
+	   width="185"/>
+    </a>
+    <a href="http://www.nottingham.ac.uk" target="_blank">
+      <img class="logo" src="/ucn/images/nottinghamlogo.png"
+	   alt="University of Nottingham Logo" width="175"/>
+    </a>
+    <a href="http://www.usercentricnetworking.eu" target="_blank">
+      <img class="logo" src="/ucn/images/ucnlogo.png" alt="UCN Logo" 
+	   width="200"/>
+    </a>    
+  </div>
+
+</div>

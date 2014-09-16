@@ -1,0 +1,12 @@
+<div class="row clearfix">
+  <nav>
+    <ul>
+      <li>
+	<a href="/ucn/admin/"><strong>VPNs</strong></a>
+      </li>
+      <li>
+	<a href="/ucn/admin/users"><strong>USERS</strong></a>
+      </li>
+    </ul>
+  </nav>
+</div>

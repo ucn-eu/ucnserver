@@ -1,0 +1,28 @@
+<!-- header -->
+<div class="row clearfix"  style="margin-top: 40px;">
+
+  <div class="thirteen columns omega">
+    <h1>{{pagetitle}}</h1>
+  </div>
+
+  <div class="two columns alpha">
+    {{#locale_fr}}
+      <a href="/ucn/en">EN</a> | FR
+    {{/locale_fr}}		        
+    {{^locale_fr}}
+      EN | <a href="/ucn/fr">FR</a>
+    {{/locale_fr}}
+  </div>
+
+  <div class="one columns alpha">
+    {{#loggedin}}
+    <a href="/ucn/auth/logout">LOGOUT</a>
+    {{/loggedin}}
+    {{^loggedin}}
+    <a href="/ucn">HOME</a>
+    {{/loggedin}}
+  </div>
+
+  <hr class="half-bottom"/>
+
+</div> <!-- row -->
