@@ -4,7 +4,7 @@ var fs = require('fs');
 var bcrypt = require('bcrypt');
 var db = require('../lib/db');
 var app = require('../app');
-var debug = require('debug')(app.get('debugns')+'model:User');
+var debug = require('debug')(app.get('debugns')+':model:User');
 
 // increasing this will make the password hashes harder to brute force
 // (the algo becomes slower)

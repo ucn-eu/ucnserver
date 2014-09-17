@@ -2,7 +2,7 @@ var debug = require('debug')('dataweb:routes:users');
 var express = require('express');
 var router = express.Router();
 var app = require('../app');
-var debug = require('debug')(app.get('debugns')+'routes:users');
+var debug = require('debug')(app.get('debugns')+':routes:users');
 
 /* Index page for this user. */
 router.get('/', function(req, res, next) {

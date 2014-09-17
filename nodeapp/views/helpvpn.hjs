@@ -7,12 +7,14 @@
       <li>Install 
 	<a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from Play Store</a>
       </li>
+      <!--
       <li>
-	Install our <a href="/ucn/dl/ca.crt">CA certificate</a> on
+	Install our <a href="/ucn/downloads/ca.crt">CA certificate</a> on
 	your device (click on the link and accept install on your device). 
       </li>
+      ->
       <li>
-	Download the <a href="/ucn/dl/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+	Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file (also attached to the welcome email)</a> on your device
       </li>
       <li>
 	Start OpenVPN for Android on your device
@@ -51,9 +53,11 @@
       <li>
       Install <a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from App Store</a>
       </li>
+      <!--
       <li>
-	Install our <a href="/ucn/dl/ca.crt">CA certificate</a> on your device (click on the link and accept install on your device)
+	Install our <a href="/ucn/downloads/ca.crt">CA certificate</a> on your device (click on the link and accept install on your device)
       </li>
+      -->
       <li>
 	Click on the cmon.lip6.fr.ovpn file attachement you received with the welcome email and open with OpenVPN Connect
       </li>
@@ -77,7 +81,7 @@
 	manager, e.g. <code>apt-get install openvpn</code>
       </li>
       <li>
-	Download the <a href="/ucn/dl/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+	Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
       </li>
       <li>
 	Start the client: <code>openvpn --config cmon.lip6.fr.ovpn</code>
@@ -95,7 +99,7 @@
 	<a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
       </li>
       <li>
-	Download the <a href="/ucn/dl/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+	Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
       </li>
       <li>
 	Double-click on the cmon.lip6.fr.ovpn file and follow the installation instructions

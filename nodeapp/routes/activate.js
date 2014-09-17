@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
 var app = require('../app');
-var debug = require('debug')(app.get('debugns')+'routes:activate');
+var debug = require('debug')(app.get('debugns')+':routes:activate');
 
 /** 
  * Handle email activation links. If the token is valid, renders 

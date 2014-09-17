@@ -6,7 +6,7 @@ var passwordgen = require('password-generator');
 var app = require('../app');
 var emailer = require('../lib/emailer');
 var User = require('../models/User');
-var debug = require('debug')(app.get('debugns')+'routes:resetpassword');
+var debug = require('debug')(app.get('debugns')+':routes:resetpassword');
 
 /** Handle password reminder request. */
 router.post('/', function(req, res, next) {

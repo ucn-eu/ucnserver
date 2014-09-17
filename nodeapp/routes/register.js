@@ -6,7 +6,7 @@ var passwordgen = require('password-generator');
 var app = require('../app');
 var emailer = require('../lib/emailer');
 var User = require('../models/User');
-var debug = require('debug')(app.get('debugns')+'routes:register');
+var debug = require('debug')(app.get('debugns')+':routes:register');
 
 /** Show the registration help + form. */
 router.get('/', function(req, res, next) {
@@ -74,7 +74,7 @@ router.post('/', function(req, res, next) {
 		password : uobj.password,
 		to: uobj.email,
 		attachments: [{
-		    path : path.join(__dirname, '../public','dl','cmon.lip6.fr.ovpn'),
+		    path : path.join(__dirname, '../downloads','cmon.lip6.fr.ovpn'),
 		    filename : "cmon.lip6.fr.ovpn"
 		}]
 	    }

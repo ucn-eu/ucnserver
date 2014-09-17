@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var app = require('../app');
-var debug = require('debug')(app.get('debugns')+'routes:auth');
+var debug = require('debug')(app.get('debugns')+':routes:auth');
 
 /** Get forwards to the loging page. */
 router.get('/login', function(req, res, next) {

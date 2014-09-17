@@ -1,6 +1,6 @@
 var app = require('../app');
 var mongoose = require('mongoose');
-var debug = require('debug')(app.get('debugns')+'lib:db');
+var debug = require('debug')(app.get('debugns')+':lib:db');
 
 mongoose.connect(app.get('mongouri'), function(err) {
     if (err) throw err;

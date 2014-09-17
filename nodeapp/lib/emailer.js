@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 var app = require('../app');
-var debug = require('debug')(app.get('debugns')+'lib:emailer');
+var debug = require('debug')(app.get('debugns')+':lib:emailer');
 
 // init email template cache on load
 var templates = {};

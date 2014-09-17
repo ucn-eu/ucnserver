@@ -3,7 +3,7 @@ var _ = require('underscore');
 var express = require('express');
 var router = express.Router();
 var app = require('../app');
-var debug = require('debug')(app.get('debugns')+'routes:admin');
+var debug = require('debug')(app.get('debugns')+':routes:admin');
 
 router.get('/', function(req, res, next) {
     if (!req.user) {
