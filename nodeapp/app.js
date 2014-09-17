@@ -167,7 +167,7 @@ app.use('/en', function(req, res, next) {
 // public file downloads + index
 //app.use('/downloads',serveIndex('downloads', {'icons': true}));
 app.use('/downloads', function(req, res) {
-  var file = __dirname + '/downloads/' + req.path;
+  var file = __dirname + 'downloads/' + req.path;
   res.download(file);
 });
 

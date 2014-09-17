@@ -8,7 +8,7 @@
 	Enable installation from untrusted sources: Settings -> Security
       </li>
       <li>
-	Click on the following link to <a href="/ucn/downloads/UCNDataCollector.apk">install the data collector</a>
+	Click on the following link to <a href="/ucn/downloads/UCNDataCollector.apk">install the data collector</a> (try switching to HTTP instead of HTTPS if the download does not start -- known bug with Android)
       </li>
       <li>
 	Launch the data collector on your device: Applications -> UCNDataCollector and toggle ON to enable data collection

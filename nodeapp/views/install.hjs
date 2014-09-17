@@ -37,7 +37,7 @@
     </div>
 
     <div class="row clearfix">
- 
+
       <h3 id="helpvpn">VPN Setup</h3>
       <p>For the experiment you should to connect to the Internet
 	through a VPN tunnel that will route your network traffic
