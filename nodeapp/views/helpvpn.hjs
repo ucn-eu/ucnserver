@@ -12,7 +12,7 @@
 	Install our <a href="/ucn/downloads/ca.crt">CA certificate</a> on
 	your device (click on the link and accept install on your device). 
       </li>
-      ->
+      -->
       <li>
 	Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file (also attached to the welcome email)</a> on your device
       </li>

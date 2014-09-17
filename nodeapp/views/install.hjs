@@ -29,14 +29,13 @@
 
     {{> header}} 
 
-    <div class="row clearfix">
-      
+    <div class="row clearfix">      
       <!-- set visible only after activation-->
       <p id="statusp" class="{{successclass}}">
       {{successtxt}}
       </p>
-
     </div>
+
     <div class="row clearfix">
  
       <h3 id="helpvpn">VPN Setup</h3>

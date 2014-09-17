@@ -30,6 +30,11 @@
 
   <div class="row clearfix">
 
+    <!-- error/success msg block - keep on top for mobiles -->
+    <p id="statusp" class="{{errorclass}}">
+      {{error}}
+    </p>
+
     <h3>Important</h3>
 
     <p>
@@ -44,11 +49,6 @@
 	The family name is used to group together participants in the same household, so make sure to use the same name with your family members (hint: lastname should work just fine).
       </li>
     </ul>
-    </p>
-
-    <!-- error msg block -->
-    <p id="statusp" class="{{errorclass}}">
-      {{error}}
     </p>
 
   </div>
