@@ -4,7 +4,6 @@
         copytruncate
 	dateext
         compress
-	delaycompress
         notifempty
         missingok
 	sharedscripts
@@ -15,7 +14,6 @@
 		[ ! -f /var/run/squid.pid ] || /usr/sbin/squid -k rotate
 		# change permissions so that the archival script has access
                 chown proxy:adm /var/log/squid/*.gz
-                chmod ug+xr /var/log/squid/*gz
-                chmod u+w /var/log/squid/*gz
+                chmod ug+rwx /var/log/squid/*gz
         endscript
 }
