@@ -165,13 +165,11 @@ app.use('/en', function(req, res, next) {
 });
 
 // public file downloads + index
-app.use('/downloads',serveIndex('downloads', {'icons': true}));
-app.use('/downloads',serveStatic('downloads', {
-    'index': true,
-    'setHeaders': function(res, path) {
-	res.attachment(path)
-    }
-}));
+//app.use('/downloads',serveIndex('downloads', {'icons': true}));
+app.use('/downloads', function(req, res) {
+  var file = __dirname + '/downloads/' + req.path;
+  res.download(file);
+});
 
 // default handler (on no matching route)
 app.use(function(req, res, next) {
