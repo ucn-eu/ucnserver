@@ -1,6 +1,6 @@
 <div class="row clearfix">
 <!-- OpenVPN install on Android -->
-<a href="#" onclick="$('#android').toggle()"><h5>Android</h5></a>
+<a href="#" onclick="$('#android').toggle(); $('#android').focus()"><h5>Android</h5></a>
 <div style="display:none" id="android">
   <p>
     <ul class="square">
@@ -14,7 +14,7 @@
       </li>
       -->
       <li>
-	Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file (also attached to the welcome email)</a> on your device
+	Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device (also attached to the welcome email)
       </li>
       <li>
 	Start OpenVPN for Android on your device
@@ -23,7 +23,7 @@
 	Click on IMPORT on upper right corner of the app
       </li>
       <li>
-	Select the downloaded configuration file (usually at <span class="emph">/sdcard/Downloads/cmon.lip6.fr.ovpn</span>) and import
+	Select the downloaded configuration file (usually at <span class="emph">/sdcard/Downloads/cmon.lip6.fr.ovpn</span>) and click on save icon to import
       </li>
       <li>
 	Configure few settings in tunnel preferences:
@@ -46,7 +46,7 @@
 </div>
 
 <!-- OpenVPN install on iOS -->
-<a href="#" onclick="$('#ios').toggle()"><h5>iOS</h5></a>
+<a href="#" onclick="$('#ios').toggle(); $('#ios').focus()"><h5>iOS</h5></a>
 <div style="display:none" id="ios">
   <p>
     <ul class="square">
@@ -72,7 +72,7 @@
 </div>
      
 <!-- OpenVPN install on Linux -->
-<a href="#" onclick="$('#linux').toggle()"><h5>Linux</h5></a>
+<a href="#" onclick="$('#linux').toggle(); $('#linux').focus();"><h5>Linux</h5></a>
 <div style="display:none" id="linux">
   <p>
     <ul class="square">
@@ -91,7 +91,7 @@
 </div>
 
 <!-- OpenVPN install on OS X -->
-<a href="#" onclick="$('#osx').toggle()"><h5>Mac OS X</h5></a>
+<a href="#" onclick="$('#osx').toggle(); $('#osx').focus()"><h5>Mac OS X</h5></a>
 <div style="display:none" id="osx">
   <p>
     <ul class="square">
@@ -115,7 +115,7 @@
 </div>
 
 <!-- OpenVPN install on Windows PC -->
-<a href="#" onclick="$('#win').toggle()"><h5>Windows</h5></a>
+<a href="#" onclick="$('#win').toggle(); $('#win').focus()"><h5>Windows</h5></a>
 <div style="display:none" id="win">
   <p>
     <ul class="square">
