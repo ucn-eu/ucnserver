@@ -83,7 +83,7 @@ def main():
             user = db[userc].find_one({"email": username})
 
             if (user != None and  u'password' in user):
-                if (user[u'isactivated'] && !user[u'isadmin']):
+                if (user[u'isactivated'] and not user[u'isadmin']):
 
                     hashed = user[u'password'].encode('ascii', 'ignore') 
                     if (bcrypt.hashpw(password, hashed) == hashed):
