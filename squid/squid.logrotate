@@ -13,7 +13,9 @@
         # doing it just to rotate logs
         postrotate
 		[ ! -f /var/run/squid.pid ] || /usr/sbin/squid -k rotate
+		# change permissions so that the archival script has access
                 chown proxy:adm /var/log/squid/*.gz
-                chmod a+r /var/log/squid/*gz
+                chmod ug+xr /var/log/squid/*gz
+                chmod u+w /var/log/squid/*gz
         endscript
 }
