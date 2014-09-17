@@ -11,4 +11,11 @@ if [ -f $PIDFILE ]; then
   rm -f $PIDFILE
 fi
 
+sleep 10
+
+# make sure there's no pending pcap file
+if [ -f /var/log/openvpn/pcaps/$dev.pcap ]; then
+    compress.sh /var/log/openvpn/pcaps/$dev.pcap
+fi
+
 # TODO: could restore the original firewall config here

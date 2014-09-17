@@ -1,22 +1,14 @@
-/var/log/openvpn/ucnvpn_tcp.log /var/log/openvpn/ucnvpn_udp.log {
-  	weekly
+/var/log/openvpn/*.log {
+  	daily
   	missingok
-  	rotate 5
+  	rotate 7
   	compress
   	delaycompress
   	notifempty
   	sharedscripts
   	postrotate
-		[ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn restart > /dev/null
+	        # reload should be enough to restart the log files
+		[ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn reload
   	endscript
 }
 
-/var/log/openvpn/script.log {
-        weekly
-        missingok
-        rotate 5
-	copytruncate
-        compress
-        delaycompress
-        notifempty
-}

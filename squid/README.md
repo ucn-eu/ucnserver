@@ -17,3 +17,8 @@ Run Squid:
 ```
 $ /etc/init.d/squid start|stop
 ```
+
+Data Collection
+---------------
+
+The access logs are written by default to /var/log/squid (and rotate daily there, keeping at most 7 days of logs). Setup an archival script (or modify squid.logrotate) to store the data.

@@ -14,6 +14,7 @@ if [ ! -d $LOGDIR ]
 then
   mkdir $LOGDIR
   chown proxy:adm $LOGDIR
+  chmod ug+rwx $LOGDIR
 fi
 
 PIDFILE=/var/run/$dev_pcap.pid
