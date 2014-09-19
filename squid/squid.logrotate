@@ -4,6 +4,7 @@
         copytruncate
 	dateext
         compress
+	delaycompress
         notifempty
         missingok
 	sharedscripts
