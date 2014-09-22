@@ -7,17 +7,15 @@ OpenVPN Setup
 ** easy-rsa: https://github.com/OpenVPN/easy-rsa/releases/download/2.2.2/EasyRSA-2.2.2.tgz
 ** Copy keys/ca.*, ./keys/server.* and keys/dh2048.pem to /etc/openvpn/
 * Check configs and copy *.conf to /etc/openvpn
-* Check configs and copy *.sh and *.py to /etc/openvpn
+* Check configs and copy *.sh and *.py to /etc/openvpn, make executable
 * [optional] Copy openvpn.logrotate /etc/logrotate.d/openvpn
 * [optional] Copy openvpn.monit /etc/monit/cond.d/openvpn
 * Setup the firewall rules, something along the lines of:
 
 ```
-iptables -A FORWARD -s 10.0.0.0/8 -i tun+ -o eth0 -j ACCEPT
-iptables -A FORWARD -s 10.0.0.0/8 -i tun+ -o eth1 -j ACCEPT
-iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
-iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A POSTROUTING -o eth0 -j MASQUERADE
+-A FORWARD -s 10.0.0.0/8 -i tun+ -o eth0 -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A POSTROUTING -o eth0 -j MASQUERADE
 ```
 
 Run OpenVPN:

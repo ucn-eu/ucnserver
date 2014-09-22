@@ -1,11 +1,11 @@
 /var/log/squid/*.log {
 	daily
         rotate 7
-        copytruncate
 	dateext
         compress
 	delaycompress
         notifempty
+	nocreate
         missingok
 	sharedscripts
         # This script asks squid to rotate its logs on its own.
