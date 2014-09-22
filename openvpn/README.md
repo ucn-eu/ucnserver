@@ -13,8 +13,10 @@ OpenVPN Setup
 * Setup the firewall rules, something along the lines of:
 
 ```
+*filter
 -A FORWARD -s 10.0.0.0/8 -i tun+ -o eth0 -j ACCEPT
 -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+*nat
 -A POSTROUTING -o eth0 -j MASQUERADE
 ```
 

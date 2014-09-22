@@ -8,6 +8,7 @@ Squid Setup
 * Setup firewall rules to forward traffic from the VPN to squid, e.g.:
 
 ```
+*nat
 -A PREROUTING -s 10.0.0.0/8 -i tun+ -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 31280
 -A PREROUTING -s 10.0.0.0/8 -i tun+ -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 31281
 ```
