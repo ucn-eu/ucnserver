@@ -33,6 +33,7 @@ mongohost = 'ucn'
 mongoport = 27017
 mongodb = "ucnexp"
 userc = "users"
+devicec = "devices"
 logc = "vpn_server_logs"
 # -------------------------------
 
@@ -57,6 +58,7 @@ def getenv(key):
 def main():
     script = getenv("script_type")
     retval = 1 # by default return error
+
     logging.debug("handling '%s'"%script)
     logging.debug(str(os.environ))
     logging.debug(str(sys.argv))
@@ -80,9 +82,14 @@ def main():
         try:
             mongoc = MongoClient(mongohost, mongoport)
             db = mongoc[mongodb]
-            user = db[userc].find_one({"email": username})
 
-            if (user != None and  u'password' in user):
+            (uname,dname) = username.split('.')
+            user = db[userc].find_one({"username": uname})
+            device = db[devicec].find_one({
+                    "username": uname, 
+                    "type": dname})
+
+            if (device != None and user != None and  u'password' in user):
                 if (user[u'isactivated'] and not user[u'isadmin']):
 
                     hashed = user[u'password'].encode('ascii', 'ignore') 
@@ -93,7 +100,8 @@ def main():
 
                         # store succesful authentication to the db
                         r = {'common_name' : username,
-                             'username' : username,
+                             'username' : uname,
+                             'device' : dname,
                              'authenticated' : datetime.utcnow(),
                              'proto' : getenv("proto"),
                              'dev' : getenv("dev"),
@@ -106,15 +114,25 @@ def main():
                             r['proto'] = getenv("proto_1")
 
                         logging.debug(r)
-
                         db[logc].insert(r)
-                        mongoc.close()            
+
+                        # dev stats
+                        device.vpn_connections += 1;
+                        db[devicec].save(device)
                     else:
-                        logging.warn("user '%s' account not active"%username)
+                        logging.warn("user '%s' invalid password"%username)
+                        # dev stats
+                        device.vpn_auth_failures += 1;
+                        db[devicec].save(device)
                 else:
-                    logging.warn("user '%s' invalid password"%username)
+                    logging.warn("user '%s' account not active"%username)
+                    # dev stats
+                    device.vpn_auth_failures += 1;
+                    db[devicec].save(device)
             else:
-                logging.warn("no such user '%s'"%username)
+                logging.warn("no such user or device '%s'"%username)
+
+            mongoc.close()            
         except Exception as e:
             logging.error("error when authenticating: " + str(e))
 
@@ -142,9 +160,22 @@ def main():
                 r['virtual_client_ip'] = getenv("ifconfig_pool_remote_ip")
                 db[logc].save(r)
                 logging.debug(r)
+
+                # stats
+                (uname,dname) = cn.split('.')
+                device = db[devicec].find_one({
+                        "username": uname, 
+                        "type": dname})
+                if (device!=None):
+                    device['vpn_last_start'] = r['connected']
+                    device['vpn_is_connected'] = True
+                    db[devicec].save(device)
+                else:                
+                    logging.warn("could not find device record '%s'"%cn)
             else:
                 logging.error("could not find log record for user '%s'"%cn)
 
+            mongoc.close() 
         except Exception as e:
             logging.error("error when processing client-connect: " + str(e))
         
@@ -167,13 +198,30 @@ def main():
 
             if (r!=None):
                 r['disconnected'] = datetime.utcnow()
-                r['bytes_sent'] = getenv("bytes_sent")
-                r['bytes_received'] = getenv("bytes_received")
+                r['bytes_sent'] = long(getenv("bytes_sent"))
+                r['bytes_received'] = long(getenv("bytes_received"))
                 db[logc].save(r)
                 logging.debug(r)
+
+                # stats
+                (uname,dname) = cn.split('.')
+                device = db[devicec].find_one({
+                        "username": uname, 
+                        "type": dname})
+                if (device!=None):
+                    device['vpn_is_connected'] = False 
+                    device['vpn_last_end'] = r['disconnected']
+                    device['vpn_bytes_sent'] += r['bytes_sent']
+                    device['vpn_bytes_recv'] += r['bytes_received']
+                    elapsed = device['vpn_last_end'] - device['vpn_last_start']
+                    device['vpn_conn_hours'] += elapsed.total_seconds()/3600.0
+                    db[devicec].save(device)
+                else:                
+                    logging.warn("could not find device record '%s'"%cn)
             else:
                 logging.error("could not find log record for user '%s'"%cn)
 
+            mongoc.close() 
         except Exception as e:
             logging.error("error when processing client-disconnect: " + str(e))
     else:
