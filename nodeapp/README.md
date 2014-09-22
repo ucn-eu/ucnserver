@@ -5,7 +5,7 @@ Depends on
 
 * node.js to run the app (tested on v0.10.x)
 * MongoDB for storing user accounts
-* Redis (redis-server) for session store (a bit overkill but express is happier with it)
+* Redis (redis-server) for session store (a bit overkill but express is happier with it), requires >=2.4.x
 * pm2 (node app) to run the cluster
 ** npm install -g pm2@latest --unsafe-perm
 * Runs on a non-priviledged port (3002 by default), if you need to reverse proxy traffic to the app, check ../httpd for config examples

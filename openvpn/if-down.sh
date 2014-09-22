@@ -16,7 +16,7 @@ sleep 10
 
 # make sure there's no pending pcap file
 if [ -f /var/log/openvpn/pcaps/$IFACE.pcap ]; then
-    /etc/openvpncompress.sh /var/log/openvpn/pcaps/$IFACE.pcap
+    /etc/openvpn/compress.sh /var/log/openvpn/pcaps/$IFACE.pcap
 fi
 
 # TODO: could restore the original firewall config here

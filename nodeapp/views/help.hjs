@@ -35,7 +35,7 @@
   for Android from the Play Store</a>.
   </li>
   <li>
-  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">fr</a>|<a href="/ucn/downloads/uk.server.ovpn">fr</a>) on your device (also attached to the welcome email if you have trouble downloading).
+  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">FR</a>|<a href="/ucn/downloads/uk.server.ovpn">UK</a>) on your device (also attached to the welcome email if you have trouble downloading).
   </li>
   <li>
   Start OpenVPN for Android on your device.
@@ -66,7 +66,7 @@
   <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
   </li>
   <li>
-  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">fr</a>|<a href="/ucn/downloads/uk.server.ovpn">fr</a>) on your device (also attached to the welcome email if you have trouble downloading).
+  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">FR</a>|<a href="/ucn/downloads/uk.server.ovpn">UK</a>) on your device (also attached to the welcome email if you have trouble downloading).
   </li>
   <li>
   Double-click on the [your_country].server.ovpn file and follow the installation instructions
@@ -94,7 +94,7 @@
   manager, e.g. <code>apt-get install openvpn</code>
   </li>
   <li>
-  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">fr</a>|<a href="/ucn/downloads/uk.server.ovpn">fr</a>) on your device (also attached to the welcome email if you have trouble downloading).
+  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">FR</a>|<a href="/ucn/downloads/uk.server.ovpn">UK</a>) on your device (also attached to the welcome email if you have trouble downloading).
   </li>
   <li>
   Start the client: <code>openvpn --config [country].server.ovpn</code>
