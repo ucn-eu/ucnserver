@@ -1,0 +1,15 @@
+PMSRC=$HOME/pm
+SHELL=/bin/sh
+LOGFILE=$PMSRC/pm.log   
+LOGABSTRACT="all"
+VERBOSE="on"    
+FORMAIL="/usr/bin/formail"
+
+# Handle ucndata uploads from IFTTT etc
+:0
+* ^To.*ucndata@cmon.*
+{
+    :0
+    | /usr/bin/python $HOME/pm/handle.ifttt.py
+}
+
