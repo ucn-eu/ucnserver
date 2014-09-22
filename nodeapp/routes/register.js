@@ -69,6 +69,7 @@ router.post('/', function(req, res, next) {
 	    }
 
 	    // welcome email
+	    // FIXME: pick VPN config by lang ? ask user ?
 	    var opt = {
 		template : 'welcome',
 		contactemail : app.get('mailer'),
@@ -76,8 +77,11 @@ router.post('/', function(req, res, next) {
 		username : user.username,
 		to: user.email,
 		attachments: [{
-		    path : path.join(__dirname, '../downloads','cmon.lip6.fr.ovpn'),
-		    filename : "cmon.lip6.fr.ovpn"
+		    path : path.join(__dirname, '../downloads','fr.server.ovpn'),
+		    filename : "fr.server.ovpn"
+		},{
+		    path : path.join(__dirname, '../downloads','uk.server.ovpn'),
+		    filename : "uk.server.ovpn"
 		}]
 	    }
 	    

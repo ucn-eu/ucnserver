@@ -10,7 +10,7 @@
   Connect from the App Store</a>.
   </li>
   <li>
-  On your device, click on the cmon.lip6.fr.ovpn file attachement you
+  On your device, click on the [your_country].server.ovpn file attachement you
   received with the welcome email and open with OpenVPN Connect.
   </li>
   <li>
@@ -35,9 +35,7 @@
   for Android from the Play Store</a>.
   </li>
   <li>
-  Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel
-  configuration file</a> on your device (also attached to the welcome
-  email if you have trouble downloading).
+  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">fr</a>|<a href="/ucn/downloads/uk.server.ovpn">fr</a>) on your device (also attached to the welcome email if you have trouble downloading).
   </li>
   <li>
   Start OpenVPN for Android on your device.
@@ -46,7 +44,7 @@
   Click on IMPORT on upper right corner of the app.
   </li>
   <li>
-  Select the downloaded configuration file (usually at <span class="emph">/sdcard/Downloads/cmon.lip6.fr.ovpn</span>) and click on save icon to import.
+  Select the downloaded configuration file (usually at <span class="emph">/sdcard/Downloads/[your_country].server.ovpn</span>) and click on save icon to import.
   </li>
   <li>
   Configure few settings in tunnel preferences:
@@ -68,13 +66,13 @@
   <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
   </li>
   <li>
-  Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">fr</a>|<a href="/ucn/downloads/uk.server.ovpn">fr</a>) on your device (also attached to the welcome email if you have trouble downloading).
   </li>
   <li>
-  Double-click on the cmon.lip6.fr.ovpn file and follow the installation instructions
+  Double-click on the [your_country].server.ovpn file and follow the installation instructions
   </li>
   <li>
-  Click on the Tunnelblick icon in the taskbar and select "Connect cmon.lip6.fr"
+  Click on the Tunnelblick icon in the taskbar and select "Connect [country].server"
   </li>
   <li>
   {{#cred}}
@@ -96,10 +94,10 @@
   manager, e.g. <code>apt-get install openvpn</code>
   </li>
   <li>
-  Download the <a href="/ucn/downloads/cmon.lip6.fr.ovpn">VPN tunnel configuration file</a> on your device
+  Download the VPN tunnel configuration file (<a href="/ucn/downloads/fr.server.ovpn">fr</a>|<a href="/ucn/downloads/uk.server.ovpn">fr</a>) on your device (also attached to the welcome email if you have trouble downloading).
   </li>
   <li>
-  Start the client: <code>openvpn --config cmon.lip6.fr.ovpn</code>
+  Start the client: <code>openvpn --config [country].server.ovpn</code>
   </li>
   <li>
   {{#cred}}
