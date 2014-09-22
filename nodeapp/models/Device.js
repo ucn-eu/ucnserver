@@ -79,8 +79,10 @@ DeviceSchema.methods.isMobilePlatform = function() {
 
 /** Avg connection duration in minutes. */
 DeviceSchema.virtual('vpn_avg_duration').get(function () {
-    if (this.vpn_connections > 0)
+    if (this.vpn_connections > 0 && !this.vpn_is_connected)
 	return (this.vpn_conn_hours * 60.0 / this.vpn_connections);
+    else if (this.vpn_connections > 1 && this.vpn_is_connected)
+	return (this.vpn_conn_hours * 60.0 / (this.vpn_connections - 1));
     else
 	return 0.0;
 });
