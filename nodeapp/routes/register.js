@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var passwordgen = require('password-generator');
 
 var app = require('../app');
 var emailer = require('../lib/emailer');
@@ -32,64 +31,68 @@ router.post('/', function(req, res, next) {
 	});
     };
 
-    // check input
-    if (!req.body.email) {
-	return rendererr(res.__('error_missing_email'));
-    } else if (!req.body.familyname) {
+    // input verifications
+    if (!req.body.username || req.body.username.trim().length<=0) {
+	return rendererr(res.__('error_missing_username'));
+    } else if (!req.body.familyname || req.body.familyname.trim().length<=0) {
 	return rendererr(res.__('error_missing_familyname'));
+    } else if (!req.body.email || req.body.email.trim().length<=0) {
+	return rendererr(res.__('error_missing_email'));
+    } else if (!req.body.password || req.body.password.trim().length<=0) {
+	return rendererr(res.__('error_missing_password'));
     } else if (!req.body.accept || req.body.accept !== 'ok') {
 	return rendererr(res.__('error_missing_accept'));
     }
 
     // new user
-    var uobj = { email : req.body.email };
+    var uobj = { username : req.body.username.trim(), email : req.body.email.trim() };
     User.findOne(uobj, function(err, user) {
         if (err) { 
 	    // some db error - should not happen in prod ..
 	    debug(err);
+	    err.status = 500;
 	    return next(err); 
 	}
-
-	// found somebody with the same email ?
         if (user) { 
-	    return rendererr(res.__('error_user_exists', uobj.email));
+	    return rendererr(res.__('error_user_exists', uobj.username));
 	}
-	
-	// generate password
-	uobj.password = passwordgen(12, false);    
+
+	uobj.password = req.body.password.trim();
+	uobj.familyname = req.body.familyname.trim();
 
 	User.create(uobj, function(err, user) {
             if (err) { 
 		// some db error - should not happen in prod ..
 		debug(err);
+		err.status = 500;
 		return next(err); 
 	    }
 
+	    // welcome email
 	    var opt = {
 		template : 'welcome',
-		activationurl : app.get('baseurl') + "activate/"+user.activationtoken,
-		portalurl : app.get('baseurl'),
 		contactemail : app.get('mailer'),
-		email : uobj.email,
-		password : uobj.password,
-		to: uobj.email,
+		url : app.get('baseurl') + "activate/"+user.activationtoken,
+		username : user.username,
+		to: user.email,
 		attachments: [{
 		    path : path.join(__dirname, '../downloads','cmon.lip6.fr.ovpn'),
 		    filename : "cmon.lip6.fr.ovpn"
 		}]
 	    }
 	    
+	    // email callback
 	    var cb = function(err, mailerres) {
 		debug("sendmail resp: " + 
 		      (mailerres ? mailerres.response : "na"));
 
 		if (err) {
-		    // some email error - should not happen in prod ..
 		    debug("sendmail error: " + err);
 		    User.remove(uobj, function(err2) {
 			if (err2) debug("db error: " + err2);
 		    });
-		    return next(err);
+		    // assume it's because user gave invalid email or something
+		    return rendererr(res.__('error_email', uobj.email));
 		}
 
 		return res.render('register', {

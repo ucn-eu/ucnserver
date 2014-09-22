@@ -29,48 +29,22 @@
       {{> header}}
       {{> nav}}
 
-      {{#firsttime}}
-        <div class="row clearfix">
-	  <h3>Hello {{username}}!</h3>
-	  <p>
-	  You should register your personal devices to the experiment. Go to <a href="/ucn/users/adddev">ADD DEVICE</a> and follow the instructions.
-	  </p>
-        </div>
-      {{/firsttime}}
-      
       <div class="row clearfix">
-	<h3>Registered Devices</h3>
-	<table>
-	  <tr>
-	    <th>Device Type</th>
-	    <th>Login name</th>
-	    <th>Connections</th>
-	    <th>Auth failures</th>
-	    <th>Avg. duration (min)</th>
-	    <th>Total sent bytes</th>
-	    <th>Total recv bytes</th>
-	    <th>Last connection start</th>
-	    <th>Last connection end</th>
-	  </tr>
-	  {{#devices}}
-	  <tr>
-	    <td>{{type}}</td>
-	    <td>{{username}}.{{type}}</td>
-	    <td>{{vpn_connections}}</td>
-	    <td>{{vpn_auth_failures}}</td>
-	    <td>{{vpn_avg_duration}}</td>
-	    <td>{{vpn_bytes_sent}}</td>
-	    <td>{{vpn_bytes_recv}}</td>
-	    <td>{{vpn_last_start}}</td>
-	    <td>{{vpn_last_end}}</td>
-	  </tr>
-	  {{/devices}}
-	</table>
+	<h3>Step 1: Choose Device Type</h3>
+	<form action="/ucn/users/adddev" method="post">
+	  <label for="devList">Device type</label>
+	  <select id="devList" name="type">
+	    {{#devices}}
+	    <option value="{{value}}">{{name}}</option>
+	    {{/devices}}
+	  </select>
+
+	  <input type="submit" value="Next" name="submit" />
+	</form>
       </div>
-	
+
       {{> footer}}
   </div> <!-- sixteen columns -->     
 </div> <!-- containter -->
-<script src="/ucn/javascripts/jquery.min.js"></script>
 </body>
 </html>

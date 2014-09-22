@@ -29,48 +29,30 @@
       {{> header}}
       {{> nav}}
 
-      {{#firsttime}}
-        <div class="row clearfix">
-	  <h3>Hello {{username}}!</h3>
-	  <p>
-	  You should register your personal devices to the experiment. Go to <a href="/ucn/users/adddev">ADD DEVICE</a> and follow the instructions.
-	  </p>
-        </div>
-      {{/firsttime}}
-      
       <div class="row clearfix">
-	<h3>Registered Devices</h3>
-	<table>
-	  <tr>
-	    <th>Device Type</th>
-	    <th>Login name</th>
-	    <th>Connections</th>
-	    <th>Auth failures</th>
-	    <th>Avg. duration (min)</th>
-	    <th>Total sent bytes</th>
-	    <th>Total recv bytes</th>
-	    <th>Last connection start</th>
-	    <th>Last connection end</th>
-	  </tr>
-	  {{#devices}}
-	  <tr>
-	    <td>{{type}}</td>
-	    <td>{{username}}.{{type}}</td>
-	    <td>{{vpn_connections}}</td>
-	    <td>{{vpn_auth_failures}}</td>
-	    <td>{{vpn_avg_duration}}</td>
-	    <td>{{vpn_bytes_sent}}</td>
-	    <td>{{vpn_bytes_recv}}</td>
-	    <td>{{vpn_last_start}}</td>
-	    <td>{{vpn_last_end}}</td>
-	  </tr>
-	  {{/devices}}
-	</table>
+	<h3>Step 2: Install Software for your {{type}}</h3>
+	<p>
+	  During the experiment you should to connect to the Internet
+	  through a secure tunnel that will route your network traffic
+	  via our server for traffic analysis. 
+	  {{#ismobile}}
+	  In addition, we ask you to install a small activity logger
+	  software we have developed to your device for the duration
+	  of the experiment. The logger records information about
+	  running apps, system configuration and performance.
+	  {{/ismobile}}
+	</p>
       </div>
-	
+      
+      {{> help}}
+
+      <div class="row clearfix">      
+	<button onclick="window.location='/ucn/users/adddev';">Add new device</button>
+	<button onclick="window.location='/ucn/users';">Done</button>
+      </div>
+
       {{> footer}}
   </div> <!-- sixteen columns -->     
 </div> <!-- containter -->
-<script src="/ucn/javascripts/jquery.min.js"></script>
 </body>
 </html>

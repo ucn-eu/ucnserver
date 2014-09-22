@@ -29,48 +29,38 @@
       {{> header}}
       {{> nav}}
 
-      {{#firsttime}}
-        <div class="row clearfix">
-	  <h3>Hello {{username}}!</h3>
-	  <p>
-	  You should register your personal devices to the experiment. Go to <a href="/ucn/users/adddev">ADD DEVICE</a> and follow the instructions.
-	  </p>
-        </div>
-      {{/firsttime}}
-      
       <div class="row clearfix">
-	<h3>Registered Devices</h3>
-	<table>
-	  <tr>
-	    <th>Device Type</th>
-	    <th>Login name</th>
-	    <th>Connections</th>
-	    <th>Auth failures</th>
-	    <th>Avg. duration (min)</th>
-	    <th>Total sent bytes</th>
-	    <th>Total recv bytes</th>
-	    <th>Last connection start</th>
-	    <th>Last connection end</th>
-	  </tr>
-	  {{#devices}}
-	  <tr>
-	    <td>{{type}}</td>
-	    <td>{{username}}.{{type}}</td>
-	    <td>{{vpn_connections}}</td>
-	    <td>{{vpn_auth_failures}}</td>
-	    <td>{{vpn_avg_duration}}</td>
-	    <td>{{vpn_bytes_sent}}</td>
-	    <td>{{vpn_bytes_recv}}</td>
-	    <td>{{vpn_last_start}}</td>
-	    <td>{{vpn_last_end}}</td>
-	  </tr>
-	  {{/devices}}
-	</table>
+	<h3>Choose Platform</h3>
+        <div class="three columns omega">
+	<select id="devList">
+	  <option value="ios">Iphone or Ipad</option>
+	  <option value="android">Android Device</option>
+	  <option value="darwin">Mac</option>
+	  <option value="windows">Windows</option>
+	  <option value="linux">Linux</option>
+	</select>
+	</div>
+	<div class="one column alpha">
+	  &nbsp;
+	</div>
+	<div class="two columns alpha">
+	  <button onclick="window.location='/ucn/users/help/'+$('#devList option').filter(':selected').val();">Show</button>
+	</div>
       </div>
-	
+      
+      {{> help}}
+    
       {{> footer}}
+
   </div> <!-- sixteen columns -->     
 </div> <!-- containter -->
 <script src="/ucn/javascripts/jquery.min.js"></script>
+<script>
+var path = window.location.pathname.split('/');
+var selection = path[path.length-1];
+if (selection !== 'help') {
+  $("#devList").val(selection);
+}
+</script>
 </body>
 </html>

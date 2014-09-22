@@ -29,48 +29,23 @@
       {{> header}}
       {{> nav}}
 
-      {{#firsttime}}
-        <div class="row clearfix">
-	  <h3>Hello {{username}}!</h3>
-	  <p>
-	  You should register your personal devices to the experiment. Go to <a href="/ucn/users/adddev">ADD DEVICE</a> and follow the instructions.
-	  </p>
-        </div>
-      {{/firsttime}}
-      
-      <div class="row clearfix">
-	<h3>Registered Devices</h3>
-	<table>
-	  <tr>
-	    <th>Device Type</th>
-	    <th>Login name</th>
-	    <th>Connections</th>
-	    <th>Auth failures</th>
-	    <th>Avg. duration (min)</th>
-	    <th>Total sent bytes</th>
-	    <th>Total recv bytes</th>
-	    <th>Last connection start</th>
-	    <th>Last connection end</th>
-	  </tr>
-	  {{#devices}}
-	  <tr>
-	    <td>{{type}}</td>
-	    <td>{{username}}.{{type}}</td>
-	    <td>{{vpn_connections}}</td>
-	    <td>{{vpn_auth_failures}}</td>
-	    <td>{{vpn_avg_duration}}</td>
-	    <td>{{vpn_bytes_sent}}</td>
-	    <td>{{vpn_bytes_recv}}</td>
-	    <td>{{vpn_last_start}}</td>
-	    <td>{{vpn_last_end}}</td>
-	  </tr>
-	  {{/devices}}
-	</table>
+    <div class="row clearfix">
+	<h3>Change Password</h3>
+	<!-- error/success msg block - keep on top for mobiles -->
+	<p id="statusp" class="{{errorclass}}">
+	  {{error}}
+	</p>
       </div>
-	
+      <div class="row clearfix">
+	<form action="/ucn/users/passwd" method="post">
+	  <label for="password">New password</label>
+	  <input type="password" id="password" name="password" />
+	  <input type="submit" value="Change" name="submit" />
+	</form>
+      </div>
+
       {{> footer}}
   </div> <!-- sixteen columns -->     
 </div> <!-- containter -->
-<script src="/ucn/javascripts/jquery.min.js"></script>
 </body>
 </html>

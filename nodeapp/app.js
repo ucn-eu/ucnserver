@@ -143,11 +143,15 @@ app.use(function(req,res,next) {
 
 // non-login protected routes
 app.use('/', require('./routes/index'));
+app.use('/downloads', function(req, res) {
+  // force download
+  var file = __dirname + 'downloads/' + req.path;
+  res.download(file);
+});
 app.use('/about', require('./routes/about'));
 app.use('/register', require('./routes/register'));
 app.use('/activate', require('./routes/activate'));
 app.use('/resetpassword', require('./routes/resetpassword'));
-app.use('/install', require('./routes/install'));
 app.use('/auth', require('./routes/auth'));
 
 // login protected
@@ -162,13 +166,6 @@ app.use('/fr', function(req, res, next) {
 app.use('/en', function(req, res, next) {
     res.cookie('ucnlang', 'en', { maxAge: 30*24*hour });
     res.redirect(req.headers['referer'] || '/');
-});
-
-// public file downloads + index
-//app.use('/downloads',serveIndex('downloads', {'icons': true}));
-app.use('/downloads', function(req, res) {
-  var file = __dirname + 'downloads/' + req.path;
-  res.download(file);
 });
 
 // default handler (on no matching route)

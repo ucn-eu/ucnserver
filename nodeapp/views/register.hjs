@@ -40,13 +40,20 @@
     <p>
     <ul class="square">
       <li>
-	Make sure you have read <a href="/ucn/about">about the UCN experiment</a>, and that you understand how your personal data will be collected and stored. Note, we do not share any personal data with third parties, and only use your data for research purposes.
+	Make sure you have read <a href="/ucn/about">about the UCN
+    experiment</a>, and that you understand how your personal data
+    will be collected and stored. Note, we do not share any personal
+    data with third parties, and only use your data for research
+    purposes.
       </li>
       <li>
-	Please fill-in a valid email address as we will send further instructions by email.
+	Please fill-in a valid email address as we will send you an
+    activation link and other instructions by email.
       </li>
       <li>
-	The family name is used to group together participants in the same household, so make sure to use the same name with your family members (hint: lastname should work just fine).
+	The family name is used to group together participants in the
+    same household, make sure to use the same name with your family
+    members.
       </li>
     </ul>
     </p>
@@ -55,12 +62,19 @@
 
   <div class="row clearfix">
     <form action="/ucn/register" method="post">
-      <label for="email">Email</label>
-      <input type="text" id="email" name="email" />
-	   
+    
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" />
+
       <label for="familyname">Family name</label>
       <input type="text" id="familyname" name="familyname" />
-	   
+    
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" />
+    
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" />
+    
       <fieldset>
 	<label for="">Data collection</label>
 	<label for="accept">
@@ -68,7 +82,7 @@
 	  <span>I allow collection of my personal data for the UCN experiment</span>
 	</label>
       </fieldset>
-	   
+    
       <input type="submit" value="Register" name="submit" />
     </form>
   </div>

@@ -2,10 +2,16 @@
   <nav>
     <ul>
       <li>
-	<a href="/ucn/users/"><strong>MAIN</strong></a>
+	<a href="/ucn/users/"><strong>DEVICES</strong></a>
       </li>
       <li>
-	<a href="/ucn/users/help"><strong>INSTALL HELP</strong></a>
+	<a href="/ucn/users/adddev"><strong>ADD DEVICE</strong></a>
+      </li>
+      <li>
+	<a href="/ucn/users/passwd"><strong>CHANGE PASSWORD</strong></a>
+      </li>
+      <li>
+	<a href="/ucn/users/help"><strong>HELP</strong></a>
       </li>
     </ul>
   </nav>
