@@ -8,7 +8,7 @@ OpenVPN Setup
 ** Copy keys/ca.*, ./keys/server.* and keys/dh2048.pem to /etc/openvpn/
 * Check configs and copy *.conf to /etc/openvpn
 * Check configs and copy *.sh and *.py to /etc/openvpn, make executable
-* Install bcrypt (python-dev, libffi, cython) and pip install bcrypt
+* Install bcrypt (python-dev, libffi, cython) and pip install bcrypt, pymongo
 * [optional] Copy openvpn.logrotate /etc/logrotate.d/openvpn
 * [optional] Copy openvpn.monit /etc/monit/cond.d/openvpn
 * Setup the firewall rules, something along the lines of:
