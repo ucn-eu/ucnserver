@@ -1,4 +1,4 @@
-/var/log/openvpn/*.log {
+/var/log/openvpn/ucnvpn_tcp.log /var/log/openvpn/ucnvpn_udp.log {
   	daily
   	missingok
   	rotate 7
@@ -7,8 +7,8 @@
   	notifempty
   	sharedscripts
   	postrotate
-	        # reload should be enough to restart the log files
-		[ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn reload
+	        # FIXME: maybe reload is better ... ? this will disconnect clients ...
+		[ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn restart
   	endscript
 }
 
