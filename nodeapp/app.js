@@ -51,12 +51,8 @@ if (app.get('env') === 'production') {
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
 
-    // FIXME
-    throw "missing ukproduction configs";
-
-
     app.set('dbname', 'ucnexp');
-    app.set('dbhost', '');
+    app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
 
@@ -68,8 +64,8 @@ if (app.get('env') === 'production') {
 	ignoreTLS : true,
 	secure : false
     });
-    app.set('mailer', "ucn@cmon.lip6.fr");
-    app.set('baseurl', 'https://cmon.lip6.fr/ucn/');
+    app.set('mailer', "ucn@horizab4.memset.net");
+    app.set('baseurl', 'https://horizab4.memset.net/ucn/');
 
 } else {
     debug('setting up in development environment');
