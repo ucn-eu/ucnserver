@@ -9,7 +9,7 @@
     "pid_file"     : "/home/nodeapp/pids/ucnweb",
     "run_as_user"  : "nodeapp",
     "run_as_group" : "nodeapp",
-    "cwd"          : "/home/nodeapp/apps/ucn.git",
+    "cwd"          : "/home/nodeapp/apps/ucn",
     "env": {
         "NODE_ENV" : "production",
         "DEBUG"    : "ucnweb:*"

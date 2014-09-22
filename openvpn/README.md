@@ -3,6 +3,9 @@ OpenVPN Setup
 
 * Install openvpn using standard package manager
 * Generate keys as explained in openvpn docs (with easy_rsa)
+** Docs: https://openvpn.net/index.php/open-source/documentation/howto.html#pki
+** easy-rsa: https://github.com/OpenVPN/easy-rsa/releases/download/2.2.2/EasyRSA-2.2.2.tgz
+** Copy keys/ca.*, ./keys/server.* and keys/dh2048.pem to /etc/openvpn/
 * Check configs and copy *.conf to /etc/openvpn
 * Check configs and copy *.sh and *.py to /etc/openvpn
 * [optional] Copy openvpn.logrotate /etc/logrotate.d/openvpn
