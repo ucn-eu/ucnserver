@@ -216,9 +216,9 @@ def main():
                     device['vpn_last_end'] = r['disconnected']
                     device['vpn_bytes_sent'] += r['bytes_sent']
                     device['vpn_bytes_recv'] += r['bytes_received']
-                    elapsed = device['vpn_last_end'] - device['vpn_last_start']
-                    if (elapsed > 0):
-                        device['vpn_conn_hours'] += elapsed.total_seconds()/3600.0
+#                    elapsed = device['vpn_last_end'] - device['vpn_last_start']
+#                    if (elapsed > 0):
+#                        device['vpn_conn_hours'] += elapsed.total_seconds()/3600.0
                     db[devicec].save(device)
                 else:                
                     logging.warn("could not find device record '%s'"%cn)
