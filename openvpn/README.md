@@ -11,6 +11,7 @@ OpenVPN Setup
 * Install bcrypt (python-dev, libffi, cython) and pip install bcrypt, pymongo
 * [optional] Copy openvpn.logrotate /etc/logrotate.d/openvpn
 * [optional] Copy openvpn.monit /etc/monit/cond.d/openvpn
+* Enable forwarding, echo 1 > /proc/sys/net/ipv4/ip_forward
 * Setup the firewall rules, something along the lines of:
 
 ```
