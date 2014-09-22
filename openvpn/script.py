@@ -118,6 +118,9 @@ def main():
 
                         # dev stats
                         device['vpn_connections'] += 1;
+                        device['vpn_last_start'] = None
+                        device['vpn_last_end'] = None
+                        device['vpn_is_connected'] = False
                         db[devicec].save(device)
                     else:
                         logging.warn("user '%s' invalid password"%username)
