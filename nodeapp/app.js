@@ -145,7 +145,7 @@ app.use(function(req,res,next) {
 app.use('/', require('./routes/index'));
 app.use('/downloads', function(req, res) {
   // force download
-  var file = __dirname + 'downloads/' + req.path;
+  var file = __dirname + '/downloads/' + req.path;
   res.download(file);
 });
 app.use('/about', require('./routes/about'));

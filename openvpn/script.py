@@ -117,17 +117,17 @@ def main():
                         db[logc].insert(r)
 
                         # dev stats
-                        device.vpn_connections += 1;
+                        device['vpn_connections'] += 1;
                         db[devicec].save(device)
                     else:
                         logging.warn("user '%s' invalid password"%username)
                         # dev stats
-                        device.vpn_auth_failures += 1;
+                        device['vpn_auth_failures'] += 1;
                         db[devicec].save(device)
                 else:
                     logging.warn("user '%s' account not active"%username)
                     # dev stats
-                    device.vpn_auth_failures += 1;
+                    device['vpn_auth_failures'] += 1;
                     db[devicec].save(device)
             else:
                 logging.warn("no such user or device '%s'"%username)
