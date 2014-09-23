@@ -3,10 +3,10 @@ var db = require('../lib/db');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:Device');
 
-var UDP_RANGE_START = '10.2.0.10';
-var UDP_RANGE_END = ip.toLong('10.2.99.254');
-var TCP_RANGE_START = '10.1.0.10';
-var TCP_RANGE_END = ip.toLong('10.1.99.254');
+var UDP_RANGE_START = '10.2.0.2';
+var UDP_RANGE_END = ip.toLong('10.2.99.251');
+var TCP_RANGE_START = '10.1.0.2';
+var TCP_RANGE_END = ip.toLong('10.1.99.251');
 
 /** Device JSON schema. 
  * 
