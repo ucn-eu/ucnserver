@@ -3,7 +3,7 @@
     "name"         : "ucnweb",
     "script"       : "bin/www",
     "instances"    : "1",
-    "exec_mode"    : "cluster_mode",
+    "exec_mode"    : "fork_mode",
     "error_file"   : "/home/nodeapp/logs/ucnweb-error.log",
     "out_file"     : "/home/nodeapp/logs/ucnweb.log",
     "pid_file"     : "/home/nodeapp/pids/ucnweb",
