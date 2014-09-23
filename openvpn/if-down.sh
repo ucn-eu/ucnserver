@@ -3,7 +3,7 @@
 # stop tcpdump on the given interface ($dev set by openvpn)
 echo "stopping tcpdump on $dev"
 
-$IFACE=$dev
+IFACE=$dev
 PIDFILE=/var/run/tcpdump_$IFACE.pid
 if [ -f $PIDFILE ]; then
   if [ -d "/proc/`cat $PIDFILE`" ]; then
