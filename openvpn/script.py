@@ -112,6 +112,8 @@ def main():
 
                         if (r['proto'] == None):
                             r['proto'] = getenv("proto_1")
+                            if (r['proto'].find('tcp')>=0):
+                                r['proto'] = 'tcp'
 
                         logging.debug(r)
                         db[logc].insert(r)
@@ -142,6 +144,7 @@ def main():
 
     elif (script and script == "client-connect"):
         tmpfile = sys.argv[1]
+
         cn = getenv("common_name")
         if (cn == None):
             logging.error("missing common_name")
@@ -149,6 +152,7 @@ def main():
 
         retval = 0
         logging.debug("client-connect: cn=" + cn)
+        logging.debug('cli-config ' + tmpfile)
 
         try:
             mongoc = MongoClient(mongohost, mongoport)
