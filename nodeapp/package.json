@@ -28,6 +28,7 @@
     "password-generator" : "latest",
     "mustache": "latest",
     "underscore": "latest",
-    "i18n": "latest"
+    "i18n": "latest",
+    "ip" : "latest"
   }
 }

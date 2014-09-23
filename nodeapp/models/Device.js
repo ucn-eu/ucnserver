@@ -1,15 +1,20 @@
+var ip = require('ip');
 var db = require('../lib/db');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:Device');
 
+var UDP_RANGE_START = '10.2.0.10';
+var UDP_RANGE_END = ip.toLong('10.2.99.254');
+var TCP_RANGE_START = '10.1.0.10';
+var TCP_RANGE_END = ip.toLong('10.1.99.254');
+
 /** Device JSON schema. 
  * 
- *  The device type should be one of [ipad, iphone, macbook, imac, windows-pc, linux-pc, linux-laptop, windows-laptop, android-phone, android-tablet]
+ *  The device type should be one of [ipad, iphone, macbook, imac, windows-pc, 
+ *  linux-pc, linux-laptop, windows-laptop, android-phone, android-tablet]
  *
  *  Devices can connect to the OpenVPN tunnel using login "username.type", 
  *  and the password associated to username (see User schema). 
- *
- *  Each devices is assigned a static IP 'vpn_ip' upon insertion.
  *
  *  Devices with defined 'removed' data, will not be able to login.
  */
@@ -19,7 +24,9 @@ var DeviceSchema = new db.Schema({
     platform : {type:String, required: true, unique: false},
     created: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
-//    vpn_static_ip : {type:String, required: true, unique: true}, TODO
+    vpn_udp_ip : {type:String, required: true, unique: true},
+    vpn_tcp_ip : {type:String, required: true, unique: true},
+    vpn_mask : {type:String, required: true, unique: false},
     vpn_connections : {type:Number, default : 0},
     vpn_auth_failures : {type:Number, default : 0},
     vpn_bytes_sent : {type:Number, default : 0},
@@ -76,6 +83,45 @@ DeviceSchema.statics.findAllForUser = function(username, cb) {
 DeviceSchema.methods.isMobilePlatform = function() {
     return (this.platform === 'android' || this.platform === 'ios');
 };
+
+DeviceSchema.pre('validate', function(next) {
+    var device = this;
+    if (device.isNew) {
+	var Device = require('./Device');
+	Device
+	    .find()
+	    .sort('-created')
+	    .limit(1)
+	    .select('vpn_udp_ip vpn_tcp_ip')
+	    .exec(function(err, dev) {    
+		if (err) next(err);
+		if (dev.length>0) {
+		    // next free UDP
+		    dev = dev[0]
+		    tmp = ip.toLong(dev.vpn_udp_ip);
+		    tmp += 1;
+		    device.vpn_udp_ip = ip.fromLong(tmp);
+		    if (device.vpn_udp_ip > UDP_RANGE_END) // should not happen
+			next(new Error('Run out of UDP addresses'));
+
+		    // next free TCP
+		    tmp = ip.toLong(dev.vpn_tcp_ip);
+		    tmp += 1;
+		    device.vpn_tcp_ip = ip.fromLong(tmp);
+		    if (device.vpn_tcp_ip > TCP_RANGE_END) // should not happen
+			next(new Error('Run out of TCP addresses'));
+		} else {
+		    device.vpn_tcp_ip = TCP_RANGE_START;
+		    device.vpn_udp_ip = UDP_RANGE_START;
+		}
+		device.vpn_mask = '255.255.0.0'
+		debug(JSON.stringify(device));
+		next();
+	    });
+    } else {
+	next();
+    }
+});
 
 /** Avg connection duration in minutes. */
 DeviceSchema.virtual('vpn_avg_duration').get(function () {

@@ -29,5 +29,6 @@
 	"passwd_email_subject": "UCN Experiment Password Reset",
 	"uindex_pagetitle": "UCN Experiment User Admin",
 	"aindex_pagetitle": "UCN Experiment Admin",
-	"uindex_passwd_changed": "Password changed!"
+	"uindex_passwd_changed": "Password changed!",
+	"Validation failed": "Validation failed"
 }

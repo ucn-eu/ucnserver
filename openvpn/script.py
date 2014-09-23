@@ -25,7 +25,7 @@ import logging
 import bcrypt
 import pymongo
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # -------------------------------
 # Configure your backend here
@@ -90,7 +90,7 @@ def main():
                     "type": dname})
 
             if (device != None and user != None and  u'password' in user):
-                if (user[u'isactivated'] and not user[u'isadmin']):
+                if (user[u'isactivated'] and not user[u'isadmin'] and not u'removed' in device and not u'removed' in user):
 
                     hashed = user[u'password'].encode('ascii', 'ignore') 
                     if (bcrypt.hashpw(password, hashed) == hashed):
@@ -128,7 +128,8 @@ def main():
                         device['vpn_auth_failures'] += 1;
                         db[devicec].save(device)
                 else:
-                    logging.warn("user '%s' account not active"%username)
+                    # admin, not active or removed
+                    logging.warn("user '%s' account not allowed to login"%username)
                     # dev stats
                     device['vpn_auth_failures'] += 1;
                     db[devicec].save(device)
@@ -140,6 +141,7 @@ def main():
             logging.error("error when authenticating: " + str(e))
 
     elif (script and script == "client-connect"):
+        tmpfile = sys.argv[1]
         cn = getenv("common_name")
         if (cn == None):
             logging.error("missing common_name")
@@ -152,31 +154,41 @@ def main():
             mongoc = MongoClient(mongohost, mongoport)
             db = mongoc[mongodb]
             
+            # find the auth record and update connection
             spec = {"common_name": cn, "connected" : { "$exists" : False }}
             r = db[logc].find_one(spec,
                                   sort=[('authenticated', pymongo.DESCENDING)])
 
-            if (r!=None):
+            (uname,dname) = cn.split('.')
+            device = db[devicec].find_one({
+                    "username": uname, 
+                    "type": dname})
+
+            if (r!=None and device!=None):
                 r['connected'] = datetime.utcnow()
                 r['trusted_client_ip'] = getenv("trusted_ip")
-                r['virtual_server_ip'] = getenv("ifconfig_pool_local_ip") 
-                r['virtual_client_ip'] = getenv("ifconfig_pool_remote_ip")
+                r['ifconfig_pool_local_ip'] = getenv("ifconfig_pool_local_ip") 
+                r['ifconfig_pool_local_ip'] = getenv("ifconfig_pool_remote_ip")
+                # static device config 
+                r['ifconfig_push_local_ip'] = device['vpn_'+r['proto']+'_ip']
+                r['ifconfig_push_mask'] = device['vpn_mask']
                 db[logc].save(r)
                 logging.debug(r)
 
-                # stats
-                (uname,dname) = cn.split('.')
-                device = db[devicec].find_one({
-                        "username": uname, 
-                        "type": dname})
-                if (device!=None):
-                    device['vpn_last_start'] = r['connected']
-                    device['vpn_is_connected'] = True
-                    db[devicec].save(device)
-                else:                
-                    logging.warn("could not find device record '%s'"%cn)
+                device['vpn_last_start'] = r['connected']
+                device['vpn_is_connected'] = True
+                db[devicec].save(device)
+                
+                # write static ip to the cli config file
+                if (tmpfile!=None):
+                    cfg = 'ifconfig-push %s %s\n'%(r['ifconfig_push_local_ip'], r['ifconfig_push_mask'])
+                    f = open(tmpfile, 'w')
+                    f.write(cfg)
+                    logging.debug(cfg)
+                    f.flush()
+                    f.close()                    
             else:
-                logging.error("could not find log record for user '%s'"%cn)
+                logging.error("could not find log record or device for user '%s'"%cn)
 
             mongoc.close() 
         except Exception as e:
@@ -195,11 +207,17 @@ def main():
             mongoc = MongoClient(mongohost, mongoport)
             db = mongoc[mongodb]
             
+            # find the conn record and update
             spec = {"common_name": cn, "disconnected" : { "$exists" : False }}
             r = db[logc].find_one(spec,
                                   sort=[('authenticated', pymongo.DESCENDING)])
 
-            if (r!=None):
+            (uname,dname) = cn.split('.')
+            device = db[devicec].find_one({
+                    "username": uname, 
+                    "type": dname})
+
+            if (r!=None and device!=None):
                 r['disconnected'] = datetime.utcnow()
                 r['bytes_sent'] = long(getenv("bytes_sent"))
                 r['bytes_received'] = long(getenv("bytes_received"))
@@ -207,23 +225,17 @@ def main():
                 logging.debug(r)
 
                 # stats
-                (uname,dname) = cn.split('.')
-                device = db[devicec].find_one({
-                        "username": uname, 
-                        "type": dname})
-                if (device!=None):
-                    device['vpn_is_connected'] = False 
-                    device['vpn_last_end'] = r['disconnected']
-                    device['vpn_bytes_sent'] += r['bytes_sent']
-                    device['vpn_bytes_recv'] += r['bytes_received']
-#                    elapsed = device['vpn_last_end'] - device['vpn_last_start']
-#                    if (elapsed > 0):
-#                        device['vpn_conn_hours'] += elapsed.total_seconds()/3600.0
-                    db[devicec].save(device)
-                else:                
-                    logging.warn("could not find device record '%s'"%cn)
+                device['vpn_is_connected'] = False 
+                device['vpn_last_end'] = r['disconnected']
+                device['vpn_bytes_sent'] += r['bytes_sent']
+                device['vpn_bytes_recv'] += r['bytes_received']
+                elapsed = device['vpn_last_end'] - device['vpn_last_start']
+                if (elapsed!=None and elapsed.total_seconds() > 0):
+                    device['vpn_conn_hours'] += elapsed.total_seconds()/3600.0
+                db[devicec].save(device)
+
             else:
-                logging.error("could not find log record for user '%s'"%cn)
+                logging.error("could not find log record or device for user '%s'"%cn)
 
             mongoc.close() 
         except Exception as e:
