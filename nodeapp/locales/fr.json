@@ -1,8 +1,38 @@
 {
-	"index_pagetitle": "index_pagetitle",
-	"index_about_text": "index_about_text",
-	"index_about_link": "index_about_link",
-	"register_pagetitle": "register_pagetitle",
-	"error_user_exists": "error_user_exists",
-	"install_pagetitle": "install_pagetitle"
+	"header_login": "connexion",
+	"header_logout": "deconnextion",
+	"header_title": "Etude UCN",
+
+	"index_title": "User-Centric Networking",
+	"index_subhead_text": "<a href='http://www.usercentricnetworking.eu' target='_blank'>User-Centric Networking</a> (UCN) is a European Union funded research project and aims to understand how people consume various kinds of content when using computer networks.",
+
+	"index_main_text": "In order to be able to accomplish its research goals, the project needs to undertake some detailed observations of users across a range of environments in order to understand firsthand the practices involved in consuming media and other content according to context. If you are interested in participating to the study, click on the 'join' button below. You can read more about the project from <a target='_blank' href='/ucn/docs/fr/infosheet.pdf'>our information sheet</a>.",
+
+	"index_button_join": "join now",
+
+	"login_title": "Connexion a mon Compte",
+	"login_username": "Nom d'utilisateur",
+	"login_password": "Mot de passe",
+	"login_submit": "Connexion",
+	"login_notjoined": "Comment obtenir un compte ?",
+	"login_email": "Addresse electronique",
+	"login_submit_pw": "Envoyer mon mot de passe",
+
+	"register_title": "Create an Account",
+	"register_familyname": "Household Name",
+	"register_submit": "Register",
+	"register_consent": "User Consent",
+
+	"register_consent_case1": "I have read and understand <a href='/ucn/docs/fr/infosheet.pdf' target='_blank'>the information sheet</a>, which includes information about the data to be recorded.",
+
+	"register_consent_case2": "I have read and understand <a href='/ucn/docs/fr/consent.pdf' target='_blank'>the consent form</a>, and I confirm that I agree to take part in this study.",
+
+	"register_consent_case3": "I have read and understand <a href='/ucn/docs/fr/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study.",
+
+	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/fr/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on.",
+
+	"error_missing_email": "No email address!",
+	"error_missing_username": "No username!",
+	"error_missing_password": "No password!",
+	"error_missing_accept": "You must give your consent for the data collection in order to register to the study!"
 }

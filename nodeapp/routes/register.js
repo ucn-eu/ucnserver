@@ -12,8 +12,6 @@ router.get('/', function(req, res, next) {
     return res.render('register', {
 	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	loggedin : false,
-	errorclass : "noerror",
-	pagetitle : res.__('register_pagetitle'),
 	partials : { header : 'header', footer : 'footer'}
     });
 });
@@ -24,9 +22,7 @@ router.post('/', function(req, res, next) {
 	return res.render('register', {
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : false,
-	    errorclass : "error",
 	    error : msg,
-	    pagetitle : res.__('register_pagetitle'),
 	    partials : { header : 'header', footer : 'footer'}
 	});
     };
@@ -34,13 +30,13 @@ router.post('/', function(req, res, next) {
     // input verifications
     if (!req.body.username || req.body.username.trim().length<=0) {
 	return rendererr(res.__('error_missing_username'));
-    } else if (!req.body.familyname || req.body.familyname.trim().length<=0) {
-	return rendererr(res.__('error_missing_familyname'));
     } else if (!req.body.email || req.body.email.trim().length<=0) {
 	return rendererr(res.__('error_missing_email'));
     } else if (!req.body.password || req.body.password.trim().length<=0) {
 	return rendererr(res.__('error_missing_password'));
-    } else if (!req.body.accept || req.body.accept !== 'ok') {
+    } else if (!req.body.accept1 || req.body.accept1 !== 'ok') {
+	return rendererr(res.__('error_missing_accept'));
+    } else if (!req.body.accept2 || req.body.accept2 !== 'ok') {
 	return rendererr(res.__('error_missing_accept'));
     }
 

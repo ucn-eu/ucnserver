@@ -1,92 +1,20 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>{{pagetitle}}</title>
+{{> header}}
 
-  <!-- Mobile Specific Metas ================================================== -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <!-- CSS  ================================================== -->
-  <link rel="stylesheet" href="/ucn/stylesheets/base.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/skeleton.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/layout.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/style.css">
-
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-
-  <link rel="shortcut icon" href="/ucn/favicon.ico">
-
-</head>
-<body>
-<div class="container">
 <div class="sixteen columns">
-  {{> header}}
-     
-  <div class="row clearfix">
-    <blockquote>
-      {{#__}}index_about_text{{/__}} 
-      <a href="/ucn/about">{{#__}}index_about_link{{/__}}</a>
-    </blockquote>
 
-    <!-- error msg block -->
-    <p id="statusp" class="{{errorclass}}">
-      {{error}}
-    </p>
+  <div id="splash">
+    <h1>{{#__}}index_title{{/__}}</h1>
 
+    <p class="subhead">{{#__}}index_subhead_text{{/__}}</p>
+
+    <p class="main">{{#__}}index_main_text{{/__}}</p>
+
+    <a href="/ucn/register" class="button upper">
+      {{#__}}index_button_join{{/__}}
+    </a>
   </div>
 
-  <div class="row clearfix">
-
-  <div class="five columns omega">
-    <h3>Participant login</h3>
-	 
-    <form action="/ucn/auth/login" method="post">
-      <div>       
-	<label for="username">Username</label>
-	<input type="text" id="username" name="username" />
-      </div>
-	   
-      <div>
-	<label for="password">Password</label>
-	<input type="password" id="password" name="password"/>
-      </div>
-	   
-      <div>
-	<input type="submit" value="Sign-in" name="submit" />
-      </div>	   
-    </form>
-
-  </div>
-
-  <div class="six columns alpha">
-    <h3>Forgot your password?</h3>
-    <form action="/ucn/resetpassword" method="post">
-      <div>       
-	<label for="email">Email</label>
-	<input type="text" id="email" name="email" />
-      </div>
-      <div>
-	<input type="submit" value="Reset password" name="submit" />
-      </div>	   
-    </form>
-  </div>
-
-  <div class="five columns alpha">
-    <h3>First time here?</h3>
-    <a style="margin-top: 20px;" href="/ucn/register" class="button">Sign-up for the experiment</a>
-  </div>
-
-  </div> <!-- row -->
-     
-  {{> footer}}
-
-</div> <!-- sixteen columns -->     
-</div> <!-- containter -->
-</body>
+</div>     
+{{> footer}}
 </html>

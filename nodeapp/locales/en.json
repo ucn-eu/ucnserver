@@ -1,22 +1,44 @@
 {
-	"index_pagetitle": "UCN Experiment",
-	"index_about_text": "UCN is a European Union funded research project on user centric networking. The aim is to study and understand better user online activity and experience by collecting detailed data on application use, context and network communications.",
-	"index_about_link": "More ...",
-	"index_logout_success": "Disconnected!",
-	"index_resetreq_success": "Password reset request sent! Check your mailbox.",
-	"index_reset_success": "Password changed! You can now login with the new password. Don't forget to re-configure your VPN clients.",
-	"index_activation_success": "Your account is now active! Please login and follow the instructions to install required sofware.",
-	"about_pagetitle": "About UCN Experiment",
-	"resetpassword_pagetitle": "UCN Experiment Reset Password",
-	"register_pagetitle": "Register to the UCN Experiment",
-	"register_success": "Registration succesfull! Check your email for further instructions.",
+	"header_login" : "login",
+	"header_logout" : "logout",
+	"header_title": "UCN Study",
+
+	"index_title": "User-Centric Networking",
+
+	"index_subhead_text": "<a href='http://www.usercentricnetworking.eu' target='_blank'>User-Centric Networking</a> (UCN) is a European Union funded research project that aims to understand how people consume various kinds of content when using computer networks.",
+
+	"index_main_text": "In order to be able to accomplish its research goals, the project needs to undertake some detailed observations of users across a range of environments in order to understand firsthand the practices involved in consuming media and other content according to context. If you are interested in participating to the study, click on the 'join' button below. You can read more about the project from <a target='_blank' href='/ucn/docs/en/infosheet.pdf'>our information sheet</a>.",
+
+	"index_button_join": "join now",
+
+	"login_title": "Connect to Your Account",
+	"login_username": "Username",
+	"login_password": "Password",
+	"login_submit": "Login",
+	"login_notjoined": "How do I join ?",
+	"login_email": "Email",
+	"login_submit_pw": "Send my password",
+
+	"register_title": "Create an Account",
+	"register_familyname": "Household Name",
+	"register_submit": "Register",
+	"register_consent": "User Consent",
+
+	"register_consent_case1": "I have read and understand <a href='/ucn/docs/en/infosheet.pdf' target='_blank'>the information sheet</a>, which includes information about the data to be recorded.",
+
+	"register_consent_case2": "I have read and understand <a href='/ucn/docs/en/consent.pdf' target='_blank'>the consent form</a>, and I confirm that I agree to take part in this study.",
+
+	"register_consent_case3": "I have read and understand <a href='/ucn/docs/en/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study.",
+
+	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/en/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on.",
+
+	"error_missing_email": "No email address!",
+	"error_missing_username": "No username!",
+	"error_missing_password": "No password!",
+	"error_missing_accept": "You must give your consent for the data collection in order to register to the study!",
+
 	"error_pagetitle": "Internal Server Error",
 	"error_not_found": "Page not found",
-	"error_missing_email": "Missing email address!",
-	"error_missing_username": "Missing username!",
-	"error_missing_password": "Missing password!",
-	"error_missing_familyname": "Missing family name!",
-	"error_missing_accept": "You must allow data collection in order to register to the experiment!",
 	"error_user_exists": "User '%s' exists already! Pick another username or email. If you have already registered and forgot your password, use the password reset button on the HOME page.",
 	"error_email": "Failed to send email to: '%s'. Verify your email address or try again. Contact the admin if the error persists.",
 	"error_user_not_found": "No such user: '%s'!",
@@ -29,6 +51,5 @@
 	"passwd_email_subject": "UCN Experiment Password Reset",
 	"uindex_pagetitle": "UCN Experiment User Admin",
 	"aindex_pagetitle": "UCN Experiment Admin",
-	"uindex_passwd_changed": "Password changed!",
-	"Validation failed": "Validation failed"
+	"uindex_passwd_changed": "Password changed!"
 }

@@ -1,20 +1,23 @@
 <!-- footer -->
-<div class="row clearfix">
-  <hr/>
-
-  <div align="right">
-    <a href="http://www.inria.fr" target="_blank">
-      <img class="logo" src="/ucn/images/inrialogo.png" alt="Inria Logo"
-	   width="185"/>
-    </a>
-    <a href="http://www.nottingham.ac.uk" target="_blank">
-      <img class="logo" src="/ucn/images/nottinghamlogo.png"
-	   alt="University of Nottingham Logo" width="175"/>
-    </a>
-    <a href="http://www.usercentricnetworking.eu" target="_blank">
-      <img class="logo" src="/ucn/images/ucnlogo.png" alt="UCN Logo" 
-	   width="200"/>
-    </a>    
-  </div>
-
+<hr/>
+<div align="right" class="sixteen columns" id="bottomnav">
+  <ul>
+    <li>    
+      <a href="http://www.inria.fr" target="_blank">
+	<img src="/ucn/images/inrialogo.png" width="185"/>
+      </a>
+    </li>
+    <li>    
+      <a href="http://www.nottingham.ac.uk" target="_blank">
+	<img src="/ucn/images/nottinghamlogo.png" width="175"/>
+      </a>
+    </li>
+    <li>    
+      <a href="http://www.usercentricnetworking.eu" target="_blank">
+	<img src="/ucn/images/ucnlogo.png" width="200"/>
+      </a>
+    </li>
+  </ul>
 </div>
+</div> <!-- containter, from header -->
+</body>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="sixteen columns">
+    <h1>{{#__}}login_title{{/__}}</h1>  
+</div>
+
+<div class="six columns">
+  <form action="/ucn/auth/login" method="post">
+    <div>       
+      <label for="username">{{#__}}login_username{{/__}}</label>
+      <input type="text" id="username" name="username" />
+    </div>  
+    <div>
+      <label for="password">{{#__}}login_password{{/__}}</label>
+      <input type="password" id="password" name="password"/>
+    </div>  
+    <div>
+      <input class="upper" type="submit" 
+	     value="{{#__}}login_submit{{/__}}" name="submit" />
+      <a href="/ucn/" class="button upper">
+	{{#__}}login_notjoined{{/__}}
+      </a>
+
+    </div>      
+  </form>
+</div>     
+
+<div class="six columns">
+  <form action="/ucn/auth/login" method="post">
+    <div>       
+      <label for="email">{{#__}}login_email{{/__}}</label>
+      <input type="text" id="email" name="email" />
+    </div>
+    <div>
+      <input class="upper" type="submit" 
+	     value="{{#__}}login_submit_pw{{/__}}" name="submit" />
+    </div>      
+  </form>
+</div>     
+
+{{> footer}}
+</html>

@@ -4,12 +4,16 @@ var passport = require('passport');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':routes:auth');
 
-/** Get forwards to the login page. */
+/** Render login form. */
 router.get('/login', function(req, res, next) {
-    return res.redirect('/ucn/');
+    return res.render('login', {
+	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
+	loggedin : false,
+	partials : { header : 'header', footer : 'footer'}
+    });
 });
 
-/** Handle index page login form. */
+/** Handle login form. */
 router.post('/login', function(req, res, next) {
     debug("authenticate: "+req.body.username);
 

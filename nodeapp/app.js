@@ -103,8 +103,6 @@ if (app.get('env') === 'development') {
 }
 
 // middleware
-
-debug(__dirname);
 app.use(favicon(path.join(__dirname, 'public','favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -137,18 +135,15 @@ app.use(function(req,res,next) {
     next();
 });
 
-// non-login protected routes
+// no-login routes
 app.use('/', require('./routes/index'));
 app.use('/downloads', function(req, res) {
   // force download
   var file = __dirname + '/downloads/' + req.path;
   res.download(file);
 });
-app.use('/about', require('./routes/about'));
-app.use('/register', require('./routes/register'));
-app.use('/activate', require('./routes/activate'));
-app.use('/resetpassword', require('./routes/resetpassword'));
 app.use('/auth', require('./routes/auth'));
+app.use('/register', require('./routes/register'));
 
 // login protected
 app.use('/users', require('./routes/users'));
@@ -182,8 +177,7 @@ app.use(function(err, req, res, next) {
     // not but should only happend in dev).
     var msg = err.message;
     try {	
-	var tmpmsg = (res.__ ? res.__(msg) : msg);
-	msg = tmpmsg;
+	msg = (res.__ ? res.__(msg) : msg);
     } catch (e) {
     }
 

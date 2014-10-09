@@ -1,95 +1,67 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>{{pagetitle}}</title>
+{{> header}}
 
-  <!-- Mobile Specific Metas ================================================== -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <!-- CSS  ================================================== -->
-  <link rel="stylesheet" href="/ucn/stylesheets/base.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/skeleton.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/layout.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/style.css">
-
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-
-  <link rel="shortcut icon" href="/ucn/favicon.ico">
-
-</head>
-<body>
-<div class="container">
 <div class="sixteen columns">
-  {{> header}}
+    <h1>{{#__}}register_title{{/__}}</h1>  
+</div>
 
-  <div class="row clearfix">
-
-    <!-- error/success msg block - keep on top for mobiles -->
-    <p id="statusp" class="{{errorclass}}">
+{{#error}}
+<div class="sixteen columns">
+    <p id="error">
       {{error}}
     </p>
-
-    <h3>Important</h3>
-
-    <p>
-    <ul class="square">
-      <li>
-	Make sure you have read <a href="/ucn/about">about the UCN
-    experiment</a>, and that you understand how your personal data
-    will be collected and stored. Note, we do not share any personal
-    data with third parties, and only use your data for research
-    purposes.
-      </li>
-      <li>
-	Please fill-in a valid email address as we will send you an
-    activation link and other instructions by email.
-      </li>
-      <li>
-	The family name is used to group together participants in the
-    same household, make sure to use the same name with your family
-    members.
-      </li>
-    </ul>
+</div>
+{{/error}}
+{{#success}}
+<div class="sixteen columns">
+    <p id="success">
+      {{success}}
     </p>
+</div>
+{{/success}}
 
+<form action="/ucn/register" method="post">    
+  <div class="five columns">
+    <label for="username">{{#__}}login_username{{/__}}</label>
+    <input type="text" id="username" name="username" />    
+    <label for="password">{{#__}}login_password{{/__}}</label>
+    <input type="password" id="password" name="password" />
   </div>
-
-  <div class="row clearfix">
-    <form action="/ucn/register" method="post">
-    
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" />
-
-      <label for="familyname">Family name</label>
-      <input type="text" id="familyname" name="familyname" />
-    
-      <label for="email">Email</label>
+  <div class="five columns">    
+      <label for="email">{{#__}}login_email{{/__}}</label>
       <input type="text" id="email" name="email" />
-    
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" />
-    
-      <fieldset>
-	<label for="">Data collection</label>
-	<label for="accept">
-	  <input type="checkbox" id="accept" name = "accept" value="ok" />
-	  <span>I allow collection of my personal data for the UCN experiment</span>
-	</label>
-      </fieldset>
-    
-      <input type="submit" value="Register" name="submit" />
-    </form>
+      <label for="familyname">{{#__}}register_familyname{{/__}}</label>
+      <input type="text" id="familyname" name="familyname" />
+  </div>    
+  <div class="sixteen columns">
+    <fieldset>
+      <label for="">{{#__}}register_consent{{/__}}</label>
+
+      <label for="accept1">
+	<input type="checkbox" id="accept1" name="accept1" value="ok" />
+	<span>{{#__}}register_consent_case1{{/__}}</span>
+      </label>
+
+      <label for="accept2">
+	<input type="checkbox" id="accept2" name="accept2" value="ok" />
+	<span>{{#__}}register_consent_case2{{/__}}</span>
+      </label>
+
+      <label for="accept3">
+	<input type="checkbox" id="accept3" name="accept3" value="ok" />
+	<span>{{#__}}register_consent_case3{{/__}}</span>
+      </label>
+
+      <label for="accept4">
+	<input type="checkbox" id="accept4" name="accept4" value="ok" />
+	<span>{{#__}}register_consent_case4{{/__}}</span>
+      </label>
+
+    </fieldset>    
+    <input type="submit" value="{{#__}}register_submit{{/__}}" name="submit" />
   </div>
+</form>
 
-  {{> footer}}
+{{> footer}}
 
-</div> <!-- sixteen columns -->     
-</div> <!-- containter -->
-</body>
 </html>

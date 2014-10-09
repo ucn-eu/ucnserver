@@ -1,28 +1,52 @@
-<!-- header -->
-<div class="row clearfix"  style="margin-top: 40px;">
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>{{#__}}header_title{{/__}}</title>
 
-  <div class="thirteen columns omega">
-    <h1>{{pagetitle}}</h1>
-  </div>
+  <!-- Mobile Specific Metas ================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <div class="two columns alpha">
-    {{#locale_fr}}
+  <!-- CSS  ================================================== -->
+  <link rel="stylesheet" href="/ucn/stylesheets/base.css">
+  <link rel="stylesheet" href="/ucn/stylesheets/skeleton.css">
+  <link rel="stylesheet" href="/ucn/stylesheets/style.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="/ucn/favicon.ico">
+
+</head>
+<body>
+<div class="container">
+
+<div class="twelve columns">
+  <h3>{{#__}}header_title{{/__}}</h3>
+</div>
+
+<div align="right" id="nav" class="four columns">
+  <ul>
+    <li>
+      {{#locale_fr}}
       <a href="/ucn/en">EN</a> | FR
-    {{/locale_fr}}		        
-    {{^locale_fr}}
+      {{/locale_fr}}	        
+      {{^locale_fr}}
       EN | <a href="/ucn/fr">FR</a>
-    {{/locale_fr}}
-  </div>
+      {{/locale_fr}}
+    </li>
+    <li>
+      {{#loggedin}}
+      <a href="/ucn/auth/logout">{{#__}}header_logout{{/__}}</a>
+      {{/loggedin}}
+      {{^loggedin}}
+      <a href="/ucn/auth/login">{{#__}}header_login{{/__}}</a>
+      {{/loggedin}}
+    </li>
+  </ul>
+</div>
 
-  <div class="one columns alpha">
-    {{#loggedin}}
-    <a href="/ucn/auth/logout">LOGOUT</a>
-    {{/loggedin}}
-    {{^loggedin}}
-    <a href="/ucn">HOME</a>
-    {{/loggedin}}
-  </div>
-
-  <hr class="half-bottom"/>
-
-</div> <!-- row -->
+<hr/>
