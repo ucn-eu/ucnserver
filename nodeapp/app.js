@@ -85,7 +85,7 @@ if (app.get('env') === 'production') {
 	service: "Gmail",
 	auth: {
             user: (process.env.GMLU || "annakaisa.pietilainen@gmail.com"),
-            pass: (process.env.GMLP || "k0val4nrannant!e")
+            pass: (process.env.GMLP || "asd")
 	}
     });
 

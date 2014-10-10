@@ -5,14 +5,14 @@ var Device = require('../models/Device');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':routes:users');
 
-/* All requests to the /ucn/users go to here first. Make sure we have an authenticated user in the req. */
+/* All requests to the /ucn/users go to here first. Make sure we have an 
+ * authenticated user in the req. 
+ */
 router.use(function(req, res, next) {
     if (!req.user) {
 	return res.render('index', { 
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : false,
-	    pagetitle : res.__('index_pagetitle'),
-	    errorclass : "error",
 	    error : res.__('error_not_authorized'),
 	    partials : { header : 'header', footer : 'footer'}
 	});
@@ -20,30 +20,35 @@ router.use(function(req, res, next) {
     next();
 });
 
-/* Index page for this user. */
+/* Index page with device list. */
 router.get('/', function(req, res, next) {
     Device.findAllForUser(req.user.username, function(err, devices) {
 	if (err) {
 	    // some db error - should not happen in prod ..
-	    debug('activation error: ' + err);
+	    debug(err);
 	    err.status = 500;
 	    return next(err);
 	}
+
 	return res.render('uindex',{
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : true,
-	    pagetitle : res.__('uindex_pagetitle'),
-	    firsttime : (!devices || devices.length == 0),
-	    username : req.user.username,
 	    devices : devices,
-	    partials: {
-		footer : 'footer', 
-		header : 'header', 
-		nav : 'unav'
-	    }
+	    partials: {footer : 'footer', header : 'header'}
 	});
+
     }); // findAll
 });
+
+/* Account mgmt page. */
+router.get('/account', function(req, res, next) {
+    return res.render('uaccount',{
+	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
+	loggedin : true,
+	partials: {footer : 'footer', header : 'header'}
+    });
+});
+
 
 /* Platform specific device install help pages */
 router.get('/help/:platform', function(req, res, next) {

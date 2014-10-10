@@ -38,10 +38,22 @@
 	"error_user_exists": "User '%s' with the same email address exists already! Select another username or email. If you have already registered and forgot your password, use the password reset form on <a href='/ucn/auth/login'>the login page</a>.",
 	"error_email": "Failed to send email to: '%s'. Verify your email address or try again. Contact the web site admin if the error persists.",
 	"error_authentication": "Invalid username or password! If you have forgot your password, type in your email address to receive instructions for reseting your password.",
-	"error_not_authorized": "You must <a href='/ucn/auth/login'>login</a> to access the requested page.",
+	"error_not_authorized": "You must <a href='/ucn/auth/login'>login</a> first to access the requested page.",
 	"error_user_not_found": "No matching user account found",
 	"welcome_email_subject": "Welcome to the UCN Study",
-	"passwd_email_subject": "UCN Study Password Reminder",
-	"Cannot read property 'username' of undefined": "Cannot read property 'username' of undefined",
-	"uindex_pagetitle": "uindex_pagetitle"
+	"passwd_email_subject": "UCN Study Password Reset",
+
+	"unav_devices": "devices",
+	"unav_account": "account",
+
+	"devices_title": "Devices and Network Tunnel Connections",
+	"devices_help": "Table below shows all your devices that have been registered for the study. The 'Device Username' -column shows the device specific username for the network tunnel (OpenVPN) software. The password is always the same as for your account to this website. If you do not see your tunnel connections (failures or succesful connections) in the table, please let us know!",
+	"devices_name": "Device Name",
+	"devices_login": "Device Username",
+	"devices_conn": "Connections",
+	"devices_fail": "Connection failures",
+	"devices_laststart": "Last connection start",
+	"devices_lastend": "Last connection end",
+
+	"account_title": "Account Management"
 }

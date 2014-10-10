@@ -1,76 +1,54 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>{{pagetitle}}</title>
+{{> header}}
 
-  <!-- Mobile Specific Metas ================================================== -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<div class="three columns" id="sidenav">
+  <ul>
+    <li>
+      {{#__}}unav_devices{{/__}}
+    </li>
+    <li>
+      <a href="/ucn/users/account">{{#__}}unav_account{{/__}}</a>
+    </li>
+    <li>
+      <a href="/ucn/auth/logout">{{#__}}header_logout{{/__}}</a>
+    </li>
+  </ul>
+</div>
 
-  <!-- CSS  ================================================== -->
-  <link rel="stylesheet" href="/ucn/stylesheets/base.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/skeleton.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/layout.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/style.css">
+<div class="thirteen columns">
+  <h2>{{#__}}devices_title{{/__}}</h2>
 
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+  <p>{{#__}}devices_help{{/__}}</p>
 
-  <link rel="shortcut icon" href="/ucn/favicon.ico">
+  <div id="rtable" class="condensed">
+    <table>
+      <thead>
+	<tr>
+	  <th>{{#__}}devices_name{{/__}}</th>
+	  <th>{{#__}}devices_login{{/__}}</th>
+	  <th>{{#__}}devices_conn{{/__}}</th>
+	  <th>{{#__}}devices_fail{{/__}}</th>
+	  <th>{{#__}}devices_laststart{{/__}}</th>
+	  <th>{{#__}}devices_lastend{{/__}}</th>
+	</tr>
+      </thead>
+      <tbody>
+	{{#devices}}
+	<tr>
+	  <td>{{name}}</td>
+	  <td>{{username}}.{{name}}</td>
+	  <td>{{vpn_connections}}</td>
+	  <td>{{vpn_auth_failures}}</td>
+	  <td>{{vpn_last_start}}</td>
+	  <td>{{vpn_last_end}}</td>
+	</tr>
+	{{/devices}}
+      </tbody>
+    </table>
+  </div>
+</div>
 
-</head>
-<body>
-  <div class="container">
-    <div class="sixteen columns">
-      {{> header}}
-      {{> nav}}
+{{> footer}}
 
-      {{#firsttime}}
-        <div class="row clearfix">
-	  <h3>Hello {{username}}!</h3>
-	  <p>
-	  You should register your personal devices to the experiment. Go to <a href="/ucn/users/adddev">ADD DEVICE</a> and follow the instructions.
-	  </p>
-        </div>
-      {{/firsttime}}
-      
-      <div class="row clearfix">
-	<h3>Registered Devices</h3>
-	<table>
-	  <tr>
-	    <th>Device Type</th>
-	    <th>Login name</th>
-	    <th>Connections</th>
-	    <th>Auth failures</th>
-	    <th>Avg. duration (min)</th>
-	    <th>Total sent bytes</th>
-	    <th>Total recv bytes</th>
-	    <th>Last connection start</th>
-	    <th>Last connection end</th>
-	  </tr>
-	  {{#devices}}
-	  <tr>
-	    <td>{{type}}</td>
-	    <td>{{username}}.{{type}}</td>
-	    <td>{{vpn_connections}}</td>
-	    <td>{{vpn_auth_failures}}</td>
-	    <td>{{vpn_avg_duration}}</td>
-	    <td>{{vpn_bytes_sent}}</td>
-	    <td>{{vpn_bytes_recv}}</td>
-	    <td>{{vpn_last_start}}</td>
-	    <td>{{vpn_last_end}}</td>
-	  </tr>
-	  {{/devices}}
-	</table>
-      </div>
-	
-      {{> footer}}
-  </div> <!-- sixteen columns -->     
-</div> <!-- containter -->
 <script src="/ucn/javascripts/jquery.min.js"></script>
-</body>
 </html>

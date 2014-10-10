@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="three columns" id="sidenav">
+  <ul>
+    <li>
+      <a href="/ucn/users">{{#__}}unav_devices{{/__}}</a>
+    </li>
+    <li>
+      {{#__}}unav_account{{/__}}
+    </li>
+    <li>
+      <a href="/ucn/auth/logout">{{#__}}header_logout{{/__}}</a>
+    </li>
+  </ul>
+</div>
+
+<div class="thirteen columns">
+  <h2>{{#__}}account_title{{/__}}</h2>
+</div>
+
+{{> footer}}
+
+<script src="/ucn/javascripts/jquery.min.js"></script>
+</html>

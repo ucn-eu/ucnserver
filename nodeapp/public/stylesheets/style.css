@@ -83,24 +83,24 @@
   background:#f0fff0;
 }
 
-table {
-    border-collapse: collapse;
-    border-spacing: 0; 
+#sidenav {
+    margin: 13px 0 0 0;
 }
-table th {
-    padding: 10px; 
-    font-size: 14px;
-    color: #555;
+ 
+#sidenav ul li {
+    display: block;
+    margin: 0 0 20px 0;
     text-decoration: none;
-    font-weight: bold; 
+    text-transform: uppercase;
 }
-table td {
-    padding: 10px; 
-    font-size: 14px;
-    color: #222;
+
+#sidenav a {
     text-decoration: none;
 }
 
+#rtable {
+    margin-bottom: 40px;
+}
 
 .stack { 
   margin:10px;
