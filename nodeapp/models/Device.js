@@ -16,7 +16,7 @@ var TCP_RANGE_END = ip.toLong('10.1.99.251');
  *  Devices can connect to the OpenVPN tunnel using login "username.type", 
  *  and the password associated to username (see User schema). 
  *
- *  Devices with defined 'removed' data, will not be able to login.
+ *  Devices with defined 'removed', will not be able to login.
  */
 var DeviceSchema = new db.Schema({
     username: {type:String, required: true, unique: false},

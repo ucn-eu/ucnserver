@@ -2,6 +2,7 @@
 	"header_login": "connexion",
 	"header_logout": "deconnextion",
 	"header_title": "Etude UCN",
+	"footer_note": "&copy; 2014 all rights reserved. For more info, please contact the <a href='mailto:ucn@cmon.lip6.fr?Subject=[UCN-WEB] contact request' target='_top'>www-admin</a>.",
 
 	"index_title": "User-Centric Networking",
 	"index_subhead_text": "<a href='http://www.usercentricnetworking.eu' target='_blank'>User-Centric Networking</a> (UCN) is a European Union funded research project and aims to understand how people consume various kinds of content when using computer networks.",
@@ -27,12 +28,16 @@
 
 	"register_consent_case2": "I have read and understand <a href='/ucn/docs/fr/consent.pdf' target='_blank'>the consent form</a>, and I confirm that I agree to take part in this study.",
 
-	"register_consent_case3": "I have read and understand <a href='/ucn/docs/fr/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study.",
+	"register_consent_case3": "I have read and understand <a href='/ucn/docs/fr/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study (optional).",
 
-	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/fr/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on.",
+	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/fr/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on (optional).",
+
+	"register_note": "Fields marked with * are compulsory.",
 
 	"error_missing_email": "No email address!",
 	"error_missing_username": "No username!",
 	"error_missing_password": "No password!",
-	"error_missing_accept": "You must give your consent for the data collection in order to register to the study!"
+	"error_missing_accept": "You must give your consent for the data collection in order to register to the study!",
+	"error_user_exists": "User '%s' with the same email address exists already! Select another username or email. If you have already registered and forgot your password, use the password reminder form on <a href='/ucn/auth/login'>the login page</a>.",
+	"error_not_found": "Page not found"
 }

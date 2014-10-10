@@ -28,40 +28,41 @@ logging.basicConfig(level=logging.DEBUG,
                     format='[%(asctime)s] %(levelname)s %(message)s')
 
 def main():
-    if (len(sys.argv) != 3):
-        logging.info("Usage: %s email password"%sys.argv[0])
+    if (len(sys.argv) != 4):
+        logging.info("Usage: %s email username password"%sys.argv[0])
         sys.exit(1)
 
     now = datetime.utcnow()
-    username = sys.argv[1]
-    password = sys.argv[2]
+    email = sys.argv[1]
+    username = sys.argv[2]
+    password = sys.argv[3]
 
     # gen hash
     hashed = bcrypt.hashpw(password, bcrypt.gensalt())
 
     logging.info("adduser: username=" + username + 
+                 " email="+email
                 " password="+password)
 
     mongoc = MongoClient(mongohost, mongoport)
     db = mongoc[mongodb]
 
-    user = db[userc].find_one({"email": username})    
+    user = db[userc].find_one({"username": username})
     if (user != None):
         logging.info("setting new password '%s' for %s"%(password,username))
         # update password
         user['password'] = hashed
         user['updated'] = now
     else:
-        # create new admin
+        # create new user
         logging.info("creating new user '%u'"%username)
         user = {
-            'email' : username,
+            'email' : email,
+            'username' : username,
             'password' : hashed,
             'created' : now,
-            'activated' : now,
             'updated' : now,
             'isadmin' : False,
-            'isactivated' : True
             }
     db[userc].save(user)
     mongoc.close()            

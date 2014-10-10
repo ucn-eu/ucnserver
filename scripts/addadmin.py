@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.DEBUG,
 
 def main():
     if (len(sys.argv) != 3):
-        logging.info("Usage: %s email password"%sys.argv[0])
+        logging.info("Usage: %s username password"%sys.argv[0])
         sys.exit(1)
 
     now = datetime.utcnow()
@@ -46,7 +46,7 @@ def main():
     mongoc = MongoClient(mongohost, mongoport)
     db = mongoc[mongodb]
 
-    user = db[userc].find_one({"email": username})    
+    user = db[userc].find_one({"username": username})    
     if (user != None):
         logging.info("setting new password '%s' for %s"%(password,username))
         # update password
@@ -56,13 +56,11 @@ def main():
         # create new admin
         logging.info("creating new admin '%u'"%username)
         user = {
-            'email' : username,
+            'username' : username,
             'password' : hashed,
             'created' : now,
-            'activated' : now,
             'updated' : now,
-            'isadmin' : True,
-            'isactivated' : True
+            'isadmin' : True
             }
     db[userc].save(user)
     mongoc.close()            

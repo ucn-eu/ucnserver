@@ -5,110 +5,28 @@ var emailer = require('../lib/emailer');
 var User = require('../models/User');
 var debug = require('debug')(app.get('debugns')+':routes:resetpassword');
 
-/** Handle password reminder request from index page. */
-router.post('/', function(req, res, next) {
-    if (!req.body.email) {
-	return res.render('index', { 
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : false,
-	    pagetitle : res.__('index_pagetitle'),
-	    errorclass : "error",
-	    error : res.__('error_missing_email'),
-	    partials : { header : 'header', footer : 'footer'}
-	});
-    }
-    
-    User.findOne({email : req.body.email}, function(err, user) {
-        if (err) { 
-	    // some db error - should not happen in prod ..
-	    debug(err);
-	    err.status = 500;
-	    return next(err); 
-	}
-
-        if (!user || user.removed) { 
-	    return res.render('index', { 
-		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		loggedin : false,
-		pagetitle : res.__('index_pagetitle'),
-		errorclass : "error",
-		error : res.__('error_user_not_found'),
-		partials : { header : 'header', footer : 'footer'}
-	    });
-	} else if (!user.isactivated) {
-	    return res.render('index', { 
-		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		loggedin : false,
-		pagetitle : res.__('index_pagetitle'),
-		errorclass : "error",
-		error : res.__('error_not_active'),
-		partials : { header : 'header', footer : 'footer'}
-	    });
-	}
-
-	debug("reset password req for " + user.username);
-	user.resetpasswordreq(function (err, user) {
-	    if (err) { 
-		// some db error - should not happen in prod ..
-		debug(err);
-		err.status = 500;
-		return next(err); 
-	    }
-
-	    var opt = {
-		template : 'passwd',
-		contactemail : app.get('mailer'),
-		url : app.get('baseurl') + "resetpassword/"+user.passwordresettoken,
-		username : user.username,
-		to: user.email,
-	    }
-	    
-	    var cb = function(err, mailerres) {
-		debug("sendmail resp: " + 
-		      (mailerres ? mailerres.response : "na"));
-
-		if (err) {
-		    // some email error - should not happen in prod ..
-		    debug("sendmail error: " + err);
-		    err.status = 500;
-		    return next(err);
-		}
-
-		return res.render('index', { 
-		    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		    loggedin : false,
-		    pagetitle : res.__('index_pagetitle'),
-		    errorclass : "success",
-		    error : res.__('index_resetreq_success'),
-		    partials : { header : 'header', footer : 'footer'}
-		});
-	    };
-
-	    emailer.sendmail(req, res, opt, cb);
-	});
-    }); // findUser
-});
-
 /** 
- * Handle email passwordreset links. If valid token given, renders a form for new password.
+ * Handle email passwordreset links. If valid token given, renders a form 
+ * for new password.
  */
-router.get('/:passwordresettoken', function(req, res, next) {
-    var token = req.params.passwordresettoken;
+router.get('/:token', function(req, res, next) {
+    var token = req.params.token;
     if (!token) {
-	var err = new Error('error_passwordreset');
+	var err = new Error('error_not_found');
 	err.status = 400; // Bad Request
 	return next(err);
     }
 
-    User.findOne({passwordresettoken : token}, function(err, user) {
+    User.findOne({resetpasswdtoken : token}, function(err, user) {
         if (err) { 
 	    // some db error - should not happen in prod ..
 	    debug(err);
 	    err.status = 500;
 	    return next(err); 
 	}
-	if (!user) {
-	    var err = new Error('error_passwordreset');
+
+	if (!user || user.removed) {
+	    var err = new Error('error_not_found');
 	    err.status = 400; // Bad Request
 	    return next(err);
 	}
@@ -118,20 +36,19 @@ router.get('/:passwordresettoken', function(req, res, next) {
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : false,
 	    token : token,
-	    errorclass : "noerror",
-	    pagetitle : res.__('resetpassword_pagetitle'),
 	    partials : { header : 'header', footer : 'footer'}
 	});
+
     }); // findOne
 });
 
 /** 
  * Handle email passwordreset form.
  */
-router.post('/:passwordresettoken', function(req, res, next) {
-    var token = req.params.passwordresettoken;
+router.post('/:token', function(req, res, next) {
+    var token = req.params.token;
     if (!token) {
-	var err = new Error('error_passwordreset');
+	var err = new Error('error_not_found');
 	err.status = 400; // Bad Request
 	return next(err);
     }
@@ -140,14 +57,13 @@ router.post('/:passwordresettoken', function(req, res, next) {
 	return res.render('resetpassword', { 
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : false,
-	    pagetitle : res.__('resetpassword_pagetitle'),
-	    errorclass : "error",
+	    token : token,
 	    error : res.__('error_missing_password'),
 	    partials : { header : 'header', footer : 'footer'}
 	});
     }
 
-    User.findOne({passwordresettoken : token}, function(err, user) {
+    User.findOne({resetpasswdtoken : token}, function(err, user) {
         if (err) { 
 	    // some db error - should not happen in prod ..
 	    debug(err);
@@ -155,8 +71,8 @@ router.post('/:passwordresettoken', function(req, res, next) {
 	    return next(err); 
 	}
 
-	if (!user) {
-	    var err = new Error('error_passwordreset');
+	if (!user || user.removed) {
+	    var err = new Error('error_not_found');
 	    err.status = 400; // Bad Request
 	    return next(err);
 	}
@@ -165,18 +81,16 @@ router.post('/:passwordresettoken', function(req, res, next) {
 	user.resetpassword(req.body.password.trim(), function(err, user) {
 	    if (err) {
 		// some db error - should not happen in prod ..
-		debug('activation error: ' + err);
+		debug(err);
 		err.status = 500;
 		return next(err);
 	    }
 
-	    // go to index upon success
-	    return res.render('index', { 
+	    return res.render('login', { 
 		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 		loggedin : false,
-		pagetitle : res.__('index_pagetitle'),
-		errorclass : "success",
-		error : res.__('index_reset_success'),
+		token : token,
+		success : res.__('login_reset_success'),
 		partials : { header : 'header', footer : 'footer'}
 	    });
 	});

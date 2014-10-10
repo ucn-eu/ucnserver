@@ -3,6 +3,7 @@
 
 <div class="sixteen columns">
     <h1>{{#__}}register_title{{/__}}</h1>  
+    <p class="emph">{{#__}}register_note{{/__}}</p>
 </div>
 
 {{#error}}
@@ -22,42 +23,58 @@
 
 <form action="/ucn/register" method="post">    
   <div class="five columns">
-    <label for="username">{{#__}}login_username{{/__}}</label>
-    <input type="text" id="username" name="username" />    
-    <label for="password">{{#__}}login_password{{/__}}</label>
+
+    <label for="username">{{#__}}login_username{{/__}}*</label>
+    <input type="text" id="username" name="username" 
+	   {{#username}}value="{{username}}"{{/username}} />
+
+    <label for="password">{{#__}}login_password{{/__}}*</label>
     <input type="password" id="password" name="password" />
+
   </div>
+
   <div class="five columns">    
-      <label for="email">{{#__}}login_email{{/__}}</label>
-      <input type="text" id="email" name="email" />
+
+      <label for="email">{{#__}}login_email{{/__}}*</label>
+      <input type="text" id="email" name="email"  
+	   {{#email}}value="{{email}}"{{/email}} />
+
       <label for="familyname">{{#__}}register_familyname{{/__}}</label>
-      <input type="text" id="familyname" name="familyname" />
+      <input type="text" id="familyname" name="familyname"  
+	   {{#familyname}}value="{{familyname}}"{{/familyname}} />
+
   </div>    
+
   <div class="sixteen columns">
     <fieldset>
-      <label for="">{{#__}}register_consent{{/__}}</label>
+      <label for="">{{#__}}register_consent{{/__}}*</label>
 
       <label for="accept1">
-	<input type="checkbox" id="accept1" name="accept1" value="ok" />
+	<input type="checkbox" id="accept1" name="accept1" value="ok" 
+	        {{#accept1}}checked{{/accept1}} />
 	<span>{{#__}}register_consent_case1{{/__}}</span>
       </label>
 
       <label for="accept2">
-	<input type="checkbox" id="accept2" name="accept2" value="ok" />
+	<input type="checkbox" id="accept2" name="accept2" value="ok" 
+	        {{#accept2}}checked{{/accept2}} />
 	<span>{{#__}}register_consent_case2{{/__}}</span>
       </label>
 
       <label for="accept3">
-	<input type="checkbox" id="accept3" name="accept3" value="ok" />
+	<input type="checkbox" id="accept3" name="accept3" value="ok"  
+	        {{#accept3}}checked{{/accept3}} />
 	<span>{{#__}}register_consent_case3{{/__}}</span>
       </label>
 
       <label for="accept4">
-	<input type="checkbox" id="accept4" name="accept4" value="ok" />
+	<input type="checkbox" id="accept4" name="accept4" value="ok"  
+	        {{#accept4}}checked{{/accept4}} />
 	<span>{{#__}}register_consent_case4{{/__}}</span>
       </label>
 
     </fieldset>    
+
     <input type="submit" value="{{#__}}register_submit{{/__}}" name="submit" />
   </div>
 </form>

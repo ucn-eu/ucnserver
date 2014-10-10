@@ -5,6 +5,21 @@
     <h1>{{#__}}login_title{{/__}}</h1>  
 </div>
 
+{{#error}}
+<div class="sixteen columns">
+    <p id="error">
+      {{error}}
+    </p>
+</div>
+{{/error}}
+{{#success}}
+<div class="sixteen columns">
+    <p id="success">
+      {{success}}
+    </p>
+</div>
+{{/success}}
+
 <div class="six columns">
   <form action="/ucn/auth/login" method="post">
     <div>       
@@ -18,10 +33,10 @@
     <div>
       <input class="upper" type="submit" 
 	     value="{{#__}}login_submit{{/__}}" name="submit" />
+
       <a href="/ucn/" class="button upper">
 	{{#__}}login_notjoined{{/__}}
       </a>
-
     </div>      
   </form>
 </div>     
@@ -34,7 +49,7 @@
     </div>
     <div>
       <input class="upper" type="submit" 
-	     value="{{#__}}login_submit_pw{{/__}}" name="submit" />
+	     value="{{#__}}login_submit_pw{{/__}}" name="submit2" />
     </div>      
   </form>
 </div>     

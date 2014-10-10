@@ -23,11 +23,19 @@ router.post('/', function(req, res, next) {
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : false,
 	    error : msg,
-	    partials : { header : 'header', footer : 'footer'}
+	    partials : { header : 'header', footer : 'footer'},
+	    // return the form values so we can fill-in already entered data
+	    username : req.body.username,
+	    email : req.body.email,
+	    familyname : req.body.familyname,
+	    accept1 : req.body.accept1,
+	    accept2 : req.body.accept2,
+	    accept3 : req.body.accept3,
+	    accept4 : req.body.accept4
 	});
     };
 
-    // input verifications
+    // basic input verifications
     if (!req.body.username || req.body.username.trim().length<=0) {
 	return rendererr(res.__('error_missing_username'));
     } else if (!req.body.email || req.body.email.trim().length<=0) {
@@ -38,10 +46,13 @@ router.post('/', function(req, res, next) {
 	return rendererr(res.__('error_missing_accept'));
     } else if (!req.body.accept2 || req.body.accept2 !== 'ok') {
 	return rendererr(res.__('error_missing_accept'));
-    }
+    } // the other accepts are optional (apply only when they have kids)
 
     // new user
-    var uobj = { username : req.body.username.trim(), email : req.body.email.trim() };
+    var uobj = { username : req.body.username.trim(), 
+		 email : req.body.email.trim() 
+	       };
+
     User.findOne(uobj, function(err, user) {
         if (err) { 
 	    // some db error - should not happen in prod ..
@@ -49,12 +60,13 @@ router.post('/', function(req, res, next) {
 	    err.status = 500;
 	    return next(err); 
 	}
+
         if (user) { 
 	    return rendererr(res.__('error_user_exists', uobj.username));
 	}
 
 	uobj.password = req.body.password.trim();
-	uobj.familyname = req.body.familyname.trim();
+	uobj.familyname = (req.body.familyname ? req.body.familyname.trim() : undefined);
 
 	User.create(uobj, function(err, user) {
             if (err) { 
@@ -64,20 +76,18 @@ router.post('/', function(req, res, next) {
 		return next(err); 
 	    }
 
-	    // welcome email
-	    // FIXME: pick VPN config by lang ? ask user ?
+	    // welcome email	    
+	    var vpnconffile = app.get('country')+'.server.ovpn';
 	    var opt = {
-		template : 'welcome',
-		contactemail : app.get('mailer'),
-		url : app.get('baseurl') + "activate/"+user.activationtoken,
-		username : user.username,
 		to: user.email,
+		template : 'welcome',
+		username : user.username,
+		password : req.body.password.trim(), // use cleartext version
+		url : app.get('baseurl') + 'auth/login',
+		contactemail : app.get('mailer'),
 		attachments: [{
-		    path : path.join(__dirname, '../downloads','fr.server.ovpn'),
-		    filename : "fr.server.ovpn"
-		},{
-		    path : path.join(__dirname, '../downloads','uk.server.ovpn'),
-		    filename : "uk.server.ovpn"
+		    path : path.join(__dirname, '../downloads',vpnconffile),
+		    filename : vpnconffile
 		}]
 	    }
 	    
@@ -89,7 +99,7 @@ router.post('/', function(req, res, next) {
 		if (err) {
 		    debug("sendmail error: " + err);
 		    User.remove(uobj, function(err2) {
-			if (err2) debug("db error: " + err2);
+			if (err2) debug("db user remove error: " + err2);
 		    });
 		    // assume it's because user gave invalid email or something
 		    return rendererr(res.__('error_email', uobj.email));
@@ -98,14 +108,13 @@ router.post('/', function(req, res, next) {
 		return res.render('register', {
 		    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 		    loggedin : false,
-		    errorclass : "success",
-		    error : res.__('register_success', uobj.email),
-		    pagetitle : res.__('register_pagetitle'),
+		    success : res.__('register_success', uobj.email),
 		    partials : { header : 'header', footer : 'footer'}
 		});
 	    };
 
 	    emailer.sendmail(req, res, opt, cb);
+
 	}); // createUser
     }); // findUser
 });

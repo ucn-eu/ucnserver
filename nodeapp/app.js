@@ -32,10 +32,12 @@ i18n.configure({
 if (app.get('env') === 'production') {
     debug('setting up in production environment (cmon)');
 
+    app.set('country', 'fr');
+
     app.set('dbname', 'ucnexp');
     app.set('dbhost', 'ucn');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
-    app.set('port', 3002);
+    app.set('port', 3002);    
 
     app.set('trust proxy', 1); // trust first proxy
 
@@ -50,6 +52,8 @@ if (app.get('env') === 'production') {
 
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
+
+    app.set('country', 'uk');
 
     app.set('dbname', 'ucnexp');
     app.set('dbhost', 'localhost');
@@ -70,6 +74,8 @@ if (app.get('env') === 'production') {
 } else {
     debug('setting up in development environment');
 
+    app.set('country', 'fr');
+
     app.set('dbname', 'ucntest');
     app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
@@ -78,8 +84,8 @@ if (app.get('env') === 'production') {
     app.set('mailerconfig', {
 	service: "Gmail",
 	auth: {
-            user: (process.env.GMLU || ""),
-            pass: (process.env.GMLP || "")
+            user: (process.env.GMLU || "annakaisa.pietilainen@gmail.com"),
+            pass: (process.env.GMLP || "k0val4nrannant!e")
 	}
     });
 
@@ -91,7 +97,7 @@ if (app.get('env') === 'production') {
 	if (req.url.slice(0,4) == '/ucn') {
 	    req.url = req.url.replace('/ucn','');
 	}
-	next();
+	return next();
     });
 }
 
@@ -144,6 +150,7 @@ app.use('/downloads', function(req, res) {
 });
 app.use('/auth', require('./routes/auth'));
 app.use('/register', require('./routes/register'));
+app.use('/resetpassword', require('./routes/resetpassword'));
 
 // login protected
 app.use('/users', require('./routes/users'));
@@ -152,11 +159,11 @@ app.use('/admin', require('./routes/admin'));
 // locale switching
 app.use('/fr', function(req, res, next) {
     res.cookie('ucnlang', 'fr', { maxAge: 30*24*hour });
-    res.redirect(req.headers['referer'] || '/');
+    res.redirect(req.headers['referer'] || '/ucn/');
 });
 app.use('/en', function(req, res, next) {
     res.cookie('ucnlang', 'en', { maxAge: 30*24*hour });
-    res.redirect(req.headers['referer'] || '/');
+    res.redirect(req.headers['referer'] || '/ucn/');
 });
 
 // default handler (on no matching route)
@@ -168,32 +175,29 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-    err.status = err.status || 500;
-    res.status(err.status);
-
-    debug(JSON.stringify(err));
+    var msg = err.message;
+    var status = err.status || 500;
+    res.status(status);
 
     // App errors are localized (other runtime errors are
     // not but should only happend in dev).
-    var msg = err.message;
     try {	
 	msg = (res.__ ? res.__(msg) : msg);
     } catch (e) {
     }
 
+    debug(JSON.stringify(err));
+
     if (app.get('env') !== 'development') {
 	err = {}; // don't leak the stack trace in production
     }
 
-    res.render('error', {
+    return res.render('error', {
 	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	loggedin : false,
-	pagetitle : (res.__ ? res.__('error_pagetitle') : "Internal Server Error"),
         message: msg,
+	status: status,
         error: err,
-	partials : { 
-	    header : 'header', 
-	    footer : 'footer'
-	}
+	partials : {header : 'header', footer : 'footer'}
     });
 });

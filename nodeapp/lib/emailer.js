@@ -30,15 +30,14 @@ var sendmail = function(req, res, opt, callback) {
     if (!opt.to)
 	throw 'Missing destination email address';
     if (!opt.template)
-	throw 'Missing template';
+	throw 'Missing template name';
 
     // pick the localized email template
-    var l = req.cookies.ucnlang || app.get('default_locale');
-    var template = templates[l+'_'+opt.template] || templates[app.get('default_locale')+'_'+opt.template];
+    var template = templates[req.cookies.ucnlang+'_'+opt.template] || templates[app.get('default_locale')+'_'+opt.template];
 
     // sanity checking - should not happen in prod
     if (!template)
-	throw 'Email template not found: '+l+'_'+opt.template;
+	throw 'Email template not found: '+opt.template;
 	
     var mail = {
 	from : opt.from || app.get('mailer'),
@@ -47,9 +46,11 @@ var sendmail = function(req, res, opt, callback) {
 	subject: res.__(opt.template+'_email_subject'),
 	text: Mustache.render(template, opt),
 	attachments: opt.attachments
+
     }
 
     debug('sendmail',mail);
+
     mailtransport.sendMail(mail,callback);
 };
 

@@ -1,55 +1,47 @@
 {
-	"header_login" : "login",
-	"header_logout" : "logout",
+	"header_login": "login",
+	"header_logout": "logout",
 	"header_title": "UCN Study",
-
+	"footer_note": "&copy; 2014 all rights reserved. For more info, please contact the <a href='mailto:ucn@cmon.lip6.fr?Subject=[UCN-WEB] contact request' target='_top'>www-admin</a>.",
 	"index_title": "User-Centric Networking",
-
 	"index_subhead_text": "<a href='http://www.usercentricnetworking.eu' target='_blank'>User-Centric Networking</a> (UCN) is a European Union funded research project that aims to understand how people consume various kinds of content when using computer networks.",
-
 	"index_main_text": "In order to be able to accomplish its research goals, the project needs to undertake some detailed observations of users across a range of environments in order to understand firsthand the practices involved in consuming media and other content according to context. If you are interested in participating to the study, click on the 'join' button below. You can read more about the project from <a target='_blank' href='/ucn/docs/en/infosheet.pdf'>our information sheet</a>.",
-
 	"index_button_join": "join now",
-
 	"login_title": "Connect to Your Account",
 	"login_username": "Username",
 	"login_password": "Password",
 	"login_submit": "Login",
-	"login_notjoined": "How do I join ?",
+	"login_notjoined": "Create a new account",
 	"login_email": "Email",
-	"login_submit_pw": "Send my password",
-
+	"login_submit_pw": "Forgot my password",
+	"login_logout_success": "Logged out!",
+	"login_email_success": "Password reset email sent! Check your mailbox.",
+	"login_reset_success": "Password changed! You can now login with the new password.",
+	"reset_title": "Reset Password",
+	"reset_password": "New password",
+	"reset_submit": "Update",
 	"register_title": "Create an Account",
 	"register_familyname": "Household Name",
 	"register_submit": "Register",
 	"register_consent": "User Consent",
-
 	"register_consent_case1": "I have read and understand <a href='/ucn/docs/en/infosheet.pdf' target='_blank'>the information sheet</a>, which includes information about the data to be recorded.",
-
 	"register_consent_case2": "I have read and understand <a href='/ucn/docs/en/consent.pdf' target='_blank'>the consent form</a>, and I confirm that I agree to take part in this study.",
-
-	"register_consent_case3": "I have read and understand <a href='/ucn/docs/en/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study.",
-
-	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/en/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on.",
-
+	"register_consent_case3": "I have read and understand <a href='/ucn/docs/en/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study (optional).",
+	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/en/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on (optional).",
+	"register_note": "Fields marked with * are compulsory.",
+	"register_success": "Registration completed! We have sent you an email to '%s' with your account details.",
+	"error_not_found": "Page not found",
 	"error_missing_email": "No email address!",
 	"error_missing_username": "No username!",
 	"error_missing_password": "No password!",
 	"error_missing_accept": "You must give your consent for the data collection in order to register to the study!",
-
-	"error_pagetitle": "Internal Server Error",
-	"error_not_found": "Page not found",
-	"error_user_exists": "User '%s' exists already! Pick another username or email. If you have already registered and forgot your password, use the password reset button on the HOME page.",
-	"error_email": "Failed to send email to: '%s'. Verify your email address or try again. Contact the admin if the error persists.",
-	"error_user_not_found": "No such user: '%s'!",
-	"error_authentication": "Invalid username or password!",
-	"error_not_active": "Account has not been activated - check your mailbox for activation link",
-	"error_activation": "Activation error - verify the url.",
-	"error_resetpassword": "Failed to reset password - verify the url.",
-	"error_not_authorized": "You must login first to see the requested page.",
-	"welcome_email_subject": "Welcome to the UCN Experiment",
-	"passwd_email_subject": "UCN Experiment Password Reset",
-	"uindex_pagetitle": "UCN Experiment User Admin",
-	"aindex_pagetitle": "UCN Experiment Admin",
-	"uindex_passwd_changed": "Password changed!"
+	"error_user_exists": "User '%s' with the same email address exists already! Select another username or email. If you have already registered and forgot your password, use the password reset form on <a href='/ucn/auth/login'>the login page</a>.",
+	"error_email": "Failed to send email to: '%s'. Verify your email address or try again. Contact the web site admin if the error persists.",
+	"error_authentication": "Invalid username or password! If you have forgot your password, type in your email address to receive instructions for reseting your password.",
+	"error_not_authorized": "You must <a href='/ucn/auth/login'>login</a> to access the requested page.",
+	"error_user_not_found": "No matching user account found",
+	"welcome_email_subject": "Welcome to the UCN Study",
+	"passwd_email_subject": "UCN Study Password Reminder",
+	"Cannot read property 'username' of undefined": "Cannot read property 'username' of undefined",
+	"uindex_pagetitle": "uindex_pagetitle"
 }

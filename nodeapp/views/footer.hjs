@@ -18,6 +18,7 @@
       </a>
     </li>
   </ul>
+  <p class='emph'>{{#__}}footer_note{{/__}}</p>
 </div>
 </div> <!-- containter, from header -->
 </body>
