@@ -5,6 +5,9 @@ var bcrypt = require('bcrypt');
 var db = require('../lib/db');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:User');
+var Device = require('./Device');
+var _ = require('underscore');
+var moment = require('moment');
 
 // increasing this will make the password hashes harder to brute force
 // (the algo becomes slower)
@@ -29,7 +32,9 @@ var UserSchema = new db.Schema({
     created: {type:Date, default: Date.now},
     updated: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
-    resetpasswdtoken: {type:String, required: false, unique: false}
+    resetpasswdtoken: {type:String, required: false, unique: false},
+    // list of devices as sub-docs
+    devices: [Device.schema]
 });
 
 /** Create password token. */
@@ -42,14 +47,14 @@ UserSchema.methods.resetpasswdreq = function(cb) {
     this.save(cb);
 };
 
-/** Reset password. */
+/** Reset password (clears the token). */
 UserSchema.methods.resetpassword = function(newpassword, cb) {
     this.password = newpassword;
     this.resetpasswdtoken = undefined;
     this.save(cb);
 };
 
-/** Remove user. */
+/** Remove user (mark as removed). */
 UserSchema.methods.remove = function(cb) {
     if (!this.removed) {
 	this.removed = Date.now();
@@ -59,7 +64,7 @@ UserSchema.methods.remove = function(cb) {
     }
 };
 
-/** Un-temove user. */
+/** Un-temove user (un-mark). */
 UserSchema.methods.unremove = function(cb) {
     if (this.removed) {
 	this.removed = undefined;
@@ -136,6 +141,63 @@ UserSchema.statics.deserializeUser = function(userid, done) {
         done(err,user);
     });
 };
+
+UserSchema.statics.findAllUsers = function(cb) {
+    var User = require('./User');
+    User.find({isadmin : false}, cb);
+};
+
+UserSchema.statics.findAllUsersOfHouse = function(familyname, cb) {
+    var User = require('./User');
+    if (!familyname || familyname === 'none') {
+	// no familyname
+	User.find({isadmin : false, familyname : {$exists: false}}, cb);
+    } else if (familyname === 'any') {
+	// any familyname
+	User.find({isadmin : false}, cb);
+    } else {
+	// match familyname
+	User.find({isadmin : false, familyname : familyname}, cb);
+    }
+};
+
+UserSchema.statics.findUniqueHouses = function(cb) {
+    var User = require('./User');
+    User.distinct('familyname', function(err, res) {
+	if (res)
+	    res = _.map(_.compact(res), function(h) { return { name : h}; });
+	cb(err,res);
+    });
+};
+
+UserSchema.virtual('dev_count').get(function () {
+    return _.size(_.filter(this.devices, function(dev) { return !dev.removed;}));
+});
+
+UserSchema.virtual('vpn_conn_succ').get(function () {
+    return _.reduce(this.devices, function(memo, dev) { return memo + dev.vpn_connections; }, 0);
+});
+
+UserSchema.virtual('vpn_conn_fail').get(function () {
+    return _.reduce(this.devices, function(memo, dev) { return memo + dev.vpn_auth_failures; }, 0);
+});
+
+UserSchema.virtual('vpn_lastconn_end').get(function () {
+    var res = undefined;
+    for (var i = 0; i < this.devices.length; i++) {
+	var d = this.devices[i];
+	if (d.vpn_is_connected) {
+	    return "Connected " + moment(d.vpn_last_start).from_now();
+	} else if (res && res < d.vpn_last_end) {
+	    res = d.vpn_last_end
+	} else {
+	    res = d.vpn_last_end
+	}
+    }
+    if (res)
+	return moment(res).format("MMM Do, HH:mm");
+    return "Never connected";
+});
 
 var model = db.model('User', UserSchema);
 

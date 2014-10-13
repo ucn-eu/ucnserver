@@ -29,6 +29,7 @@
     "mustache": "latest",
     "underscore": "latest",
     "i18n": "latest",
-    "ip" : "latest"
+    "ip" : "latest",
+    "moment" : "latest"
   }
 }

@@ -18,9 +18,9 @@ from datetime import datetime
 
 # -------------------------------
 # Configure your backend here
-mongohost = "ucn"
+mongohost = "localhost"
 mongoport = 27017
-mongodb = "ucnexp"
+mongodb = "ucntest"
 userc = "users"
 # -------------------------------
 
@@ -54,7 +54,7 @@ def main():
         user['updated'] = now
     else:
         # create new admin
-        logging.info("creating new admin '%u'"%username)
+        logging.info("creating new admin '%s'"%username)
         user = {
             'username' : username,
             'password' : hashed,

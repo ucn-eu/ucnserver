@@ -8,20 +8,19 @@ var UDP_RANGE_END = ip.toLong('10.2.99.251');
 var TCP_RANGE_START = '10.1.0.2';
 var TCP_RANGE_END = ip.toLong('10.1.99.251');
 
-/** Device JSON schema. 
+/** Device JSON schema. Exists only as a sub-doc of User model!
  * 
  *  The device type should be one of [ipad, iphone, macbook, imac, windows-pc, 
  *  linux-pc, linux-laptop, windows-laptop, android-phone, android-tablet]
  *
- *  Devices can connect to the OpenVPN tunnel using login "username.type", 
+ *  Devices can connect to the OpenVPN tunnel using login "username.devname", 
  *  and the password associated to username (see User schema). 
  *
- *  Devices with defined 'removed', will not be able to login.
+ *  Devices with defined 'removed', should not be able to login.
  */
 var DeviceSchema = new db.Schema({
-    username: {type:String, required: true, unique: false},
+    devname : {type:String, required: true, unique: false},
     type : {type:String, required: true, unique: false},
-    platform : {type:String, required: true, unique: false},
     created: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
     vpn_udp_ip : {type:String, required: true, unique: true},
@@ -75,15 +74,6 @@ DeviceSchema.statics.isMobilePlatform = function(platform) {
     return (platform === 'android' || platform === 'ios');
 };
 
-DeviceSchema.statics.findAllForUser = function(username, cb) {
-    var Device = require('./Device');
-    Device.find({username: username}, cb);    
-};
-
-DeviceSchema.methods.isMobilePlatform = function() {
-    return (this.platform === 'android' || this.platform === 'ios');
-};
-
 DeviceSchema.pre('validate', function(next) {
     var device = this;
     if (device.isNew) {
@@ -133,7 +123,10 @@ DeviceSchema.virtual('vpn_avg_duration').get(function () {
 	return 0.0;
 });
 
-var model = db.model('Device', DeviceSchema);
+/** Map type to the OS platform. */
+DeviceSchema.virtual('platform').get(function() {
+    return this.type2platform(this.type);
+});
 
-exports = module.exports = model;
+exports = module.exports = DeviceSchema;
 

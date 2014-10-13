@@ -1,64 +1,78 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>{{pagetitle}}</title>
+{{> header}}
 
-  <!-- Mobile Specific Metas ================================================== -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<div class="three columns" id="sidenav">
+  <ul>
+    <li>
+      USERS
+    </li>
+    <li>
+      <a href="/ucn/admin/devices">DEVICES</a>
+    </li>
+    <li>
+      <a href="/ucn/admin/help">HELP</a>
+    </li>
+    <li>
+      <a href="/ucn/auth/logout">LOGOUT</a>
+    </li>
+  </ul>
+</div>
 
-  <!-- CSS  ================================================== -->
-  <link rel="stylesheet" href="/ucn/stylesheets/base.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/skeleton.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/layout.css">
-  <link rel="stylesheet" href="/ucn/stylesheets/style.css">
+<div class="thirteen columns">
+  <h2>Registered Users</h2>
 
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+  <form action="/ucn/admin" method="post">
 
-  <link rel="shortcut icon" href="/ucn/favicon.ico">
+    <label for="house">Household</label>
+    <select id="house" name="house">
+      <option value="none">None</option>
+      {{#houses}}
+      <option value="{{name}}">{{name}}</option>
+      {{/houses}}
+      <option value="any">Any</option>
+    </select>
+    <input type="submit" value="Update" name="submithouse" />
 
-</head>
-<body>
-  <div class="container">
-  <div class="sixteen columns">
-    {{> header}}
-    {{> nav}}
+  <table id="rtable" class="condensed">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Devices</th>
+        <th>VPN conn/fail</th>
+        <th>Last Conn. End</th>
+        <th>Disabled</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#users}}
+      <tr>
+        <td>{{username}}</td>
+        <td>{{email}}</td>
+        <td>{{dev_count}}</td>
+        <td>{{vpn_conn_succ}} / {{vpn_conn_fail}}</td>
+        <td>{{vpn_lastconn_end}}</td>
+        <td>
+	  <label for="disable">
+	    <input type="checkbox" id="disable" name="disable[]" 
+		   value="{{username}}"  
+	           {{#removed}}checked{{/removed}} />
+	  </label>
+	</td>
+      </tr>
+      {{/users}}
+    </tbody>
+  </table>
+  <input type="submit" value="Update Disabled" name="submitremove" />
+  </form>
+</div>
 
-    <div class="row clearfix">
+{{> footer}}
 
-      <h4>VPN Connections</h4>
-
-      <table>
-	<thead>
-	  <th>Start time</th>
-	  <th>End time</th>
-	  <th>Length</th>
-	  <th>Public IP</th>
-	  <th>Geolocation</th>
-	</thead>
-	<tbody>
-	  {{#connections}}
-          <tr class="">
-            <td>{{starttime}}</td>
-            <td>{{endtime}}</td>
-            <td>{{len}}</td>
-            <td>{{publicip}}</td>
-            <td>{{geolocation}}</td>
-          </tr>
-	  {{/connections}}
-	</tbody>
-      </table>
-
-    </div> <!-- row -->    
-    
-    {{> footer}}
-
-  </div> <!-- sixteen columns -->     
-  </div> <!-- containter -->
-</body>
+<script src="/ucn/javascripts/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $("#house").val('{{house}}');
+});
+</script>
 </html>

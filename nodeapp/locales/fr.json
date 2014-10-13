@@ -1,15 +1,15 @@
 {
 	"header_login": "connexion",
-	"header_logout": "deconnextion",
+	"header_logout": "deconnexion",
 	"header_title": "Etude UCN",
 	"footer_note": "&copy; 2014 all rights reserved. For more info, please contact the <a href='mailto:ucn@cmon.lip6.fr?Subject=[UCN-WEB] contact request' target='_top'>www-admin</a>.",
 
 	"index_title": "User-Centric Networking",
-	"index_subhead_text": "<a href='http://www.usercentricnetworking.eu' target='_blank'>User-Centric Networking</a> (UCN) is a European Union funded research project and aims to understand how people consume various kinds of content when using computer networks.",
+	"index_subhead_text": "Le projet <a href='http://www.usercentricnetworking.eu' target='_blank'>User-Centric Networking</a> (UCN) a pour objectif de comprendre comment les individus consomment différents types de contenus sur les réseaux informatiques.",
 
-	"index_main_text": "In order to be able to accomplish its research goals, the project needs to undertake some detailed observations of users across a range of environments in order to understand firsthand the practices involved in consuming media and other content according to context. If you are interested in participating to the study, click on the 'join' button below. You can read more about the project from <a target='_blank' href='/ucn/docs/fr/infosheet.pdf'>our information sheet</a>.",
+	"index_main_text": "Pour atteindre les objectifs de recherche du projet, une étude observationnelle détaillée des utilisateurs doit être menée dans différents environnements, afin d'obtenir une connaissance directe des pratiques de consommation de médias et d'autres contenus en fonction du contexte. Si vous êtes interessés a participer a cette étude, cliquez au 'participer' au-dessus. Vous pouvez trouver plus d'information sur le projet dans notre <a target='_blank' href='/ucn/docs/fr/infosheet.pdf'>brochure</a>.",
 
-	"index_button_join": "join now",
+	"index_button_join": "Participer",
 
 	"login_title": "Connexion a mon Compte",
 	"login_username": "Nom d'utilisateur",

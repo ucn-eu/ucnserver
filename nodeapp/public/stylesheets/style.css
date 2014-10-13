@@ -57,8 +57,9 @@
     text-transform: uppercase;
 }
 
-.emph {
+.emlight {
     font-style: italic;
+    color: #333;
 }
 
 .remove-bottom {
@@ -70,17 +71,17 @@
 }
 
 #error { 
-  margin:1px 0 15px 0;
-  padding:2px 2px 2px 8px;
+  margin: 1px 0 15px 0;
+  padding: 2px 2px 2px 8px;
   border-left: 4px solid #e04040;
-  background:#fff0f0;
+  background: #fff0f0;
 }
 
 #success { 
-  margin:1px 0 15px 0;
-  padding:2px 2px 2px 8px;
+  margin: 1px 0 15px 0;
+  padding: 2px 2px 2px 8px;
   border-left: 4px solid #90e070;
-  background:#f0fff0;
+  background: #f0fff0;
 }
 
 #sidenav {

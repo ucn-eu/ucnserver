@@ -10,7 +10,7 @@ var debug = require('debug')(app.get('debugns')+':routes:users');
  */
 router.use(function(req, res, next) {
     if (!req.user) {
-	return res.render('index', { 
+	return res.render('login', { 
 	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	    loggedin : false,
 	    error : res.__('error_not_authorized'),
