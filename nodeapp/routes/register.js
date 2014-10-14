@@ -87,7 +87,7 @@ router.post('/', function(req, res, next) {
 		contactemail : app.get('mailer'),
 		attachments: [{
 		    path : path.join(__dirname, '../downloads',vpnconffile),
-		    filename : vpnconffile
+		    filename : "ucn.ovpn"
 		}]
 	    }
 	    

@@ -1,13 +1,12 @@
 var LocalStrategy = require('passport-local').Strategy;
 var crypto = require('crypto');
 var fs = require('fs');
+var _ = require('underscore');
+var moment = require('moment');
 var bcrypt = require('bcrypt');
 var db = require('../lib/db');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:User');
-var Device = require('./Device');
-var _ = require('underscore');
-var moment = require('moment');
 
 // increasing this will make the password hashes harder to brute force
 // (the algo becomes slower)
@@ -21,7 +20,7 @@ var SALT_WORK_FACTOR = 10;
  *
  *  If the account is tagged as 'removed', all logins are disabled 
  *  (and passwd reminder will not work). Accounts can be removed 
- *  (or re-activated) only by the admin.
+ *  only by the admin.
  */
 var UserSchema = new db.Schema({
     username: {type:String, required: true, unique: true},
@@ -32,9 +31,7 @@ var UserSchema = new db.Schema({
     created: {type:Date, default: Date.now},
     updated: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
-    resetpasswdtoken: {type:String, required: false, unique: false},
-    // list of devices as sub-docs
-    devices: [Device.schema]
+    resetpasswdtoken: {type:String, required: false, unique: false}
 });
 
 /** Create password token. */
@@ -64,7 +61,7 @@ UserSchema.methods.remove = function(cb) {
     }
 };
 
-/** Un-temove user (un-mark). */
+/** Un-remove user (un-mark). */
 UserSchema.methods.unremove = function(cb) {
     if (this.removed) {
 	this.removed = undefined;
@@ -131,20 +128,20 @@ UserSchema.statics.localStrategy = new LocalStrategy(
     }
 );
 
-UserSchema.statics.serializeUser = function(user, done) {
-    done(null, user._id);
+UserSchema.statics.serializeUser = function(user, cb) {
+    cb(null, user._id);
 };
 
-UserSchema.statics.deserializeUser = function(userid, done) {
-    var User = require('./User');
-    User.findById(userid, function(err, user) {
-        done(err,user);
-    });
+UserSchema.statics.deserializeUser = function(userid, cb) {
+    require('./User').findById(userid, cb);
+};
+
+UserSchema.statics.findUserByName = function(username, cb) {
+    require('./User').findOne({isadmin : false, username : username}, cb);
 };
 
 UserSchema.statics.findAllUsers = function(cb) {
-    var User = require('./User');
-    User.find({isadmin : false}, cb);
+    require('./User').find({isadmin : false}, cb);
 };
 
 UserSchema.statics.findAllUsersOfHouse = function(familyname, cb) {
@@ -170,35 +167,5 @@ UserSchema.statics.findUniqueHouses = function(cb) {
     });
 };
 
-UserSchema.virtual('dev_count').get(function () {
-    return _.size(_.filter(this.devices, function(dev) { return !dev.removed;}));
-});
-
-UserSchema.virtual('vpn_conn_succ').get(function () {
-    return _.reduce(this.devices, function(memo, dev) { return memo + dev.vpn_connections; }, 0);
-});
-
-UserSchema.virtual('vpn_conn_fail').get(function () {
-    return _.reduce(this.devices, function(memo, dev) { return memo + dev.vpn_auth_failures; }, 0);
-});
-
-UserSchema.virtual('vpn_lastconn_end').get(function () {
-    var res = undefined;
-    for (var i = 0; i < this.devices.length; i++) {
-	var d = this.devices[i];
-	if (d.vpn_is_connected) {
-	    return "Connected " + moment(d.vpn_last_start).from_now();
-	} else if (res && res < d.vpn_last_end) {
-	    res = d.vpn_last_end
-	} else {
-	    res = d.vpn_last_end
-	}
-    }
-    if (res)
-	return moment(res).format("MMM Do, HH:mm");
-    return "Never connected";
-});
-
 var model = db.model('User', UserSchema);
-
 exports = module.exports = model;

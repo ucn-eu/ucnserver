@@ -1,4 +1,6 @@
 var ip = require('ip');
+var moment = require('moment');
+var _ = require('underscore');
 var db = require('../lib/db');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:Device');
@@ -8,19 +10,23 @@ var UDP_RANGE_END = ip.toLong('10.2.99.251');
 var TCP_RANGE_START = '10.1.0.2';
 var TCP_RANGE_END = ip.toLong('10.1.99.251');
 
-/** Device JSON schema. Exists only as a sub-doc of User model!
+/** Device JSON schema.
  * 
  *  The device type should be one of [ipad, iphone, macbook, imac, windows-pc, 
  *  linux-pc, linux-laptop, windows-laptop, android-phone, android-tablet]
  *
- *  Devices can connect to the OpenVPN tunnel using login "username.devname", 
- *  and the password associated to username (see User schema). 
+ *  Devices can connect to the OpenVPN tunnel using login (which is just 
+ *  username.devname) and the password associated to username 
+ *  (see User schema). 
  *
  *  Devices with defined 'removed', should not be able to login.
  */
 var DeviceSchema = new db.Schema({
+    login : {type:String, required: true, unique: true},
+    username : {type:String, required: true, unique: false},
     devname : {type:String, required: true, unique: false},
     type : {type:String, required: true, unique: false},
+    usage : {type:String, required: true, unique: false},
     created: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
     vpn_udp_ip : {type:String, required: true, unique: true},
@@ -123,10 +129,66 @@ DeviceSchema.virtual('vpn_avg_duration').get(function () {
 	return 0.0;
 });
 
-/** Map type to the OS platform. */
 DeviceSchema.virtual('platform').get(function() {
     return this.type2platform(this.type);
 });
 
-exports = module.exports = DeviceSchema;
+DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
+    return this.vpn_bytes_sent / (1024.0 * 1024.0);
+});
+
+DeviceSchema.virtual('vpn_bytes_recv_mb').get(function() {
+    return this.vpn_bytes_recv / (1024.0 * 1024.0);
+});
+
+DeviceSchema.virtual('vpn_lastconn_start').get(function() {
+    if (this.vpn_last_start)
+	return moment(this.vpn_last_start).format("MMM Do, HH:mm");
+    else
+	return "Never connected";
+});
+
+DeviceSchema.virtual('vpn_lastconn_end').get(function() {
+    if (this.vpn_is_connected) 
+	return "Connected " + moment(this.vpn_last_start).from_now();
+    else if (this.vpn_last_end)
+	return moment(this.vpn_last_end).format("MMM Do, HH:mm");
+    else
+	return "Never connected";
+});
+
+/** Device list. */
+DeviceSchema.statics.findDevicesForUser = function(username, cb) {
+    require('./Device').find({username : username}, cb);
+};
+
+/** Get devices summary. */
+DeviceSchema.statics.findDeviceStatsForUser = function(username, cb) {
+    require('./Device').find({username : username}, function(err, devices) {
+	if (err) cb(err, null);
+
+	var res = {};
+	res['count'] = 0;
+	res['vpn_conn_succ'] = 0;
+	res['vpn_conn_fail'] = 0;
+	res['vpn_conn_active'] = 0;
+
+	for (var i = 0; i < devices.length; i++) {	    
+	    var d = devices[i];
+	    if (d.removed!==undefined)
+		continue;
+
+	    res['count'] += 1;
+	    res['vpn_conn_succ'] += d.vpn_connections;
+	    res['vpn_conn_fail'] += d.vpn_auth_failures;
+	    if (d.vpn_is_connected) {
+		res['vpn_conn_active'] += 1;
+	    }
+	}
+	cb(null, res);
+    });
+};
+
+var model = db.model('Device', DeviceSchema);
+exports = module.exports = model;
 

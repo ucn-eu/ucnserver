@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="three columns" id="sidenav">
+  <ul>
+    <li>
+      <a href="/ucn/admin">USERS</a>
+    </li>
+    <li>
+      <a href="/ucn/admin/devices">DEVICES</a>
+    </li>
+    <li>
+      HELP
+    </li>
+    <li>
+      <a href="/ucn/auth/logout">LOGOUT</a>
+    </li>
+  </ul>
+</div>
+
+<div class="thirteen columns">
+  <h2>Software (Un-)Install Help Pages</h2>
+
+  <p>Select the platform to get specific help.</p>
+
+  <select id="platform">
+    <option value="ios">iOS mobile</option>
+    <option value="android">Android mobile</option>
+    <option value="darwin">Mac computer</option>
+    <option value="windows">Windows computer</option>
+    <option value="linux">Linux computer</option>
+  </select>
+  <button type="button" id="showbutton">Show</button>
+
+  <div id="ios" class="help" style="display:none">
+    <h3>iOS Installation</h3>
+    <ul class="square">
+      <li>
+	Install <a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from the App Store</a>.
+      </li>
+      <li>
+	On the device, click on the <span class="em">ucn.ovpn</span> file attachement received with the welcome email and open it with OpenVPN Connect.
+      </li>
+      <li>
+	Configure the tunnel login:
+	<ul class="disc">
+	  <li>Login name: <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Password: The password is the same as for the user account.</li>
+	</ul>
+      </li>
+      <li>
+	Click on the slider button to activate the tunnel.
+      </li>
+      <li>
+	TODO: install activity logger.
+      </li>
+      <li>
+	Additionally, can collect data from other context apps such as Moves or IFTTT:
+	<ul>
+	  <li>
+	    <a href="https://itunes.apple.com/en/app/moves/id509204969?mt=8">Moves</a>: TODO
+	  </li>
+	  <li>
+	    <a href="https://itunes.apple.com/en/app/ifttt/id660944635?mt=8">IFTTT</a>: Create an email receipe for the most common locations the user visits (trigger: enterorexit area, action: send email to ucndata@cmon.lip6.fr, change in the email subject 'an area' to the name of the area e.g. 'work' or 'home').
+	  </li>
+	</ul>
+      </li>
+    </ul>
+
+    <h3>iOS Un-Install</h3>
+    <ul class="square">
+      <li>Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.</li>
+      <li>Uninstall the UCN activity logger app.</li>      
+    </ul>
+  </div>
+
+  <div id="android" class="help" style="display:none">
+    <h3>Android Installation</h3>
+
+    <ul class="square">
+      <li>Install <a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a>.
+      </li>
+      <li>
+	Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
+      </li>
+      <li>
+	Start OpenVPN for Android on the device.
+      </li>
+      <li>
+	Click on IMPORT on upper right corner of the app.
+      </li>
+      <li>
+	Select the downloaded configuration file (usually at <span class="em">/sdcard/Downloads/ucn.ovpn</span>) and click on save icon to import.
+      </li>
+      <li>
+	Configure few settings in tunnel preferences:
+	<ul class="disc">
+	  <li>Basic -> Username :  <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Basic -> Password : The password is the same as for the user account.</li>
+	  <li>Routing -> Select IPV4/Use default Route</li>
+	  <li>Routing -> Select IPV6/Use default Route</li>
+	  <li>In case of connection problems, change Basic -> UDP to TCP (toggle the button to change to TCP)</li>
+	</ul>
+      </li>
+      <li>
+	Click on the tunnel name to activate the tunnel.
+      </li>
+      <li>
+	Enable installation from untrusted sources: Settings -> Security.
+      </li>
+      <li>
+	Click on the following link to <a href="/ucn/downloads/UCNDataCollector.apk">install the data collector</a> (try switching to HTTP instead of HTTPS or to Firefox browser if the download does not start -- known bug with Android).
+      </li>
+      <li>
+	Launch the data collector on the device: Applications -> UCNDataCollector and toggle ON to enable data collection.
+      </li>
+      <li>
+	Additionally, we can collect data from other context apps such as Moves, Llama or IFTTT:
+	<ul>
+	  <li>
+	    <a href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a>: TODO
+	  </li>
+	  <li>
+	    <a href="https://play.google.com/store/apps/details?id=com.kebab.Llama">Llama</a>: Once you have trained new locations in the app, click on "Import/Export" data (the activity logger will then collect the location data from the exported files automatically).
+	  </li>
+	  <li>
+	    <a href="https://play.google.com/store/apps/details?id=com.ifttt.ifttt">IFTTT</a>: Create an email receipe for the most common locations the user visit (trigger: enterorexit area, action: send email to ucndata@cmon.lip6.fr, change in the email subject 'an area' to the name of the area e.g. 'work' or 'home').
+	  </li>
+	</ul>
+      </li>
+    </ul>
+
+    <h3>Android Un-Install</h3>
+    <ul class="square">
+      <li>Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.</li>
+      <li>Uninstall the UCN activity logger app.</li>      
+    </ul>
+  </div>
+
+  <div id="darwin" class="help" style="display:none">
+    <h3>OS X Installation</h3>
+    <ul class="square">
+      <li>Install <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
+      </li>
+      <li>
+	Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
+      </li>
+      <li>
+	Double-click on the <span class="em">{{country}}.server.ovpn</span> file and follow the installation instructions.
+      </li>
+      <li>
+	Click on the Tunnelblick icon in the taskbar and select "Connect {{country}}.server".
+      </li>
+      <li>
+	Configure the tunnel login:
+	<ul class="disc">
+	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Password: The password is the same as for the user account.</li>
+	</ul>
+      </li>      
+    </ul>
+
+    <h3>OS X Un-Install</h3>
+    <ul class="square">
+      <li>Make sure Tunnelblick is deactivated, remove UCN tunnel configuration and/or uninstall the software.</li>
+    </ul>
+  </div>
+
+  <div id="windows" class="help" style="display:none">
+    <h3>Windows Installation</h3>
+    <ul class="square">
+      <li>TODO</li>
+    </ul>
+    <h3>Windows Un-Install</h3>
+    <ul class="square">
+      <li>TODO</li>
+    </ul>
+  </div>
+
+  <div id="linux" class="help" style="display:none">
+    <h3>Linux Installation</h3>
+    <ul class="square">
+      <li>
+	Install openvpn client using the distro's package manager, e.g. <code>apt-get install openvpn</code>
+      </li>
+      <li>
+	Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
+      </li>
+      <li>
+	Start the client: <code>openvpn --config {{country}}.server.ovpn</code>
+      </li>
+      <li>
+	Configure the tunnel login:
+	<ul class="disc">
+	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Password: The password is the same as for the user account.</li>
+	</ul>
+      </li>      
+    </ul>
+
+    <h3>Linux Un-Install</h3>
+    <ul class="square">
+      <li>Make sure OpenVPN is closed (optionally uninstall).</li>
+    </ul>
+  </div>
+
+</div>
+
+{{> footer}}
+
+<script src="/ucn/javascripts/jquery.min.js"></script>
+<script>
+$('#showbutton').click(function() {
+  var platform = $('#platform option').filter(':selected').val();
+  $('.help').hide();
+  $('#'+platform).show();
+});
+</script>
+</html>

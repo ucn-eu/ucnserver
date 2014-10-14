@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="three columns" id="sidenav">
+  <ul>
+    <li>
+      <a href="/ucn/admin">USERS</a>
+    </li>
+    <li>
+      DEVICES
+    </li>
+    <li>
+      <a href="/ucn/admin/help">HELP</a>
+    </li>
+    <li>
+      <a href="/ucn/auth/logout">LOGOUT</a>
+    </li>
+  </ul>
+</div>
+
+<div class="thirteen columns">
+  <h2>Device Management</h2>
+
+  {{#error}}
+  <p id="error">
+    {{error}}
+  </p>
+  {{/error}}
+  {{#success}}
+  <p id="success">
+    {{success}}
+  </p>
+  {{/success}}
+  {{^username}}
+  <p>Select user from the list, and click on 'Show Devices'.</p>
+  {{/username}}
+  {{#username}}
+  {{^devices}}
+  <p>User '{{username}}' has no devices, click on 'New Device' to add devices.</p>
+  {{/devices}}
+  {{/username}}
+
+  <form action="/ucn/admin/devices" method="post">
+    <label for="username">Username</label>
+    <select id="username" name="username">
+      {{#users}}
+      <option value="{{username}}">{{username}}</option>
+      {{/users}}
+    </select>
+    <input type="submit" value="Show Devices" name="submituser" />
+
+  <table id="rtable" class="condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>VPN Login</th>
+        <th>VPN IP (tcp,udp)</th>
+        <th>VPN conn/fail</th>
+        <th>VPN tx/rx (MB)</th>
+        <th>VPN total (h)</th>
+        <th>Last start</th>
+        <th>Last end</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#devices}}
+      <tr>
+        <td>{{devname}}</td>
+        <td>{{type}}</td>
+        <td>{{login}}</td>
+        <td>{{vpn_tcp_ip}}, {{vpn_udp_ip}}</td>
+        <td>{{vpn_connections}}/{{vpn_auth_failures}}</td>
+        <td>{{vpn_bytes_sent_mb}}/{{vpn_bytes_recv_mb}}</td>
+        <td>{{vpn_conn_hours}}</td>
+        <td>{{vpn_lastconn_start}}</td>
+        <td>{{vpn_lastconn_end}}</td>
+      </tr>
+      {{/devices}}
+    </tbody>
+  </table>
+
+  <button type="button" id="adddevbutton" {{^username}}disabled{{/username}}>
+    New Device
+  </button>
+
+  <!-- hidden by default -->
+  <div id="adddev" style="display:none">
+    <label for="devname">Name (must be unique for this user)</label>
+    <input type="text" id="devname" name="devname" />
+    <label for="devtype">Device Type</label>
+    <select id="devtype" name="devtype">
+      <option value="ipad">iPad</option>
+      <option value="iphone">iPhone</option>
+      <option value="macbook">MacBook</option>
+      <option value="imac">iMac</option>
+      <option value="android-phone">Android Phone</option>
+      <option value="android-tablet">Android Tablet</option>
+      <option value="windows-laptop">Windows Laptop</option>
+      <option value="windows-pc">Windows PC</option>
+      <option value="linux-laptop">Linux Laptop</option>
+      <option value="linux-pc">Linux PC</option>
+    </select>
+    <label for="devusage">Device Usage</label>
+    <select id="devusage" name="devusage">
+      <option value="personal">Strictly Personal</option>
+      <option value="mostlypersonal">Mostly Personal</option>
+      <option value="mostlyshared">Mostly Shared</option>
+      <option value="shared">Shared</option>
+    </select>    
+    <input type="submit" value="Add" name="submitadd" />
+    <button type="button" id="canceldevbutton">
+      Cancel
+    </button>
+  </div> <!-- hidden form end -->
+
+  </form>
+</div>
+
+{{> footer}}
+
+<script src="/ucn/javascripts/jquery.min.js"></script>
+<script>
+$('#adddevbutton').click(function() {
+  $('#adddev').show();
+});
+$('#canceldevbutton').click(function() {
+  $('#adddev').hide();
+});
+$(document).ready(function () {
+  $("#username").val('{{username}}');
+});
+</script>
+</html>

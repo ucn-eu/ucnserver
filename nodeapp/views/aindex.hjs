@@ -21,6 +21,10 @@
 <div class="thirteen columns">
   <h2>Registered Users</h2>
 
+  {{^users}}
+  <p>Select a household group from the list, and click on 'Show Users'.</p>
+  {{/users}}
+
   <form action="/ucn/admin" method="post">
 
     <label for="house">Household</label>
@@ -31,7 +35,7 @@
       {{/houses}}
       <option value="any">Any</option>
     </select>
-    <input type="submit" value="Update" name="submithouse" />
+    <input type="submit" value="Show Users" name="submithouse" />
 
   <table id="rtable" class="condensed">
     <thead>
@@ -40,7 +44,7 @@
         <th>Email</th>
         <th>Devices</th>
         <th>VPN conn/fail</th>
-        <th>Last Conn. End</th>
+        <th>VPN active</th>
         <th>Disabled</th>
       </tr>
     </thead>
@@ -49,9 +53,9 @@
       <tr>
         <td>{{username}}</td>
         <td>{{email}}</td>
-        <td>{{dev_count}}</td>
-        <td>{{vpn_conn_succ}} / {{vpn_conn_fail}}</td>
-        <td>{{vpn_lastconn_end}}</td>
+        <td>{{dev.count}}</td>
+        <td>{{dev.vpn_conn_succ}}/{{dev.vpn_conn_fail}}</td>
+        <td>{{dev.vpn_conn_active}}</td>
         <td>
 	  <label for="disable">
 	    <input type="checkbox" id="disable" name="disable[]" 
