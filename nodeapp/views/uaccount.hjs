@@ -17,6 +17,28 @@
 
 <div class="thirteen columns">
   <h2>{{#__}}account_title{{/__}}</h2>
+
+  {{#error}}
+  <p id="error">
+    {{error}}
+  </p>
+  {{/error}}
+  {{#success}}
+  <p id="success">
+    {{success}}
+  </p>
+  {{/success}}
+
+  <h3>{{#__}}account_change_password{{/__}}</h3>
+
+  <p>{{#__}}account_change_password_help{{/__}}</p>
+
+  <form action="/ucn/users/account" method="post">
+    <label for="password">{{#__}}reset_password{{/__}}</label>
+    <input type="password" id="password" name="password" />
+    <input type="submit" value="{{#__}}reset_submit{{/__}}" name="submitpw" />
+  </form>
+
 </div>
 
 {{> footer}}

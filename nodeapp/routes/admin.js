@@ -139,7 +139,7 @@ router.post('/devices', function(req, res, next) {
 		loggedin : true,
 		username : req.body.username,
 		users : users,
-		err : err,
+		error : err,
 		partials: {footer : 'footer', header : 'header'}
 	    });
 	};

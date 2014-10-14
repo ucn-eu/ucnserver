@@ -35,12 +35,12 @@
       <tbody>
 	{{#devices}}
 	<tr>
-	  <td>{{name}}</td>
-	  <td>{{username}}.{{name}}</td>
+	  <td>{{devname}}</td>
+	  <td>{{login}}</td>
 	  <td>{{vpn_connections}}</td>
 	  <td>{{vpn_auth_failures}}</td>
-	  <td>{{vpn_last_start}}</td>
-	  <td>{{vpn_last_end}}</td>
+          <td>{{vpn_lastconn_start}}</td>
+          <td>{{vpn_lastconn_end}}</td>
 	</tr>
 	{{/devices}}
       </tbody>

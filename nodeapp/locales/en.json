@@ -53,6 +53,7 @@
 	"devices_laststart": "Last connection start",
 	"devices_lastend": "Last connection end",
 	"account_title": "Account Management",
-	"missing read template file : /home/apietila/ucn/ucnserver.github.git/nodeapp/views/aindex.hjs": "missing read template file : /home/apietila/ucn/ucnserver.github.git/nodeapp/views/aindex.hjs",
-	"Can't use $eq with String.": "Can't use $eq with String."
+	"account_change_password": "Change Password",
+	"account_change_password_help": "Remember to update the Network Tunnel configurations with the new password.",
+	"account_change_password_succ": "Password updated!"	  
 }
