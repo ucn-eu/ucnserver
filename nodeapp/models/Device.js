@@ -124,9 +124,9 @@ DeviceSchema.pre('validate', function(next) {
 /** Avg connection duration in minutes. */
 DeviceSchema.virtual('vpn_avg_duration').get(function () {
     if (this.vpn_connections > 0 && !this.vpn_is_connected)
-	return (this.vpn_conn_hours * 60.0 / this.vpn_connections);
+	return (this.vpn_conn_hours * 60.0 / this.vpn_connections).toFixed(2);
     else if (this.vpn_connections > 1 && this.vpn_is_connected)
-	return (this.vpn_conn_hours * 60.0 / (this.vpn_connections - 1));
+	return (this.vpn_conn_hours * 60.0 / (this.vpn_connections - 1).toFixed(2));
     else
 	return 0.0;
 });
@@ -143,11 +143,11 @@ DeviceSchema.virtual('platform').get(function() {
 });
 
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
-    return this.vpn_bytes_sent / (1024.0 * 1024.0);
+    return (this.vpn_bytes_sent / (1024.0 * 1024.0)).toFixed(2);
 });
 
 DeviceSchema.virtual('vpn_bytes_recv_mb').get(function() {
-    return this.vpn_bytes_recv / (1024.0 * 1024.0);
+    return (this.vpn_bytes_recv / (1024.0 * 1024.0)).toFixed(2);
 });
 
 DeviceSchema.virtual('vpn_lastconn_start').get(function() {
