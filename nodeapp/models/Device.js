@@ -159,7 +159,7 @@ DeviceSchema.virtual('vpn_lastconn_start').get(function() {
 
 DeviceSchema.virtual('vpn_lastconn_end').get(function() {
     if (this.vpn_is_connected) 
-	return "Connected " + moment(this.vpn_last_start).from_now();
+	return "Connected " + moment(this.vpn_last_start).fromNow();
     else if (this.vpn_last_end)
 	return moment(this.vpn_last_end).format("MMM Do, HH:mm");
     else
