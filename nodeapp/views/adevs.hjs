@@ -72,7 +72,7 @@
         <td>{{vpn_tcp_ip}}, {{vpn_udp_ip}}</td>
         <td>{{vpn_connections}}/{{vpn_auth_failures}}</td>
         <td>{{vpn_bytes_sent_mb}}/{{vpn_bytes_recv_mb}}</td>
-        <td>{{vpn_conn_hours}}</td>
+        <td>{{vpn_conn_hours_fmt}}</td>
         <td>{{vpn_lastconn_start}}</td>
         <td>{{vpn_lastconn_end}}</td>
       </tr>

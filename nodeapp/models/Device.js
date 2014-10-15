@@ -142,6 +142,10 @@ DeviceSchema.virtual('platform').get(function() {
     return this.type2platform(this.type);
 });
 
+DeviceSchema.virtual('vpn_conn_hours_fmt').get(function() {
+    return (this.vpn_conn_hours).toFixed(2);
+});
+
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
     return (this.vpn_bytes_sent / (1024.0 * 1024.0)).toFixed(2);
 });
