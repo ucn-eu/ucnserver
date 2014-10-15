@@ -85,7 +85,7 @@ def main():
 
             (uname,dname) = username.split('.')
             user = db[userc].find_one({"username": uname})
-            device = db[devicec].find_one({login : username})
+            device = db[devicec].find_one({"login" : username})
 
             if (device != None and user != None and u'password' in user):
                 if (not user[u'isadmin'] and not u'removed' in device and not u'removed' in user):
@@ -162,7 +162,7 @@ def main():
                                   sort=[('authenticated', pymongo.DESCENDING)])
 
             (uname,dname) = cn.split('.')
-            device = db[devicec].find_one({login:cn})
+            device = db[devicec].find_one({"login":cn})
 
             if (r!=None and device!=None):
                 r['connected'] = datetime.utcnow()
@@ -213,7 +213,7 @@ def main():
                                   sort=[('authenticated', pymongo.DESCENDING)])
 
             (uname,dname) = cn.split('.')
-            device = db[devicec].find_one({login:cn})
+            device = db[devicec].find_one({"login":cn})
 
             if (r!=None and device!=None):
                 r['disconnected'] = datetime.utcnow()
