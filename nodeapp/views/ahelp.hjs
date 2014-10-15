@@ -19,7 +19,20 @@
 </div>
 
 <div class="thirteen columns">
-  <h2>Software (Un-)Install Help Pages</h2>
+  <h2>Help Pages</h2>
+
+  <h3>Common Downloads</h3>
+
+  <ul class="square">
+    <li>
+      <a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a>  (this is the default shipped to clients). If this does not work, try TCP version below (some VPN clients let you switch the protocol from the software).
+    </li>
+    <li>
+      <a href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP</a>.
+    </li>
+  </ul>	
+
+  <h3>Software Install</h3>
 
   <p>Select the platform to get specific help.</p>
 
