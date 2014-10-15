@@ -29,6 +29,8 @@ var DeviceSchema = new db.Schema({
     usage : {type:String, required: true, unique: false},
     created: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
+    app_uuid : {type:String, required: false},
+    app_lastseen: {type:Date, required: false},
     vpn_udp_ip : {type:String, required: true, unique: true},
     vpn_tcp_ip : {type:String, required: true, unique: true},
     vpn_mask : {type:String, required: true, unique: false},
@@ -128,6 +130,13 @@ DeviceSchema.virtual('vpn_avg_duration').get(function () {
     else
 	return 0.0;
 });
+
+DeviceSchema.methods.updateapp = function(uuid, cb) {
+    if (uuid)
+	this.app_uuid = uuid;
+    this.app_lastseen = Date.now();
+    this.save(cb);
+};
 
 DeviceSchema.virtual('platform').get(function() {
     return this.type2platform(this.type);
