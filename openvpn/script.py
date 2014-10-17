@@ -37,7 +37,7 @@ devicec = "devices"
 logc = "vpn_server_logs"
 # -------------------------------
 
-logging.basicConfig(level=logging.WARNING,
+logging.basicConfig(level=logging.DEBUG,
                     filename='/var/log/openvpn/script.log',
                     format='[%(asctime)s] %(levelname)s %(message)s')
 
@@ -157,11 +157,11 @@ def main():
             db = mongoc[mongodb]
             
             # find the auth record and update connection
-            spec = {"common_name": cn, "connected" : { "$exists" : False }}
+            spec = {"common_name": cn, 
+                    "authenticated" : { "$exists" : True }, 
+                    "connected" : { "$exists" : False }}
             r = db[logc].find_one(spec,
                                   sort=[('authenticated', pymongo.DESCENDING)])
-
-            (uname,dname) = cn.split('.')
             device = db[devicec].find_one({"login":cn})
 
             if (r!=None and device!=None):
@@ -182,9 +182,9 @@ def main():
                 # write static ip to the cli config file
                 if (tmpfile!=None):
                     cfg = 'ifconfig-push %s %s\n'%(r['ifconfig_push_local_ip'], r['ifconfig_push_mask'])
+                    logging.debug(cfg)
                     f = open(tmpfile, 'w')
                     f.write(cfg)
-                    logging.debug(cfg)
                     f.flush()
                     f.close()                    
             else:
@@ -208,11 +208,11 @@ def main():
             db = mongoc[mongodb]
             
             # find the conn record and update
-            spec = {"common_name": cn, "disconnected" : { "$exists" : False }}
+            spec = {"common_name": cn, 
+                    "disconnected" : { "$exists" : False }, 
+                    "connected" : { "$exists" : True }}
             r = db[logc].find_one(spec,
-                                  sort=[('authenticated', pymongo.DESCENDING)])
-
-            (uname,dname) = cn.split('.')
+                                  sort=[('connected', pymongo.DESCENDING)])
             device = db[devicec].find_one({"login":cn})
 
             if (r!=None and device!=None):
@@ -222,14 +222,14 @@ def main():
                 db[logc].save(r)
                 logging.debug(r)
 
-                # stats
+                # dev stats
                 device['vpn_is_connected'] = False 
                 device['vpn_last_end'] = r['disconnected']
                 device['vpn_bytes_sent'] += r['bytes_sent']
                 device['vpn_bytes_recv'] += r['bytes_received']
-                elapsed = device['vpn_last_end'] - device['vpn_last_start']
-                if (elapsed!=None and elapsed.total_seconds() > 0):
-                    device['vpn_conn_hours'] += elapsed.total_seconds()/3600.0
+                elapsed = time.mktime(r['disconnected'].timetuple())-time.mktime(r['connected'].timetuple())
+                if (elapsed > 0):
+                    device['vpn_conn_hours'] += elapsed/3600.0
                 db[devicec].save(device)
 
             else:
