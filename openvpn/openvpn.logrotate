@@ -12,3 +12,11 @@
   	endscript
 }
 
+/var/log/openvpn/script.log {
+        daily
+        missingok
+        rotate 7
+        compress
+        delaycompress
+        notifempty
+}
