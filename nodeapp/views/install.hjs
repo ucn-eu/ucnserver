@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="sixteen columns">
+  <h2>Software Links</h2>
+  <ul class="square">
+    <li><a target="_blank" href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a> (if this does not work, try TCP version below (some VPN clients let you switch the protocol from the software)</li>
+    <li><a target="_blank" href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP</a></li>
+
+    {{#isandroid}}
+    <li><a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a></li>
+    <li><a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">Data collector</a> (try switching to HTTP instead of HTTPS or to Firefox browser if the download does not start -- known bug with Android)</li>
+    <li><a target="_blank" href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a></li>    
+    {{/isandroid}}
+
+    {{#isios}}
+    <li><a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from the App Store</a></li>
+    <li><a target="_blank" href="https://itunes.apple.com/en/app/moves/id509204969?mt=8">Moves</a></li>
+    {{/isios}}
+
+    {{#isosx}}
+    <li>Install <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a></li> 
+   {{/isosx}}
+
+    {{#islinux}}
+    {{/islinux}}
+
+    {{#iswin}}
+    {{/iswin}}
+  </ul>
+</div>
+
+{{> footer}}
+
+</html>

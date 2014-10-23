@@ -1,11 +1,13 @@
 {
+	"button_back": "Back",
+	"about_download_as": "Download this page as",
 	"header_login": "login",
 	"header_logout": "logout",
 	"header_title": "UCN Study",
 	"footer_note": "&copy; 2014 all rights reserved. For more info, please contact the <a href='mailto:ucn@cmon.lip6.fr?Subject=[UCN-WEB] contact request' target='_top'>www-admin</a>.",
 	"index_title": "UCN User-Centric Networking",
 	"index_subhead_text": "<a href='http://www.usercentricnetworking.eu' target='_blank'>UCN</a> is a research project investigating how people consume content when using computer networks.",
-	"index_main_text": "To do so, we are undertaking detailed observations of users in a range of environments to understand first-hand the practices of media and content consumption according to context. If you are interested in participating in this research, click on the \"join\" button below. You can read more about the project in <a target='_blank' href='/ucn/docs/en/infosheet.pdf'>our information sheet</a>, and you can withdraw at any time without needing to give a reason.",
+	"index_main_text": "To do so, we are undertaking detailed observations of users in a range of environments to understand first-hand the practices of media and content consumption according to context. If you are interested in participating in this research, click on the \"join\" button below. You can read more about the project in <a target='_blank' href='/ucn/about/infosheet'>our information sheet</a>, and you can withdraw at any time without needing to give a reason.",
 	"index_button_join": "join now",
 	"login_title": "Connect to Your Account",
 	"login_username": "Username",
@@ -24,10 +26,10 @@
 	"register_familyname": "Household Name",
 	"register_submit": "Register",
 	"register_consent": "User Consent",
-	"register_consent_case1": "I have read and understand <a href='/ucn/docs/en/infosheet.pdf' target='_blank'>the information sheet</a>, which includes information about the data to be recorded.",
-	"register_consent_case2": "I have read and understand <a href='/ucn/docs/en/consent.pdf' target='_blank'>the consent form</a>, and I confirm that I agree to take part in this study.",
-	"register_consent_case3": "I have read and understand <a href='/ucn/docs/en/parental_consent.pdf' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study (optional).",
-	"register_consent_case4": "My children have read and understand <a href='/ucn/docs/en/assent.pdf' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on (optional).",
+	"register_consent_case1": "I have read and understand <a href='/ucn/about/infosheet' target='_blank'>the information sheet</a>, which includes information about the data to be recorded.",
+	"register_consent_case2": "I have read and understand <a href='/ucn/about/consent' target='_blank'>the consent form</a>, and I confirm that I agree to take part in this study.",
+	"register_consent_case3": "I have read and understand <a href='/ucn/about/parental_consent' target='_blank'>the parental consent form</a>, and I confirm that I agree to allow my children to take part in this study (optional).",
+	"register_consent_case4": "My children have read and understand <a href='/ucn/about/assent' target='_blank'>the assent form</a>, and/or I will help you to ensure that my children have a good grasp of what is going on (optional).",
 	"register_note": "Fields marked with * are compulsory.",
 	"register_success": "Registration completed! We have sent you an email to '%s' with your account details.",
 	"error_not_found": "Page not found",
@@ -56,5 +58,7 @@
 	"account_title": "Account Management",
 	"account_change_password": "Change Password",
 	"account_change_password_help": "Remember to update the Network Tunnel configurations with the new password.",
-	"account_change_password_succ": "Password updated!"	  
+	"account_change_password_succ": "Password updated!",
+	"path must be a string": "path must be a string",
+	"about_download as": "about_download as"
 }

@@ -48,6 +48,7 @@
   <div id="ios" class="help" style="display:none">
     <h3>iOS Installation</h3>
     <ul class="square">
+      <li><a href="/ucn/install/ios">Client softare links page</a></li>
       <li>
 	Install <a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from the App Store</a>.
       </li>
@@ -91,6 +92,7 @@
     <h3>Android Installation</h3>
 
     <ul class="square">
+      <li><a href="/ucn/install/android">Client softare links page</a></li>
       <li>Install <a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a>.
       </li>
       <li>
@@ -153,6 +155,7 @@
   <div id="darwin" class="help" style="display:none">
     <h3>OS X Installation</h3>
     <ul class="square">
+      <li><a href="/ucn/install/osx">Client softare links page</a></li>
       <li>Install <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
       </li>
       <li>
@@ -182,6 +185,7 @@
   <div id="windows" class="help" style="display:none">
     <h3>Windows Installation</h3>
     <ul class="square">
+      <li><a href="/ucn/install/win">Client softare links page</a></li>
       <li>TODO</li>
     </ul>
     <h3>Windows Un-Install</h3>
@@ -193,6 +197,7 @@
   <div id="linux" class="help" style="display:none">
     <h3>Linux Installation</h3>
     <ul class="square">
+      <li><a href="/ucn/install/linux">Client softare links page</a></li>
       <li>
 	Install openvpn client using the distro's package manager, e.g. <code>apt-get install openvpn</code>
       </li>

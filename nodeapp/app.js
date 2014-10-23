@@ -151,7 +151,9 @@ app.use('/downloads', function(req, res) {
 app.use('/auth', require('./routes/auth'));
 app.use('/register', require('./routes/register'));
 app.use('/resetpassword', require('./routes/resetpassword'));
-app.use('/app', require('./routes/app'));
+//app.use('/app', require('./routes/app'));
+app.use('/about', require('./routes/about'));
+app.use('/install', require('./routes/install'));
 
 // login protected
 app.use('/users', require('./routes/users'));

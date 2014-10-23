@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="sixteen columns">
+     {{> body}}
+     
+     <p>
+       {{#__}}about_download_as{{/__}} <a href="{{url}}">pdf</a>.
+     </p>
+
+     <button onclick="window.history.back()">{{#__}}button_back{{/__}}</button>
+</div>
+
+{{> footer}}
+
+</html>
