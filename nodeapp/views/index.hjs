@@ -4,7 +4,7 @@
 <div class="sixteen columns">
 
   <div id="splash">
-    <h1>{{#__}}index_title{{/__}}</h1>
+    <h2>{{#__}}index_title{{/__}}</h2>
 
     <p class="subhead">{{#__}}index_subhead_text{{/__}}</p>
 

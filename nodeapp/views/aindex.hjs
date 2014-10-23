@@ -13,6 +13,9 @@
       <a href="/ucn/admin/help">HELP</a>
     </li>
     <li>
+      <a href="/admin">DATA VIZ</a>
+    </li>
+    <li>
       <a href="/ucn/auth/logout">LOGOUT</a>
     </li>
   </ul>

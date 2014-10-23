@@ -172,6 +172,9 @@ router.post('/devices', function(req, res, next) {
 	if (req.body.submitadd) {
 	    if (!req.body.devname || req.body.devname.trim().length <= 0)
 		return rendererr("Missing 'Device Name'");
+	    // This is because the OpenVPN clients replace ' ' by '_' ...
+	    if (req.body.devname.indexOf(' ')>=0)
+		return rendererr("No spaces allowed in 'Device Name'");
 
 	    var d = {
 		login : req.body.username + '.' + req.body.devname.trim(),
