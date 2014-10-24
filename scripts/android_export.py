@@ -111,7 +111,7 @@ def main():
                 
             # get records with ts > lastts
             crit = {'uid' : u['android_uid'], 
-                    'app_version_code' : 5, 
+                    'app_version_code' : {'$gte' : 5}, 
                     'ts' : {'$exists' : True}}
 
             if (lastts != None):
@@ -155,7 +155,7 @@ def main():
                 
             # get records with ts > lastts
             crit = {'uid' : u['android_uid'], 
-                    'app_version_code' : 5, 
+                    'app_version_code' : {'$gte' : 5}, 
                     'ts' : {'$exists' : True}}
 
             if (lastts != None):
