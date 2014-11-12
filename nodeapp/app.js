@@ -26,7 +26,8 @@ i18n.configure({
   locales: app.get('available_locales'),
   defaultLocale: app.get('default_locale'),
   cookie: 'ucnlang',
-  directory: __dirname + "/locales"
+  directory: __dirname + "/locales",
+  updateFiles: false
 });
 
 if (app.get('env') === 'production') {
@@ -160,7 +161,7 @@ app.use('/users', require('./routes/users'));
 app.use('/admin', require('./routes/admin'));
 
 // locale switching
-app.use('/fr', function(req, res, next) {
+app.use('/lang', function(req, res, next) {
     res.cookie('ucnlang', 'fr', { maxAge: 30*24*hour });
     res.redirect(req.headers['referer'] || '/ucn/');
 });
@@ -171,7 +172,7 @@ app.use('/en', function(req, res, next) {
 
 // default handler (on no matching route)
 app.use(function(req, res, next) {
-    var err = new Error('error_not_found');
+    var err = new Error((if (res.__) res.__('error_not_found') else "Page not found")));
     err.status = 404;
     next(err);
 });
@@ -181,20 +182,9 @@ app.use(function(err, req, res, next) {
     var msg = err.message;
     var status = err.status || 500;
     res.status(status);
-
-    // App errors are localized (other runtime errors are
-    // not but should only happend in dev).
-    try {	
-	msg = (res.__ ? res.__(msg) : msg);
-    } catch (e) {
-    }
-
-    debug(JSON.stringify(err));
-
     if (app.get('env') !== 'development') {
 	err = {}; // don't leak the stack trace in production
     }
-
     return res.render('error', {
 	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
 	loggedin : false,
