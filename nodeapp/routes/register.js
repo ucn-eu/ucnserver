@@ -79,7 +79,7 @@ router.post('/', function(req, res, next) {
 		template : 'welcome',
 		username : user.username,
 		password : req.body.password.trim(), // use cleartext version
-		url : app.get('baseurl') + 'auth/login',
+		url : app.get('baseurl') + '/auth/login',
 		contactemail : app.get('mailer'),
 		attachments: [{
 		    path : path.join(__dirname, '../downloads',vpnconffile),

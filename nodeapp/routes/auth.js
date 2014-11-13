@@ -47,7 +47,7 @@ router.post('/login', function(req, res, next) {
 		var opt = {
 		    template : 'passwd',
 		    contactemail : app.get('mailer'),
-		    url : app.get('baseurl') + "resetpassword/"+user.resetpasswdtoken,
+		    url : app.get('baseurl') + "/resetpassword/"+user.resetpasswdtoken,
 		    username : user.username,
 		    to: user.email,
 		};

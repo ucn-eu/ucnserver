@@ -49,7 +49,7 @@ if (app.get('env') === 'production') {
 	secure : false
     });
     app.set('mailer', "ucn@cmon.lip6.fr");
-    app.set('baseurl', 'https://cmon.lip6.fr/ucn/');
+    app.set('baseurl', 'https://cmon.lip6.fr/ucn');
 
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
@@ -70,7 +70,7 @@ if (app.get('env') === 'production') {
 	secure : false
     });
     app.set('mailer', "ucn@horizab4.memset.net");
-    app.set('baseurl', 'https://horizab4.memset.net/ucn/');
+    app.set('baseurl', 'https://horizab4.memset.net/ucn');
 
 } else {
     debug('setting up in development environment');
@@ -91,7 +91,7 @@ if (app.get('env') === 'production') {
     });
 
     app.set('mailer', "annakaisa.pietilainen@gmail.com");
-    app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn/');
+    app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn');
 
     // strip proxy path from all urls in testing (done by the proxy in prod)
     app.use(function(req, res, next) {
