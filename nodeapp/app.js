@@ -144,7 +144,7 @@ app.use(function(req, res, next) {
     // render params - customized by each route handler
     var fr = ((req.cookies.ucnlang || req.getLocale()) === 'fr');
     res.locals.renderobj = {
-	path : req.path,
+	path : app.get('baseurl') + req.path,
 	locale_fr : fr,
 	loggedin : false,
 	partials : { header : 'header', footer : 'footer'}
