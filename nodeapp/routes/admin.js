@@ -11,12 +11,10 @@ var debug = require('debug')(app.get('debugns')+':routes:admin');
  */
 router.use(function(req, res, next) {
     if (!req.user || !req.user.isadmin) {
-	return res.render('login', { 
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : false,
-	    error : res.__('error_not_authorized'),
-	    partials : { header : 'header', footer : 'footer'}
-	});
+	var robj =  res.locals.renderobj;
+	robj.loggedin = false;
+	robj.error = res.__('error_not_authorized');
+	return res.render('login', robj);
     }
     next();
 });
@@ -31,12 +29,10 @@ router.get('/', function(req, res, next) {
 	    return next(err);
 	}
 
-	return res.render('aindex',{
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : true,
-	    houses : houses,
-	    partials: {footer : 'footer', header : 'header'}
-	});
+	var robj =  res.locals.renderobj;
+	robj.loggedin = true;
+	robj.houses = houses;
+	return res.render('aindex', robj);
     }); // findHouses
 });
 
@@ -77,15 +73,14 @@ router.post('/', function(req, res, next) {
 	    var f = function(idx) {
 		if (idx >= users.length) {
 		    // done - render users
-		    return res.render('aindex',{
-			locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-			loggedin : true,
-			house : req.body.house,
-			houses : houses,
-			users : ulist,
-			partials: {footer : 'footer', header : 'header'}
-		    });
+		    var robj =  res.locals.renderobj;
+		    robj.loggedin = true;
+		    robj.houses = houses;
+		    robj.users = ulist;
+		    robj.house = req.body.house;
+		    return res.render('aindex', robj);
 		}
+
 		var u = users[idx].toJSON({virtuals : true});
 		Device.findDeviceStatsForUser(u.username, function(err, dstat) {
 		    if (err) {
@@ -114,12 +109,10 @@ router.get('/devices', function(req, res, next) {
 	    return next(err);
 	}
 
-	return res.render('adevs',{
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : true,
-	    users : users,
-	    partials: {footer : 'footer', header : 'header'}
-	});
+	var robj =  res.locals.renderobj;
+	robj.loggedin = true;
+	robj.users = users;
+	return res.render('adevs', robj);
     });
 });
 
@@ -133,15 +126,13 @@ router.post('/devices', function(req, res, next) {
 	    return next(err);
 	}
 
+	var robj =  res.locals.renderobj;
 	var rendererr = function(err) {
-	    return res.render('adevs',{
-		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		loggedin : true,
-		username : req.body.username,
-		users : users,
-		error : err,
-		partials: {footer : 'footer', header : 'header'}
-	    });
+	    robj.loggedin = true;
+	    robj.users = users;
+	    robj.error = err;
+	    robj.username = req.body.username;
+	    return res.render('adevs', robj);
 	};
 
 	var rendersucc = function(succ) {
@@ -152,16 +143,12 @@ router.post('/devices', function(req, res, next) {
 		    err.status = 500;
 		    return next(err);
 		}
-
-		return res.render('adevs',{
-		    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		    loggedin : true,
-		    username : req.body.username,
-		    users : users,
-		    devices : devices,
-		    success : succ,
-		    partials: {footer : 'footer', header : 'header'}
-		});
+		robj.loggedin = true;
+		robj.users = users;
+		robj.devices = devices;
+		robj.success = succ;
+		robj.username = req.body.username;
+		return res.render('adevs', robj);
 	    });
 	};
 
@@ -212,12 +199,10 @@ router.post('/devices', function(req, res, next) {
 });
 
 router.get('/help', function(req, res, next) {
-    return res.render('ahelp',{
-	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	loggedin : true,
-	country: app.get('country'),
-	partials: {footer : 'footer', header : 'header'}
-    });
+    var robj =  res.locals.renderobj;
+    robj.loggedin = true;
+    robj.country = app.get('country');
+    return res.render('ahelp', robj);
 });
 
 module.exports = router;

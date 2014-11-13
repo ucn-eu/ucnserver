@@ -5,7 +5,7 @@
      {{> body}}
      
      <p>
-       {{#__}}about_download_as{{/__}} <a href="{{url}}">pdf</a>.
+       {{#__}}about_downloadas{{/__}} <a href="{{url}}">pdf</a>.
      </p>
 
      <button onclick="window.history.back()">{{#__}}button_back{{/__}}</button>

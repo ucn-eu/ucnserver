@@ -158,7 +158,7 @@ DeviceSchema.virtual('vpn_lastconn_start').get(function() {
     if (this.vpn_last_start)
 	return moment(this.vpn_last_start).format("MMM Do, HH:mm");
     else
-	return "Never connected";
+	return "--";
 });
 
 DeviceSchema.virtual('vpn_lastconn_end').get(function() {
@@ -167,7 +167,7 @@ DeviceSchema.virtual('vpn_lastconn_end').get(function() {
     else if (this.vpn_last_end)
 	return moment(this.vpn_last_end).format("MMM Do, HH:mm");
     else
-	return "Never connected";
+	return "--";
 });
 
 /** Device list. */

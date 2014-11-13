@@ -9,30 +9,25 @@ var debug = require('debug')(app.get('debugns')+':routes:register');
 
 /** Show the registration help + form. */
 router.get('/', function(req, res, next) {
-    return res.render('register', {
-	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	loggedin : false,
-	partials : { header : 'header', footer : 'footer'}
-    });
+    return res.render('register', res.locals.renderobj);
 });
 
 /** Handle registration form submit. */
 router.post('/', function(req, res, next) {
+    var robj =  res.locals.renderobj;
+
+    // error helper
     var rendererr = function(msg) {
-	return res.render('register', {
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : false,
-	    error : msg,
-	    partials : { header : 'header', footer : 'footer'},
-	    // return the form values so we can fill-in already entered data
-	    username : req.body.username,
-	    email : req.body.email,
-	    familyname : req.body.familyname,
-	    accept1 : req.body.accept1,
-	    accept2 : req.body.accept2,
-	    accept3 : req.body.accept3,
-	    accept4 : req.body.accept4
-	});
+	robj.error = msg;
+	// return the form values so we can fill-in already entered data
+	robj.username = req.body.username;
+	robj.email = req.body.email;
+	robj.familyname = req.body.familyname;
+	robj.accept1 = req.body.accept1;
+	robj.accept2 = req.body.accept2;
+	robj.accept3 = req.body.accept3;
+	robj.accept4 = req.body.accept4;
+	return res.render('register', robj);
     };
 
     // basic input verifications
@@ -53,7 +48,8 @@ router.post('/', function(req, res, next) {
 		 email : req.body.email.trim() 
 	       };
 
-    User.findOne(uobj, function(err, user) {
+    var q = {'$or':[{username : uobj.username},{email : uobj.email}]};
+    User.findOne(q, function(err, user) {
         if (err) { 
 	    // some db error - should not happen in prod ..
 	    debug(err);
@@ -93,9 +89,6 @@ router.post('/', function(req, res, next) {
 	    
 	    // email callback
 	    var cb = function(err, mailerres) {
-		debug("sendmail resp: " + 
-		      (mailerres ? mailerres.response : "na"));
-
 		if (err) {
 		    debug("sendmail error: " + err);
 		    User.remove(uobj, function(err2) {
@@ -104,17 +97,10 @@ router.post('/', function(req, res, next) {
 		    // assume it's because user gave invalid email or something
 		    return rendererr(res.__('error_email', uobj.email));
 		}
-
-		return res.render('register', {
-		    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		    loggedin : false,
-		    success : res.__('register_success', uobj.email),
-		    partials : { header : 'header', footer : 'footer'}
-		});
+		robj.success = res.__('register_success', uobj.email);
+		return res.render('register', robj);
 	    };
-
 	    emailer.sendmail(req, res, opt, cb);
-
 	}); // createUser
     }); // findUser
 });

@@ -10,6 +10,9 @@
       {{#__}}unav_account{{/__}}
     </li>
     <li>
+      <a href="/web">{{#__}}unav_viz{{/__}}</a>
+    </li>
+    <li>
       <a href="/ucn/auth/logout">{{#__}}header_logout{{/__}}</a>
     </li>
   </ul>

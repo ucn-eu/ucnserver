@@ -10,12 +10,10 @@ var debug = require('debug')(app.get('debugns')+':routes:users');
  */
 router.use(function(req, res, next) {
     if (!req.user) {
-	return res.render('login', { 
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : false,
-	    error : res.__('error_not_authorized'),
-	    partials : { header : 'header', footer : 'footer'}
-	});
+	var robj =  res.locals.renderobj;
+	robj.loggedin = false;
+	robj.error = res.__('error_not_authorized');
+	return res.render('login', robj);
     }
     next();
 });
@@ -30,34 +28,29 @@ router.get('/', function(req, res, next) {
 	    return next(err);
 	}
 
-	return res.render('uindex',{
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : true,
-	    devices : devices,
-	    partials: {footer : 'footer', header : 'header'}
-	});
+	var robj =  res.locals.renderobj;
+	robj.loggedin = true;
+	robj.devices = devices;
+	return res.render('uindex', robj);
     }); // findAll
 });
 
 /* Account mgmt page. */
 router.get('/account', function(req, res, next) {
-    return res.render('uaccount',{
-	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	loggedin : true,
-	partials: {footer : 'footer', header : 'header'}
-    });
+    var robj =  res.locals.renderobj;
+    robj.loggedin = true;
+    return res.render('uaccount', robj);
 });
 
 /* Account mgmt actions. */
 router.post('/account', function(req, res, next) {
+    var robj =  res.locals.renderobj;
+    robj.loggedin = true;
+
     if (req.body.submitpw) {
 	if (!req.body.password || req.body.password.trim().length <= 0) {
-	    return res.render('uaccount',{
-		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		loggedin : true,
-		error : res.__('error_missing_password'),
-		partials: {footer : 'footer', header : 'header'}
-	    });
+	    robj.error = res.__('error_missing_password');
+	    return res.render('uaccount', robj);
 	}
 
 	req.user.resetpassword(req.body.password.trim(), function(err, user) {
@@ -68,21 +61,12 @@ router.post('/account', function(req, res, next) {
 		return next(err);
 	    }
 
-	    return res.render('uaccount',{
-		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		loggedin : true,
-		success : res.__('account_change_password_succ'),
-		partials: {footer : 'footer', header : 'header'}
-	    });
+	    robj.success = res.__('account_change_password_succ');
+	    return res.render('uaccount', robj);
 	});
     } else {
-	return res.render('uaccount',{
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : true,
-	    partials: {footer : 'footer', header : 'header'}
-	});
+	return res.render('uaccount', robj);
     }
 });
-
 
 module.exports = router;

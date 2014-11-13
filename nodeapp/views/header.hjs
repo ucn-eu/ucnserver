@@ -33,10 +33,10 @@
   <ul>
     <li>
       {{#locale_fr}}
-      <a href="/ucn/lang?l=en&p={{currpage}}">EN</a> | FR
-      {{/locale_fr}}	        
+      <a href="/ucn/lang?l=en&p={{path}}">EN</a> | FR
+      {{/locale_fr}}
       {{^locale_fr}}
-      EN | <a href="/ucn/lang?l=fr&p={{currpage}}">FR</a>
+      EN | <a href="/ucn/lang?l=fr&p={{path}}">FR</a>
       {{/locale_fr}}
     </li>
     <li>

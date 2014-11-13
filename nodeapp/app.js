@@ -132,27 +132,45 @@ passport.deserializeUser(User.deserializeUser);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// lang helper
-app.use(function(req,res,next) {
+// common req/res modifications
+app.use(function(req, res, next) {
+    // translate helper
     res.locals.__ = function () {
 	return function () {
 	    return i18n.__.apply(req, arguments);
 	};
     };
-    next();
+
+    // render params - customized by each route handler
+    var fr = ((req.cookies.ucnlang || req.getLocale()) === 'fr');
+    res.locals.renderobj = {
+	path : req.path,
+	locale_fr : fr,
+	loggedin : false,
+	partials : { header : 'header', footer : 'footer'}
+    };
+
+    return next();
+});
+
+// simple routes
+app.use('/lang', function(req, res, next) {
+    debug('switch language from ' + (req.cookies.ucnlang || req.getLocale()));
+    debug(JSON.stringify(req.query));
+    res.cookie('ucnlang', req.query.l, { maxAge: 30*24*hour });
+    return res.redirect(req.query.p || '/ucn/');
+});
+
+app.use('/downloads', function(req, res) {
+  var file = __dirname + '/downloads/' + req.path;
+  return res.download(file);
 });
 
 // no-login routes
 app.use('/', require('./routes/index'));
-app.use('/downloads', function(req, res) {
-  // force download
-  var file = __dirname + '/downloads/' + req.path;
-  res.download(file);
-});
 app.use('/auth', require('./routes/auth'));
 app.use('/register', require('./routes/register'));
 app.use('/resetpassword', require('./routes/resetpassword'));
-//app.use('/app', require('./routes/app'));
 app.use('/about', require('./routes/about'));
 app.use('/install', require('./routes/install'));
 
@@ -160,19 +178,10 @@ app.use('/install', require('./routes/install'));
 app.use('/users', require('./routes/users'));
 app.use('/admin', require('./routes/admin'));
 
-// locale switching
-app.use('/lang', function(req, res, next) {
-    res.cookie('ucnlang', 'fr', { maxAge: 30*24*hour });
-    res.redirect(req.headers['referer'] || '/ucn/');
-});
-app.use('/en', function(req, res, next) {
-    res.cookie('ucnlang', 'en', { maxAge: 30*24*hour });
-    res.redirect(req.headers['referer'] || '/ucn/');
-});
-
 // default handler (on no matching route)
 app.use(function(req, res, next) {
-    var err = new Error((if (res.__) res.__('error_not_found') else "Page not found")));
+    var msg = (res.__) ? res.__('error_not_found') : "Page not found";
+    var err = new Error(msg);
     err.status = 404;
     next(err);
 });

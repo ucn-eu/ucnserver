@@ -12,7 +12,7 @@ var debug = require('debug')(app.get('debugns')+':routes:resetpassword');
 router.get('/:token', function(req, res, next) {
     var token = req.params.token;
     if (!token) {
-	var err = new Error('error_not_found');
+	var err = new Error(res.__('error_not_found'));
 	err.status = 400; // Bad Request
 	return next(err);
     }
@@ -24,21 +24,16 @@ router.get('/:token', function(req, res, next) {
 	    err.status = 500;
 	    return next(err); 
 	}
-
 	if (!user || user.removed) {
-	    var err = new Error('error_not_found');
+	    var err = new Error(res.__('error_not_found'));
 	    err.status = 400; // Bad Request
 	    return next(err);
 	}
 
 	// render the password form
-	return res.render('resetpassword', { 
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : false,
-	    token : token,
-	    partials : { header : 'header', footer : 'footer'}
-	});
-
+	var robj = res.locals.renderobj;
+	robj.token = token;
+	return res.render('resetpassword', robj);
     }); // findOne
 });
 
@@ -48,19 +43,16 @@ router.get('/:token', function(req, res, next) {
 router.post('/:token', function(req, res, next) {
     var token = req.params.token;
     if (!token) {
-	var err = new Error('error_not_found');
+	var err = new Error(res.__('error_not_found'));
 	err.status = 400; // Bad Request
 	return next(err);
     }
 
     if (!req.body.password || req.body.password.trim().length <= 0) {
-	return res.render('resetpassword', { 
-	    locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	    loggedin : false,
-	    token : token,
-	    error : res.__('error_missing_password'),
-	    partials : { header : 'header', footer : 'footer'}
-	});
+	var robj = res.locals.renderobj;
+	robj.token = token;
+	robj.error = res.__('error_missing_password');
+	return res.render('resetpassword', robj);
     }
 
     User.findOne({resetpasswdtoken : token}, function(err, user) {
@@ -72,7 +64,7 @@ router.post('/:token', function(req, res, next) {
 	}
 
 	if (!user || user.removed) {
-	    var err = new Error('error_not_found');
+	    var err = new Error(res.__('error_not_found'));
 	    err.status = 400; // Bad Request
 	    return next(err);
 	}
@@ -86,13 +78,9 @@ router.post('/:token', function(req, res, next) {
 		return next(err);
 	    }
 
-	    return res.render('login', { 
-		locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-		loggedin : false,
-		token : token,
-		success : res.__('login_reset_success'),
-		partials : { header : 'header', footer : 'footer'}
-	    });
+	    var robj = res.locals.renderobj;
+	    robj.success = res.__('login_reset_success');
+	    return res.render('login', robj);
 	});
     }); // findOne
 });
