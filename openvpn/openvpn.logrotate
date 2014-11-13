@@ -6,9 +6,16 @@
   	delaycompress
   	notifempty
   	sharedscripts
-  	postrotate
-	        # FIXME: maybe reload is better ... ? this will disconnect clients ...
-		[ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn restart
+        prerotate
+                # stop tcpdump -- rotates the current capture files
+                [ ! /var/run/tcpdump_tun0.pid ] || /etc/openvpn/if-down.sh tun0
+                [ ! /var/run/tcpdump_tun1.pid ] || /etc/openvpn/if-down.sh tun1
+        postrotate
+                # reload openvpn
+                [ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/init.d/openvpn reload
+                # restart tcpdumps
+                [ ! /var/run/openvpn.ucnvpn_udp.pid ] || /etc/openvpn/if-up.sh tun0
+                [ ! /var/run/openvpn.ucnvpn_tcp.pid ] || /etc/openvpn/if-up.sh tun1
   	endscript
 }
 

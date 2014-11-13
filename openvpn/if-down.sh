@@ -1,9 +1,12 @@
 #!/bin/sh
 
 # stop tcpdump on the given interface ($dev set by openvpn)
-echo "stopping tcpdump on $dev"
-
 IFACE=$dev
+if [ -z "$IFACE" ]; then
+  IFACE=$1
+fi
+echo "stopping tcpdump on $IFACE"
+
 PIDFILE=/var/run/tcpdump_$IFACE.pid
 if [ -f $PIDFILE ]; then
   if [ -d "/proc/`cat $PIDFILE`" ]; then
@@ -21,7 +24,7 @@ if [ -f $PCAP ]; then
   bzip2 $PCAPARCH
 
   # fix permissions so that the archive script can access these
-  chown proxy:adm $PACPARCH.bz2
+  chown proxy:adm $PCAPARCH.bz2
   chmod ug+rwx $PCAPARCH.bz2
 fi
 

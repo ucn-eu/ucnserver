@@ -1,9 +1,12 @@
 #!/bin/sh
 
 # run tcpdump on the given interface ($dev set by openvpn)
-echo "starting tcpdump on $dev"
-
 IFACE=$dev
+if [ -z "$IFACE" ]; then
+  IFACE=$1
+fi
+echo "starting tcpdump on $IFACE"
+
 CAPLEN=300  # capture first x bytes
 MAXSIZE=1000 # rotate files bigger than x Mbytes
 TCPDUMP=/usr/sbin/tcpdump
@@ -25,7 +28,7 @@ if [ -f $PIDFILE ]; then
   rm -f $PIDFILE
 fi
 
-$TCPDUMP -n -i $IFACE -s $CAPLEN -C $MAXSIZE -W 1 -z $COMPSCRIPT -w $PCAPFILE &
+$TCPDUMP -n -i $IFACE -s $CAPLEN -W 1 -C $MAXSIZE -z $COMPSCRIPT -w $PCAPFILE &
 
 echo $! > $PIDFILE
 cat $PIDFILE
