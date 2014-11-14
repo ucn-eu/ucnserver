@@ -32,7 +32,7 @@ router.get('/', function(req, res, next) {
 	var robj =  res.locals.renderobj;
 	robj.loggedin = true;
 	robj.houses = houses;
-	robj.vizurl = apt.get('vizurl');
+	robj.vizurl = app.get('vizurl');
 	return res.render('aindex', robj);
     }); // findHouses
 });
@@ -79,7 +79,7 @@ router.post('/', function(req, res, next) {
 		    robj.houses = houses;
 		    robj.users = ulist;
 		    robj.house = req.body.house;
-		    robj.vizurl = apt.get('vizurl');
+		    robj.vizurl = app.get('vizurl');
 		    return res.render('aindex', robj);
 		}
 
@@ -112,7 +112,7 @@ router.get('/devices', function(req, res, next) {
 	}
 
 	var robj =  res.locals.renderobj;
-	robj.vizurl = apt.get('vizurl');
+	robj.vizurl = app.get('vizurl');
 	robj.loggedin = true;
 	robj.users = users;
 	return res.render('adevs', robj);
@@ -131,7 +131,7 @@ router.post('/devices', function(req, res, next) {
 
 	var robj =  res.locals.renderobj;
 	var rendererr = function(err) {
-	    robj.vizurl = apt.get('vizurl');
+	    robj.vizurl = app.get('vizurl');
 	    robj.loggedin = true;
 	    robj.users = users;
 	    robj.error = err;
@@ -147,7 +147,7 @@ router.post('/devices', function(req, res, next) {
 		    err.status = 500;
 		    return next(err);
 		}
-		robj.vizurl = apt.get('vizurl');
+		robj.vizurl = app.get('vizurl');
 		robj.loggedin = true;
 		robj.users = users;
 		robj.devices = devices;
@@ -205,7 +205,7 @@ router.post('/devices', function(req, res, next) {
 
 router.get('/help', function(req, res, next) {
     var robj =  res.locals.renderobj;
-    robj.vizurl = apt.get('vizurl');
+    robj.vizurl = app.get('vizurl');
     robj.loggedin = true;
     robj.country = app.get('country');
     return res.render('ahelp', robj);
