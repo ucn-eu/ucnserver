@@ -31,6 +31,7 @@ router.get('/', function(req, res, next) {
 	var robj =  res.locals.renderobj;
 	robj.loggedin = true;
 	robj.devices = devices;
+	robj.vizurl = app.get('vizurl');
 	return res.render('uindex', robj);
     }); // findAll
 });
@@ -39,6 +40,7 @@ router.get('/', function(req, res, next) {
 router.get('/account', function(req, res, next) {
     var robj =  res.locals.renderobj;
     robj.loggedin = true;
+    robj.vizurl = app.get('vizurl');
     return res.render('uaccount', robj);
 });
 
@@ -46,6 +48,7 @@ router.get('/account', function(req, res, next) {
 router.post('/account', function(req, res, next) {
     var robj =  res.locals.renderobj;
     robj.loggedin = true;
+    robj.vizurl = app.get('vizurl');
 
     if (req.body.submitpw) {
 	if (!req.body.password || req.body.password.trim().length <= 0) {
