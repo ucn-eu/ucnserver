@@ -13,7 +13,7 @@
       HELP
     </li>
     <li>
-      <a href="{{vizurl}}">DATA VIZ</a>
+      <a href="{{vizurl}}/admin">DATA VIZ</a>
     </li>
     <li>
       <a href="/ucn/auth/logout">LOGOUT</a>
