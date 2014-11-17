@@ -1,11 +1,19 @@
 #!/bin/sh
 
-# for compressing and renaming tcpdump files when rotated
+# rename with timestamp
 PCAPFILE=$1
 NOW=$(date +"%Y-%m-%d_%H:%M:%S")
-bzip2 $PCAPFILE
-mv $PCAPFILE.bz2 $PCAPFILE-$NOW.bz2
+NEW=$PCAPFILE-$NOW
+mv $PCAPFILE $NEW
 
-# fix permissions so that the archive script can access these
-chown proxy:adm $PCAPFILE-$NOW.bz2
-chmod ug+rwx $PCAPFILE-$NOW.bz2
+# extract DNS stuff
+/usr/sbin/tshark -r $NEW -2 -T fields -R "udp.srcport==53" -e frame.time_epoch -e ip.src -e dns.qry.name -E separator=, -E quote=n -E occurrence=f > /tmp/dns.log
+
+pushd /home/txl/ucnviz
+venv/bin/python collect_dns.py
+popd
+
+# compress the pcacp and fix perms for archival
+bzip2 $NEW
+chown proxy:adm $NEW.bz2
+chmod ug+rwx $NEW.bz2
