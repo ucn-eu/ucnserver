@@ -83,10 +83,11 @@ def main():
             mongoc = MongoClient(mongohost, mongoport)
             db = mongoc[mongodb]
 
-            (uname,dname) = username.split('.')
-            user = db[userc].find_one({"username": uname})
             device = db[devicec].find_one({"login" : username})
-
+            user = None
+            if (device != None):
+                user = db[userc].find_one({"username": device[u'username']})
+               
             if (device != None and user != None and u'password' in user):
                 if (not user[u'isadmin'] and not u'removed' in device and not u'removed' in user):
 
@@ -98,8 +99,8 @@ def main():
 
                         # store succesful authentication to the db
                         r = {'common_name' : username,
-                             'username' : uname,
-                             'device' : dname,
+                             'username' : device[u'username'],
+                             'device' : device[u'devname'],
                              'authenticated' : datetime.utcnow(),
                              'proto' : getenv("proto"),
                              'dev' : getenv("dev"),
