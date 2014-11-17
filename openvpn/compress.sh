@@ -13,7 +13,7 @@ pushd /home/txl/ucnviz
 venv/bin/python collect_dns.py
 popd
 
-# compress the pcacp and fix perms for archival
+# compress the pcap and fix perms for archival
 bzip2 $NEW
 chown proxy:adm $NEW.bz2
 chmod ug+rwx $NEW.bz2

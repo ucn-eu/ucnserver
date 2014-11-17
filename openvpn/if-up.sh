@@ -8,7 +8,7 @@ fi
 echo "starting tcpdump on $IFACE"
 
 CAPLEN=300  # capture first x bytes
-MAXSIZE=1000 # rotate files bigger than x Mbytes
+MAXSIZE=100 # rotate files bigger than x Mbytes
 TCPDUMP=/usr/sbin/tcpdump
 LOGDIR=/var/log/openvpn/pcaps
 PCAPFILE=$LOGDIR/$IFACE.pcap

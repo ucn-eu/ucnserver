@@ -15,17 +15,8 @@ if [ -f $PIDFILE ]; then
   rm -f $PIDFILE
 fi
 
-# compress the current file
+# process the closed capture file
 PCAP=/var/log/openvpn/pcaps/$IFACE.pcap
-NOW=$(date +"%Y-%m-%d_%H:%M:%S")
-PCAPARCH=/var/log/openvpn/pcaps/$IFACE.pcap-$NOW
-if [ -f $PCAP ]; then
-  mv $PCAP $PCAPARCH
-  bzip2 $PCAPARCH
-
-  # fix permissions so that the archive script can access these
-  chown proxy:adm $PCAPARCH.bz2
-  chmod ug+rwx $PCAPARCH.bz2
-fi
+/etc/openvpn/compress.sh $PCAP
 
 # TODO: could restore the original firewall config here
