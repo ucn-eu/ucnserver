@@ -8,7 +8,7 @@ if [ -f $PCAPFILE ]; then
   mv $PCAPFILE $NEW
 
   # extract DNS stuff
-  /usr/bin/tshark -2 -r $NEW -R "udp.srcport==53" -T fields -e frame.time_epoch -e ip.src -e dns.qry.name -E separator=, -E quote=n -E occurrence=f > /var/tmp/dns.log
+  /usr/bin/tshark -2 -r $NEW -R "udp.srcport==53" -T fields -e frame.time_epoch -e ip.src -e dns.qry.name -E quote=n -E occurrence=f > /var/tmp/dns.log
 
   # compress the pcap and fix perms for archival
   bzip2 $NEW
