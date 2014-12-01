@@ -254,13 +254,13 @@ def connect():
                 'trusted_client_ip' : getenv("trusted_ip"),
                 'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
                 'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip"),
-                'ifconfig_push_mask' : device[u'vpn_mask']
+                'ifconfig_push_mask' : device['vpn_mask']
             }            
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
             if (r['proto'].find('tcp')>=0):
                 r['proto'] = 'tcp'
-            r['ifconfig_push_local_ip'] = device[u'vpn_'+r['proto']+'_ip'];
+            r['ifconfig_push_local_ip'] = device['vpn_'+r['proto']+'_ip'];
                         
             logging.debug(r)
             db[logc].insert(r)
