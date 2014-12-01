@@ -29,9 +29,9 @@ from datetime import datetime, timedelta
 
 # -------------------------------
 # Configure your backend here
-mongohost = 'ucn'
+mongohost = 'localhost'
 mongoport = 27017
-mongodb = "ucnexp"
+mongodb = "ucntest"
 userc = "users"
 devicec = "devices"
 logc = "vpn_server_logs"
@@ -55,195 +55,368 @@ def read_credentials():
 def getenv(key):
     return os.environ[key] if key in os.environ else None
 
+def auth(password, username):
+    """
+    Authenticate given user.
+    """
+
+    # try via-env
+    password = getenv("password")
+    username = getenv("username")
+    if (password==None and username==None and len(sys.argv) == 2):
+        # try via-file
+        (username,password) = read_credentials()
+
+    if (password == None or username == None):
+        # nothing worked
+        logging.error("missing password or username")
+        return 1
+
+    logging.debug("auth-user-pass-verify: username=" + username)
+
+    retval = 1 # by default returns error
+    try:
+        mongoc = MongoClient(mongohost, mongoport)
+        db = mongoc[mongodb]
+
+        device = db[devicec].find_one({"login" : username})
+        user = None
+        if (device != None):
+            user = db[userc].find_one({"username": device[u'username']})
+               
+        if (device == None or user == None or not (u'password' in user)):
+            # not found - stop here
+            logging.warn("no such user or device '%s'"%username)
+
+            # log
+            r = {'common_name' : username,
+                 'ts' : datetime.utcnow(),
+                 'event' : 'auth',
+                 'success' : False,
+                 'reason' : 'invalid user',
+                 'proto' : getenv("proto"),
+                 'dev' : getenv("dev"),
+                 'config' : getenv("config"),
+                 'ifconfig_local' : getenv("ifconfig_local"),
+                 'ifconfig_remote' : getenv("ifconfig_remote"),
+                 'untrusted_client_ip' : getenv("untrusted_ip")}
+            
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+            mongoc.close()
+            return retval
+            
+        if (user[u'isadmin'] or u'removed' in device or not u'removed' in user):
+            # admin, not active or removed
+            logging.warn("user '%s' account not allowed to login"%username)
+            # dev stats
+            device['vpn_auth_failures'] += 1;
+            db[devicec].save(device)
+
+            # log
+            r = {'common_name' : username,
+                 'username' : device[u'username'],
+                 'device' : device[u'devname'],
+                 'ts' : datetime.utcnow(),
+                 'event' : 'auth',
+                 'success' : False,
+                 'reason' : 'not allowed',
+                 'proto' : getenv("proto"),
+                 'dev' : getenv("dev"),
+                 'config' : getenv("config"),
+                 'ifconfig_local' : getenv("ifconfig_local"),
+                 'ifconfig_remote' : getenv("ifconfig_remote"),
+                 'untrusted_client_ip' : getenv("untrusted_ip")}
+            
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+            mongoc.close()
+            return retval
+
+        # check password
+        hashed = user[u'password'].encode('ascii', 'ignore') 
+        if (bcrypt.hashpw(password, hashed) == hashed):
+            # set success now, will be success even if logging
+            # fails for whatev reason
+            retval = 0
+
+            # dev stats
+            device['vpn_connections'] += 1;
+            device['vpn_last_start'] = None
+            device['vpn_last_end'] = None
+            device['vpn_is_connected'] = False
+            db[devicec].save(device)
+
+            # log
+            r = {'common_name' : username,
+                 'username' : device[u'username'],
+                 'device' : device[u'devname'],
+                 'ts' : datetime.utcnow(),
+                 'event' : 'auth',
+                 'success' : True,
+                 'proto' : getenv("proto"),
+                 'dev' : getenv("dev"),
+                 'config' : getenv("config"),
+                 'ifconfig_local' : getenv("ifconfig_local"),
+                 'ifconfig_remote' : getenv("ifconfig_remote"),
+                 'untrusted_client_ip' : getenv("untrusted_ip")}
+            
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+        else:
+            logging.warn("user '%s' invalid password"%username)
+            # dev stats
+            device['vpn_auth_failures'] += 1;
+            db[devicec].save(device)
+
+            # log
+            r = {'common_name' : username,
+                 'username' : device[u'username'],
+                 'device' : device[u'devname'],
+                 'ts' : datetime.utcnow(),
+                 'event' : 'auth',
+                 'success' : False,
+                 'reason' : 'invalid password',
+                 'proto' : getenv("proto"),
+                 'dev' : getenv("dev"),
+                 'config' : getenv("config"),
+                 'ifconfig_local' : getenv("ifconfig_local"),
+                 'ifconfig_remote' : getenv("ifconfig_remote"),
+                 'untrusted_client_ip' : getenv("untrusted_ip")}
+            
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+        mongoc.close()            
+
+    except Exception as e:
+        logging.error("error when authenticating: " + str(e))
+
+    return retval
+
+def connect():
+    """
+    Handle client-connect event
+    """
+    tmpfile = sys.argv[1]
+    cn = getenv("common_name")
+    if (cn == None):
+        logging.error("missing common_name")
+        return 1
+
+    logging.debug("client-connect: cn=" + cn)
+    logging.debug('cli-config ' + tmpfile)
+
+    try:
+        mongoc = MongoClient(mongohost, mongoport)
+        db = mongoc[mongodb]            
+
+        ts = datetime.utcnow()
+        device = db[devicec].find_one({"login":cn})
+
+        if (device!=None):
+            # log event
+            r = {
+                'common_name' : cn,
+                'username' : device[u'username'],
+                'device' : device[u'devname'],
+                'ts' : ts,
+                'event' : 'connect',
+                'success' : True,
+                'proto' : getenv("proto"),
+                'dev' : getenv("dev"),
+                'config' : getenv("config"),
+                'ifconfig_local' : getenv("ifconfig_local"),
+                'ifconfig_remote' : getenv("ifconfig_remote"),
+                'trusted_client_ip' : getenv("trusted_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip"),
+                'ifconfig_push_local_ip' : device[u'vpn_'+r['proto']+'_ip'],
+                'ifconfig_push_mask' : device[u'vpn_mask']
+            }            
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+            # device stats
+            device['vpn_last_start'] = ts
+            device['vpn_last_end'] = None
+            device['vpn_is_connected'] = True
+            db[devicec].save(device)
+                
+            # write static ip to the cli config file
+            if (tmpfile!=None):
+                cfg = 'ifconfig-push %s %s\n'%(r['ifconfig_push_local_ip'], r['ifconfig_push_mask'])
+                logging.debug(cfg)
+                f = open(tmpfile, 'w')
+                f.write(cfg)
+                f.flush()
+                f.close()                    
+        else:
+            logging.error("could not find device '%s'"%cn)
+            # log event
+            r = {
+                'common_name' : cn,
+                'ts' : ts,
+                'event' : 'connect',
+                'success' : False,
+                'reason'  : 'device not found',
+                'proto' : getenv("proto"),
+                'dev' : getenv("dev"),
+                'config' : getenv("config"),
+                'ifconfig_local' : getenv("ifconfig_local"),
+                'ifconfig_remote' : getenv("ifconfig_remote"),
+                'trusted_client_ip' : getenv("trusted_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip")
+            }
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+
+        mongoc.close() 
+    except Exception as e:
+        logging.error("error when processing client-connect: " + str(e))
+
+    # return success 
+    return 0
+
+def disconnect():
+    """
+    Handle client-disconnect
+    """
+    cn = getenv("common_name")
+    if (cn == None):
+        logging.error("missing common_name")
+        return 1
+
+    logging.debug("client-disconnect: cn=" + cn)
+    try:
+        mongoc = MongoClient(mongohost, mongoport)
+        db = mongoc[mongodb]
+            
+        ts = datetime.utcnow()
+        device = db[devicec].find_one({"login":cn})
+        if (device!=None):
+            # log event
+            r = {
+                'common_name' : cn,
+                'username' : device[u'username'],
+                'device' : device[u'devname'],
+                'ts' : ts,
+                'event' : 'disconnect',
+                'success' : True,
+                'proto' : getenv("proto"),
+                'dev' : getenv("dev"),
+                'config' : getenv("config"),
+                'ifconfig_local' : getenv("ifconfig_local"),
+                'ifconfig_remote' : getenv("ifconfig_remote"),
+                'trusted_client_ip' : getenv("trusted_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip"),
+                'bytes_sent' : long(getenv("bytes_sent")),
+                'bytes_received' : long(getenv("bytes_received"))
+            }
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+            # dev stats
+            device['vpn_is_connected'] = False 
+            device['vpn_last_end'] = ts
+            device['vpn_bytes_sent'] += r['bytes_sent']
+            device['vpn_bytes_recv'] += r['bytes_received']
+            db[devicec].save(device)
+        else:
+            logging.error("could not find device '%s'"%cn
+)
+            # log event
+            r = {
+                'common_name' : cn,
+                'ts' : ts,
+                'event' : 'disconnect',
+                'success' : False,
+                'reason' : 'device not found',
+                'proto' : getenv("proto"),
+                'dev' : getenv("dev"),
+                'config' : getenv("config"),
+                'ifconfig_local' : getenv("ifconfig_local"),
+                'ifconfig_remote' : getenv("ifconfig_remote"),
+                'trusted_client_ip' : getenv("trusted_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip"),
+                'bytes_sent' : long(getenv("bytes_sent")),
+                'bytes_received' : long(getenv("bytes_received"))
+            }
+            if (r['proto'] == None):
+                r['proto'] = getenv("proto_1")
+                if (r['proto'].find('tcp')>=0):
+                    r['proto'] = 'tcp'
+                        
+            logging.debug(r)
+            db[logc].insert(r)
+
+        mongoc.close() 
+    except Exception as e:
+        logging.error("error when processing client-disconnect: " + str(e))
+
+    # return success
+    return 0
+
 def main():
     script = getenv("script_type")
-    retval = 1 # by default return error
 
     logging.debug("handling '%s'"%script)
     logging.debug(str(os.environ))
     logging.debug(str(sys.argv))
 
+    ret = 1
     if (script and script == "user-pass-verify"):
-        # via-env ?
-        password = getenv("password")
-        username = getenv("username")
-
-        # via-file ?
-        if (password==None and username==None and len(sys.argv) == 2):
-            (username,password) = read_credentials()
-
-        if (password == None or username == None):
-            logging.error("missing password or username")
-            return 1
-
-        logging.debug("auth-user-pass-verify: username=" + username + 
-                      " password="+password)
-
-        try:
-            mongoc = MongoClient(mongohost, mongoport)
-            db = mongoc[mongodb]
-
-            device = db[devicec].find_one({"login" : username})
-            user = None
-            if (device != None):
-                user = db[userc].find_one({"username": device[u'username']})
-               
-            if (device != None and user != None and u'password' in user):
-                if (not user[u'isadmin'] and not u'removed' in device and not u'removed' in user):
-
-                    hashed = user[u'password'].encode('ascii', 'ignore') 
-                    if (bcrypt.hashpw(password, hashed) == hashed):
-                        # set success now, will be success even if logging
-                        # fails for whatev reason
-                        retval = 0
-
-                        # store succesful authentication to the db
-                        r = {'common_name' : username,
-                             'username' : device[u'username'],
-                             'device' : device[u'devname'],
-                             'authenticated' : datetime.utcnow(),
-                             'proto' : getenv("proto"),
-                             'dev' : getenv("dev"),
-                             'config' : getenv("config"),
-                             'ifconfig_local' : getenv("ifconfig_local"),
-                             'ifconfig_remote' : getenv("ifconfig_remote"),
-                             'untrusted_client_ip' : getenv("untrusted_ip")}
-
-                        if (r['proto'] == None):
-                            r['proto'] = getenv("proto_1")
-                            if (r['proto'].find('tcp')>=0):
-                                r['proto'] = 'tcp'
-
-                        logging.debug(r)
-                        db[logc].insert(r)
-
-                        # dev stats
-                        device['vpn_connections'] += 1;
-                        device['vpn_last_start'] = None
-                        device['vpn_last_end'] = None
-                        device['vpn_is_connected'] = False
-                        db[devicec].save(device)
-                    else:
-                        logging.warn("user '%s' invalid password"%username)
-                        # dev stats
-                        device['vpn_auth_failures'] += 1;
-                        db[devicec].save(device)
-                else:
-                    # admin, not active or removed
-                    logging.warn("user '%s' account not allowed to login"%username)
-                    # dev stats
-                    device['vpn_auth_failures'] += 1;
-                    db[devicec].save(device)
-            else:
-                logging.warn("no such user or device '%s'"%username)
-
-            mongoc.close()            
-        except Exception as e:
-            logging.error("error when authenticating: " + str(e))
-
+        ret = auth()
     elif (script and script == "client-connect"):
-        tmpfile = sys.argv[1]
-
-        cn = getenv("common_name")
-        if (cn == None):
-            logging.error("missing common_name")
-            return 1
-
-        retval = 0
-        logging.debug("client-connect: cn=" + cn)
-        logging.debug('cli-config ' + tmpfile)
-
-        try:
-            mongoc = MongoClient(mongohost, mongoport)
-            db = mongoc[mongodb]
-            
-            # find the auth record and update connection
-            spec = {"common_name": cn, 
-                    "authenticated" : { "$exists" : True }, 
-                    "connected" : { "$exists" : False }}
-            r = db[logc].find_one(spec,
-                                  sort=[('authenticated', pymongo.DESCENDING)])
-            device = db[devicec].find_one({"login":cn})
-
-            if (r!=None and device!=None):
-                r['connected'] = datetime.utcnow()
-                r['trusted_client_ip'] = getenv("trusted_ip")
-                r['ifconfig_pool_local_ip'] = getenv("ifconfig_pool_local_ip") 
-                r['ifconfig_pool_local_ip'] = getenv("ifconfig_pool_remote_ip")
-                # static device config 
-                r['ifconfig_push_local_ip'] = device['vpn_'+r['proto']+'_ip']
-                r['ifconfig_push_mask'] = device['vpn_mask']
-                db[logc].save(r)
-                logging.debug(r)
-
-                device['vpn_last_start'] = r['connected']
-                device['vpn_is_connected'] = True
-                db[devicec].save(device)
-                
-                # write static ip to the cli config file
-                if (tmpfile!=None):
-                    cfg = 'ifconfig-push %s %s\n'%(r['ifconfig_push_local_ip'], r['ifconfig_push_mask'])
-                    logging.debug(cfg)
-                    f = open(tmpfile, 'w')
-                    f.write(cfg)
-                    f.flush()
-                    f.close()                    
-            else:
-                logging.error("could not find log record or device for user '%s'"%cn)
-
-            mongoc.close() 
-        except Exception as e:
-            logging.error("error when processing client-connect: " + str(e))
-        
+        ret = connect()        
     elif (script and script == "client-disconnect"):
-        cn = getenv("common_name")
-        if (cn == None):
-            logging.error("missing common_name")
-            return 1
-
-        retval = 0
-        logging.debug("client-disconnect: cn=" + cn)
-
-        try:
-            mongoc = MongoClient(mongohost, mongoport)
-            db = mongoc[mongodb]
-            
-            # find the conn record and update
-            spec = {"common_name": cn, 
-                    "disconnected" : { "$exists" : False }, 
-                    "connected" : { "$exists" : True }}
-            r = db[logc].find_one(spec,
-                                  sort=[('connected', pymongo.DESCENDING)])
-            device = db[devicec].find_one({"login":cn})
-
-            if (r!=None and device!=None):
-                r['disconnected'] = datetime.utcnow()
-                r['bytes_sent'] = long(getenv("bytes_sent"))
-                r['bytes_received'] = long(getenv("bytes_received"))
-                db[logc].save(r)
-                logging.debug(r)
-
-                # dev stats
-                device['vpn_is_connected'] = False 
-                device['vpn_last_end'] = r['disconnected']
-                device['vpn_bytes_sent'] += r['bytes_sent']
-                device['vpn_bytes_recv'] += r['bytes_received']
-                elapsed = time.mktime(r['disconnected'].timetuple())-time.mktime(r['connected'].timetuple())
-                if (elapsed > 0):
-                    device['vpn_conn_hours'] += elapsed/3600.0
-                db[devicec].save(device)
-
-            else:
-                logging.error("could not find log record or device for user '%s'"%cn)
-
-            mongoc.close() 
-        except Exception as e:
-            logging.error("error when processing client-disconnect: " + str(e))
+        ret = disconnect()        
     else:
         logging.error("Unknown or missing script_type: " + str(script))
-    
-    logging.debug("return %d"%retval)
-    return retval
+    logging.debug("return %d"%ret)
+    return ret
 
 if __name__ == '__main__':
     sys.exit(main())
