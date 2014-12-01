@@ -55,7 +55,7 @@ def read_credentials():
 def getenv(key):
     return os.environ[key] if key in os.environ else None
 
-def auth(password, username):
+def auth():
     """
     Authenticate given user.
     """
@@ -403,8 +403,6 @@ def main():
     script = getenv("script_type")
 
     logging.debug("handling '%s'"%script)
-    logging.debug(str(os.environ))
-    logging.debug(str(sys.argv))
 
     ret = 1
     if (script and script == "user-pass-verify"):
