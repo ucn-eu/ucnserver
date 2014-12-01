@@ -112,7 +112,7 @@ def auth():
             mongoc.close()
             return retval
             
-        if (user[u'isadmin'] or u'removed' in device or not u'removed' in user):
+        if (user[u'isadmin'] or u'removed' in device or u'removed' in user):
             # admin, not active or removed
             logging.warn("user '%s' account not allowed to login"%username)
             # dev stats
