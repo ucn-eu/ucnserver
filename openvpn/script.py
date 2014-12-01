@@ -103,8 +103,8 @@ def auth():
             
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
                         
             logging.debug(r)
             db[logc].insert(r)
@@ -136,8 +136,8 @@ def auth():
             
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
                         
             logging.debug(r)
             db[logc].insert(r)
@@ -175,8 +175,8 @@ def auth():
             
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
                         
             logging.debug(r)
             db[logc].insert(r)
@@ -204,8 +204,8 @@ def auth():
             
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
                         
             logging.debug(r)
             db[logc].insert(r)
@@ -254,13 +254,13 @@ def connect():
                 'trusted_client_ip' : getenv("trusted_ip"),
                 'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
                 'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip"),
-                'ifconfig_push_local_ip' : device[u'vpn_'+r['proto']+'_ip'],
                 'ifconfig_push_mask' : device[u'vpn_mask']
             }            
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
+            r['ifconfig_push_local_ip'] = device[u'vpn_'+r['proto']+'_ip'];
                         
             logging.debug(r)
             db[logc].insert(r)
@@ -299,12 +299,11 @@ def connect():
             }
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
                         
             logging.debug(r)
             db[logc].insert(r)
-
 
         mongoc.close() 
     except Exception as e:
@@ -345,24 +344,36 @@ def disconnect():
                 'ifconfig_remote' : getenv("ifconfig_remote"),
                 'trusted_client_ip' : getenv("trusted_ip"),
                 'ifconfig_pool_local_ip' : getenv("ifconfig_pool_local_ip"),
-                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip"),
-                'bytes_sent' : long(getenv("bytes_sent")),
-                'bytes_received' : long(getenv("bytes_received"))
+                'ifconfig_pool_local_ip' : getenv("ifconfig_pool_remote_ip")
             }
             if (r['proto'] == None):
                 r['proto'] = getenv("proto_1")
-                if (r['proto'].find('tcp')>=0):
-                    r['proto'] = 'tcp'
-                        
+            if (r['proto'].find('tcp')>=0):
+                r['proto'] = 'tcp'
+
+            tx = getenv("bytes_sent")
+            if (tx == None):
+                tx = 0
+            else:
+                tx = long(tx)
+            r['bytes_sent'] = tx;
+            rx = getenv("bytes_received")
+            if (rx == None):
+                rx = 0
+            else:
+                rx = long(rx)
+            r['bytes_received'] = rx
+
             logging.debug(r)
             db[logc].insert(r)
 
             # dev stats
             device['vpn_is_connected'] = False 
             device['vpn_last_end'] = ts
-            device['vpn_bytes_sent'] += r['bytes_sent']
-            device['vpn_bytes_recv'] += r['bytes_received']
+            device['vpn_bytes_sent'] += tx
+            device['vpn_bytes_recv'] += rx
             db[devicec].save(device)
+
         else:
             logging.error("could not find device '%s'"%cn
 )
