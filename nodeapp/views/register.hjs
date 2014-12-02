@@ -75,10 +75,6 @@
 
     </fieldset> 
 
-    <blockquote class="small">
-    {{#__}}register_cnil{{/__}}
-    </blockquote>
-
     <input type="submit" value="{{#__}}register_submit{{/__}}" name="submit" />
   </div>
 </form>
