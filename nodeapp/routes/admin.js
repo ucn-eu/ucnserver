@@ -206,6 +206,7 @@ router.post('/devices', function(req, res, next) {
 router.get('/help', function(req, res, next) {
     var robj =  res.locals.renderobj;
     robj.vizurl = app.get('vizurl');
+    robj.baseurl = app.get('baseurl');
     robj.loggedin = true;
     robj.country = app.get('country');
     return res.render('ahelp', robj);

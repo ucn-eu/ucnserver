@@ -15,7 +15,7 @@
 
     {{#isios}}
     <li><a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from the App Store</a></li>
-    <li><a target="_blank" href="https://itunes.apple.com/en/app/moves/id509204969?mt=8">Moves</a></li>
+    <li><a target="_blank" href="http://appstore.com/moves">Moves</a></li>
     {{/isios}}
 
     {{#isosx}}

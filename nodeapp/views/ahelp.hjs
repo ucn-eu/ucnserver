@@ -28,7 +28,7 @@
 
   <ul class="square">
     <li>
-      <a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a>  (this is the default shipped to clients). If this does not work, try TCP version below (some VPN clients let you switch the protocol from the software).
+      <a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a>  (this is the default shipped to clients). If this does not work, try TCP version below (some VPN clients let you switch the protocol within the software).
     </li>
     <li>
       <a href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP</a>.
@@ -49,19 +49,21 @@
   <button type="button" id="showbutton">Show</button>
 
   <div id="ios" class="help" style="display:none">
-    <h3>iOS Installation</h3>
+    <h3>iOS Install</h3>
+    <p>
+      Software links shortcut: <a href="/ucn/install/ios">{{baseurl}}/install/ios</a> (browse to this page with the user device to access a list of software links).
+    </p>
     <ul class="square">
-      <li><a href="/ucn/install/ios">Client softare links page</a></li>
       <li>
 	Install <a target="_blank" href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8">OpenVPN Connect from the App Store</a>.
       </li>
       <li>
-	On the device, click on the <span class="em">ucn.ovpn</span> file attachement received with the welcome email and open it with OpenVPN Connect.
+	On the device, click on the <span class="em">ucn.ovpn</span> file attachement the user received with the welcome email and open it with OpenVPN Connect.
       </li>
       <li>
 	Configure the tunnel login:
 	<ul class="disc">
-	  <li>Login name: <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Login name: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>
 	  <li>Password: The password is the same as for the user account.</li>
 	</ul>
       </li>
@@ -69,16 +71,28 @@
 	Click on the slider button to activate the tunnel.
       </li>
       <li>
-	TODO: install activity logger.
+	Install <a href="http://appstore.com/moves">Moves</a>.
       </li>
       <li>
-	Additionally, can collect data from other context apps such as Moves or IFTTT:
-	<ul>
+	Start Moves and have the user to create an user account (if not done yet). 
+      </li>
+      <li>
+	TODO: adjust some battery saving settings in Moves preference as recommended by Renata ?
+      </li>
+      <li>
+	Connect the Moves app to our system:
+	<ul class="disc">
 	  <li>
-	    <a href="https://itunes.apple.com/en/app/moves/id509204969?mt=8">Moves</a>: TODO
+	    Make sure the VPN tunnel is connected on the device.
 	  </li>
 	  <li>
-	    <a href="https://itunes.apple.com/en/app/ifttt/id660944635?mt=8">IFTTT</a>: Create an email receipe for the most common locations the user visits (trigger: enterorexit area, action: send email to ucndata@cmon.lip6.fr, change in the email subject 'an area' to the name of the area e.g. 'work' or 'home').
+	    On the device, go to <a href="{{baseurl}}/viz/moves">UCN website</a> (requires the user to login first).
+	  </li>
+	  <li>
+	    Click on 'get started’. You will be taken to a page where you will be presented with a code. You will need to enter this code in the moves app. When in moves, go to the menu (the three square dots in the top right hand side in Android, and the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK. 
+	  </li>
+	  <li>
+	    Once entered, if successful, go back to the website, and check that there is a success message: “All done! Thank you”.  If you do not see this then the final part of the connecting has not worked.  Please try again.  and have the user to login.
 	  </li>
 	</ul>
       </li>
@@ -87,16 +101,18 @@
     <h3>iOS Un-Install</h3>
     <ul class="square">
       <li>Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.</li>
-      <li>Uninstall the UCN activity logger app.</li>      
+      <li>TODO: revoke Moves connection somewhere in the app and uninstall the app if the user wishes that.</li>
     </ul>
   </div>
 
   <div id="android" class="help" style="display:none">
-    <h3>Android Installation</h3>
-
+    <h3>Android Install</h3>
+    <p>
+      Software links shortcut: <a href="/ucn/install/android">{{baseurl}}/install/android</a> (browse to this page with the user device to access a list of software links).
+    </p>
     <ul class="square">
-      <li><a href="/ucn/install/android">Client softare links page</a></li>
-      <li>Install <a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a>.
+      <li>
+	Install <a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a>.
       </li>
       <li>
 	Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
@@ -108,7 +124,7 @@
 	Click on IMPORT on upper right corner of the app.
       </li>
       <li>
-	Select the downloaded configuration file (usually at <span class="em">/sdcard/Downloads/ucn.ovpn</span>) and click on save icon to import.
+	Select the downloaded configuration file (usually at <span class="em">/sdcard/Downloads/ucn.ovpn</span>) and click on the save icon to import.
       </li>
       <li>
 	Configure few settings in tunnel preferences:
@@ -133,18 +149,30 @@
 	Launch the data collector on the device: Applications -> UCNDataCollector and toggle ON to enable data collection.
       </li>
       <li>
-	Additionally, we can collect data from other context apps such as Moves, Llama or IFTTT:
-	<ul>
+	Install <a href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a>.
+      </li>      
+      <li>
+	Start Moves and have the user to create an user account (if not done yet).
+      </li>
+      <li>
+	Configure battery saving option. Go to Settings -> device -> battery. You should see Moves in the list.  Click on it, then tap on the button beneath “Select battery-saving mode”.  Tap on Mode, and select “Battery Saving”.
+      </li>
+      <li>
+	Connect the Moves app to our system:
+	<ul class="disc">
 	  <li>
-	    <a href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a>: TODO
+	    Make sure the VPN tunnel is connected on the device.
 	  </li>
 	  <li>
-	    <a href="https://play.google.com/store/apps/details?id=com.kebab.Llama">Llama</a>: Once you have trained new locations in the app, click on "Import/Export" data (the activity logger will then collect the location data from the exported files automatically).
+	    On the device, go to <a href="{{baseurl}}/viz/moves">UCN website</a> (requires the user to login first).
+	  </li>	  
+	  <li>
+	    Click on 'get started’. You will be taken to a page where you will be presented with a code. You will need to enter this code in the moves app. When in moves, go to the menu (the three square dots in the top right hand side in Android, and the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK. 
 	  </li>
 	  <li>
-	    <a href="https://play.google.com/store/apps/details?id=com.ifttt.ifttt">IFTTT</a>: Create an email receipe for the most common locations the user visit (trigger: enterorexit area, action: send email to ucndata@cmon.lip6.fr, change in the email subject 'an area' to the name of the area e.g. 'work' or 'home').
+	    Once entered, if successful, go back to the website, and check that there is a success message: “All done! Thank you”.  If you do not see this then the final part of the connecting has not worked.  Please try again.  and have the user to login.
 	  </li>
-	</ul>
+	</ul>	
       </li>
     </ul>
 
@@ -152,13 +180,16 @@
     <ul class="square">
       <li>Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.</li>
       <li>Uninstall the UCN activity logger app.</li>      
+      <li>TODO: revoke Moves connection somewhere in the app and uninstall the app if the user wishes that.</li>
     </ul>
   </div>
 
   <div id="darwin" class="help" style="display:none">
-    <h3>OS X Installation</h3>
+    <h3>OS X Install</h3>
+    <p>
+      Software links shortcut: <a href="/ucn/install/osx">{{baseurl}}/install/osx</a> (browse to this page with the user device to access a list of software links).
+    </p>
     <ul class="square">
-      <li><a href="/ucn/install/osx">Client softare links page</a></li>
       <li>Install <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a>
       </li>
       <li>
@@ -173,7 +204,7 @@
       <li>
 	Configure the tunnel login:
 	<ul class="disc">
-	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>
 	  <li>Password: The password is the same as for the user account.</li>
 	</ul>
       </li>      
@@ -186,9 +217,11 @@
   </div>
 
   <div id="windows" class="help" style="display:none">
-    <h3>Windows Installation</h3>
+    <h3>Windows Install</h3>
+    <p>
+      Software links shortcut: <a href="/ucn/install/win">{{baseurl}}/install/win</a> (browse to this page with the user device to access a list of software links).
+    </p>
     <ul class="square">
-      <li><a href="/ucn/install/win">Client softare links page</a></li>
       <li>TODO</li>
     </ul>
     <h3>Windows Un-Install</h3>
@@ -198,9 +231,11 @@
   </div>
 
   <div id="linux" class="help" style="display:none">
-    <h3>Linux Installation</h3>
+    <h3>Linux Install</h3>
+    <p>
+      Software links shortcut: <a href="/ucn/install/linux">{{baseurl}}/install/linux</a> (browse to this page with the user device to access a list of software links).
+    </p>
     <ul class="square">
-      <li><a href="/ucn/install/linux">Client softare links page</a></li>
       <li>
 	Install openvpn client using the distro's package manager, e.g. <code>apt-get install openvpn</code>
       </li>
@@ -213,7 +248,7 @@
       <li>
 	Configure the tunnel login:
 	<ul class="disc">
-	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for details).</li>
+	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>
 	  <li>Password: The password is the same as for the user account.</li>
 	</ul>
       </li>      
