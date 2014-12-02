@@ -237,4 +237,5 @@ $('#showbutton').click(function() {
   $('#'+platform).show();
 });
 </script>
+</body>
 </html>

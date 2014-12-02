@@ -48,6 +48,7 @@ if (app.get('env') === 'production') {
 	ignoreTLS : true,
 	secure : false
     });
+    app.set('usercontact', "Peter.Tolmie@nottingham.ac.uk");
     app.set('mailer', "ucn@cmon.lip6.fr");
     app.set('baseurl', 'https://cmon.lip6.fr/ucn');
     app.set('vizurl', 'https://cmon.lip6.fr/viz');
@@ -70,6 +71,7 @@ if (app.get('env') === 'production') {
 	ignoreTLS : true,
 	secure : false
     });
+    app.set('usercontact', "Alan.Chamberlain@nottingham.ac.uk");
     app.set('mailer', "ucn@horizab4.memset.net");
     app.set('baseurl', 'https://horizab4.memset.net/ucn');
     app.set('vizurl', 'https://horizab4.memset.net/viz');
@@ -92,6 +94,7 @@ if (app.get('env') === 'production') {
 	}
     });
 
+    app.set('usercontact', "annakaisa.pietilainen@gmail.com");
     app.set('mailer', "annakaisa.pietilainen@gmail.com");
     app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn');
     app.set('vizurl', 'http://localhost:'+app.get('port')+'/ucn');

@@ -73,7 +73,11 @@
 	<span>{{#__}}register_consent_case4{{/__}}</span>
       </label>
 
-    </fieldset>    
+    </fieldset> 
+
+    <blockquote class="small">
+    {{#__}}register_cnil{{/__}}
+    </blockquote>
 
     <input type="submit" value="{{#__}}register_submit{{/__}}" name="submit" />
   </div>
@@ -81,4 +85,5 @@
 
 {{> footer}}
 
+</body>
 </html>

@@ -82,4 +82,6 @@ $(document).ready(function () {
     $("#house").val('{{house}}');
 });
 </script>
+
+</body>
 </html>

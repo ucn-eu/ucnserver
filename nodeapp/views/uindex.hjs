@@ -53,5 +53,5 @@
 
 {{> footer}}
 
-<script src="/ucn/javascripts/jquery.min.js"></script>
+</body>
 </html>

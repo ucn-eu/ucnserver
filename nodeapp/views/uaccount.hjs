@@ -36,15 +36,33 @@
 
   <p>{{#__}}account_change_password_help{{/__}}</p>
 
-  <form action="/ucn/users/account" method="post">
+  <form id="passwd" action="/ucn/users/account" method="post">
     <label for="password">{{#__}}reset_password{{/__}}</label>
     <input type="password" id="password" name="password" />
-    <input type="submit" value="{{#__}}reset_submit{{/__}}" name="submitpw" />
+    <input type="submit" 
+	   value="{{#__}}reset_submit{{/__}}" 
+	   name="submitpw" />
   </form>
 
+  <h3>{{#__}}account_unregister{{/__}}</h3>
+
+  <p>{{#__}}account_unregister_help{{/__}}</p>
+
+  <form id="unregister" action="/ucn/users/account" method="post">
+    <input type="submit" 
+	   value="{{#__}}unregister_submit{{/__}}" 
+	   name="submitunreg" />
+  </form>
 </div>
 
 {{> footer}}
 
 <script src="/ucn/javascripts/jquery.min.js"></script>
+<script>
+  $("#unregister").on('submit', function(event) {
+    var ok = window.confirm("{{#__}}unregister_confirm{{/__}}");
+    return ok; // if false will not submit
+  });
+</script>
+</body>
 </html>

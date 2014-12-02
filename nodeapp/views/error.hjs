@@ -5,4 +5,5 @@
   <pre class="stack">{{err.stack}}</pre>
 </div>     
 {{> footer}}
+</body>
 </html>

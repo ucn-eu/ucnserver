@@ -29,24 +29,25 @@ var mailtransport = nodemailer.createTransport(app.get('mailerconfig'));
 var sendmail = function(req, res, opt, callback) {
     if (!opt.to)
 	throw 'Missing destination email address';
-    if (!opt.template)
-	throw 'Missing template name';
+    if (opt.template) {
+	// pick the localized email template
+	var template = templates[req.cookies.ucnlang+'_'+opt.template] || templates[app.get('default_locale')+'_'+opt.template];
 
-    // pick the localized email template
-    var template = templates[req.cookies.ucnlang+'_'+opt.template] || templates[app.get('default_locale')+'_'+opt.template];
+	// sanity checking - should not happen in prod
+	if (!template)
+	    throw 'Email template not found: '+opt.template;
 
-    // sanity checking - should not happen in prod
-    if (!template)
-	throw 'Email template not found: '+opt.template;
+	opt.text = Mustache.render(template, opt);
+	opt.subject = res.__(opt.template+'_email_subject');
+    }
 	
     var mail = {
 	from : opt.from || app.get('mailer'),
 	bcc : opt.from || app.get('mailer'),
 	to: opt.to,
-	subject: res.__(opt.template+'_email_subject'),
-	text: Mustache.render(template, opt),
+	subject: opt.subject || 'no subject',
+	text: opt.text,
 	attachments: opt.attachments
-
     }
 
     debug('sendmail',mail);

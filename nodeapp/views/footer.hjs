@@ -21,4 +21,3 @@
   <p class='emlight'>{{#__}}footer_note{{/__}}</p>
 </div>
 </div> <!-- containter, from header -->
-</body>

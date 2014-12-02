@@ -134,4 +134,5 @@ $(document).ready(function () {
   $("#username").val('{{username}}');
 });
 </script>
+</body>
 </html>
