@@ -4,7 +4,7 @@
     "header_login": "login",
     "header_logout": "logout",
     "header_title": "UCN Study",
-    "footer_note": "&copy; 2014 all rights reserved. For more info, please contact the <a href='mailto:ucn@cmon.lip6.fr?Subject=[UCN-WEB] contact request' target='_top'>www-admin</a>.",
+    "footer_note": "&copy; 2014 all rights reserved. For more info, please contact the <a href='mailto:muse.ucnstudy_AT_inria.fr?Subject=[UCN-WEB] contact request' target='_top'>www-admin</a>.",
     "index_title": "UCN User-Centric Networking",
     "index_subhead_text": "<a target='_blank' href='http://www.usercentricnetworking.eu'>UCN</a> is a research project investigating how people consume content when using computer networks.",
     "index_main_text": "To do so, we are undertaking detailed observations of users in a range of environments to understand first-hand the practices of media and content consumption according to context. If you are interested in participating in this research, click on the \"join\" button below. You can read more about the project in <a href='/ucn/about/infosheet'>our information sheet</a>. You can withdraw from the study at any time without needing to give a reason.",

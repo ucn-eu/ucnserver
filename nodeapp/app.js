@@ -36,7 +36,7 @@ if (app.get('env') === 'production') {
     app.set('country', 'fr');
 
     app.set('dbname', 'ucnexp');
-    app.set('dbhost', 'ucn');
+    app.set('dbhost', 'ucn.inria.fr');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);    
 
@@ -48,10 +48,11 @@ if (app.get('env') === 'production') {
 	ignoreTLS : true,
 	secure : false
     });
+    
     app.set('usercontact', "Peter.Tolmie@nottingham.ac.uk");
-    app.set('mailer', "ucn@cmon.lip6.fr");
-    app.set('baseurl', 'https://cmon.lip6.fr/ucn');
-    app.set('vizurl', 'https://cmon.lip6.fr/viz');
+    app.set('mailer', "muse.ucnstudy@inria.fr");
+    app.set('baseurl', 'https://muse.inria.fr/ucn');
+    app.set('vizurl', 'https://muse.inria.fr/viz');
 
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
