@@ -78,9 +78,8 @@ router.post('/', function(req, res, next) {
 		to: user.email,
 		template : 'welcome',
 		username : user.username,
-		password : req.body.password.trim(), // use cleartext version
 		url : app.get('baseurl') + '/auth/login',
-		contactemail : app.get('mailer'),
+		contactemail : app.get('contact'),
 		attachments: [{
 		    path : path.join(__dirname, '../downloads',vpnconffile),
 		    filename : "ucn.ovpn"

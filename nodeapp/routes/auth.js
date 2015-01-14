@@ -46,10 +46,10 @@ router.post('/login', function(req, res, next) {
 		
 		var opt = {
 		    template : 'passwd',
-		    contactemail : app.get('mailer'),
+		    contactemail : app.get('contact'),
 		    url : app.get('baseurl') + "/resetpassword/"+user.resetpasswdtoken,
 		    username : user.username,
-		    to: user.email,
+		    to: user.email
 		};
 
 		emailer.sendmail(req, res, opt, function(err, mailerres) {

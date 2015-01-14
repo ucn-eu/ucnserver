@@ -42,9 +42,9 @@ var sendmail = function(req, res, opt, callback) {
     }
 	
     var mail = {
-	from : opt.from || app.get('mailer'),
-	bcc : opt.from || app.get('mailer'),
 	to: opt.to,
+	from : opt.from || app.get('mailer'), 
+	bcc : opt.bcc || app.get('contact'),	
 	subject: opt.subject || 'no subject',
 	text: opt.text,
 	attachments: opt.attachments

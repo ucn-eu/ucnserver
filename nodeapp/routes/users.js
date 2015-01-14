@@ -76,7 +76,7 @@ router.post('/account', function(req, res, next) {
 		'" requested to quit the study:\n'+
 		'Email: '+req.user.email+'\n'+
 		'Familyname: '+req.user.familyname+'\n\n'+
-		'-- ucnwebmailer'
+		'-- ucnwebapp'
 	};
 
 	// email callback
