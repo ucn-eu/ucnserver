@@ -14,7 +14,8 @@
         postrotate
 		[ ! -f /var/run/squid.pid ] || /usr/sbin/squid -k rotate
 		# change permissions so that the archival script has access
-                chown proxy:adm /var/log/squid/*.gz
-                chmod ug+rwx /var/log/squid/*gz
+		zipf=(/var/log/squid/*.gz)
+		[[ -f "$zipf" ]] && chown proxy:adm /var/log/squid/*.gz
+		[[ -f "$zipf" ]] && chmod ug+rwx /var/log/squid/*gz
         endscript
 }

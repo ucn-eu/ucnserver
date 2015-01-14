@@ -8,7 +8,7 @@ if [ -f $PCAPFILE ]; then
   mv $PCAPFILE $NEW
 
   # extract DNS stuff
-  /usr/bin/tshark -2 -r $NEW -R "udp.srcport==53" -T fields -e frame.time_epoch -e ip.src -e dns.qry.name -E quote=n -E occurrence=f > /var/tmp/dns.log
+  #/usr/bin/tshark -2 -r $NEW -R "udp.srcport==53" -T fields -e frame.time_epoch -e ip.src -e dns.qry.name -E quote=n -E occurrence=f > /tmp/txl_dns.log
 
   # compress the pcap and fix perms for archival
   bzip2 $NEW
@@ -16,6 +16,5 @@ if [ -f $PCAPFILE ]; then
   chmod ug+rwx $NEW.bz2
 
   # run db processing script
-  #cd /home/txl/ucnviz
-  #venv/bin/python collect_dns.py
+  #cd /home/txl/ucnviz && venv/bin/python collect_dns.py
 fi
