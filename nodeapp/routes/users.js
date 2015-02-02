@@ -70,12 +70,12 @@ router.post('/account', function(req, res, next) {
 	});
     } else if (req.body.submitunreg) {
 	var opt = {
-	    subject : '[UCN WEB] Withdraw Request',
+	    subject : '[UCN WEB ' + app.get('country') + '] Withdraw Request',
 	    text : 'User "'+req.user.username+
 		'" requested to quit the study:\n'+
 		'Email: '+req.user.email+'\n'+
 		'Familyname: '+req.user.familyname+'\n\n'+
-		'-- ucnwebapp'
+		'-- ucnwebapp ' + app.get('country')
 	};
 
 	// email callback

@@ -38,13 +38,13 @@ var check = function() {
 		 (dev.created < inactivelim))) 
 	    {
 		var opt = {
-		    subject : '[UCN WEB] Device Inactivity Notification',
+		    subject : '[UCN WEB ' + app.get('country') + '] Device Inactivity Notification',
 		    text : 'Device "'+dev.login+
 			'" has been inactive (i.e. no VPN connections) for more than '+
 			app.get('inactive') +
-			'days.\n\n' +
+			' days.\n\n' +
 			'This is an automatic notification and is only sent once. To check the user details and to clear the \'email sent\' flag, login to the admin web site.\n\n' + 
-			'-- ucnwebapp'
+			'-- ucnwebapp ' + app.get('country')
 		};
 
 		var cb = function(err, mailerres) {
