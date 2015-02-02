@@ -55,7 +55,6 @@
   <table id="rtable" class="condensed">
     <thead>
       <tr>
-        <th>Name</th>
         <th>Type</th>
         <th>VPN Login</th>
         <th>VPN IP (tcp,udp)</th>
@@ -64,12 +63,17 @@
         <th>VPN total (h)</th>
         <th>Last start</th>
         <th>Last end</th>
+        <th>Notifs</th>
       </tr>
     </thead>
     <tbody>
       {{#devices}}
-      <tr>
-        <td>{{devname}}</td>
+      {{#inactivity_notif_sent}}
+      <tr style="background-color:#ff4d4d;">
+      {{/inactivity_notif_sent}}
+      {{^inactivity_notif_sent}}
+      <tr style="background-color:#90e070;">
+      {{/inactivity_notif_sent}}
         <td>{{type}}</td>
         <td>{{login}}</td>
         <td>{{vpn_tcp_ip}}, {{vpn_udp_ip}}</td>
@@ -78,6 +82,17 @@
         <td>{{vpn_conn_hours_fmt}}</td>
         <td>{{vpn_lastconn_start}}</td>
         <td>{{vpn_lastconn_end}}</td>
+	<td>
+	{{#inactivity_notif_sent}}
+	  <label for="notif">
+	    <input type="checkbox" id="notif" name="notif[]" 
+		   value="{{login}}" checked /> 
+	  </label>
+	{{/inactivity_notif_sent}}
+	{{^inactivity_notif_sent}}
+	  --
+	{{/inactivity_notif_sent}}
+	</td>
       </tr>
       {{/devices}}
     </tbody>
@@ -86,6 +101,7 @@
   <button type="button" id="adddevbutton" {{^username}}disabled{{/username}}>
     New Device
   </button>
+  <input type="submit" value="Clear Notifs" name="submitclear"/>
 
   <!-- hidden by default -->
   <div id="adddev" style="display:none">

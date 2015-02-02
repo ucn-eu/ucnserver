@@ -160,8 +160,36 @@ router.post('/devices', function(req, res, next) {
 	if (!req.body.username) {
 	    return rendererr("Select user!");
 	}
+	
+	if (req.body.submitclear) {
+	    var notifs = req.body.notif || [];
+	    // remove selected notification flags
+	    Device.findDevicesForUser(req.body.username,function(err, devices) {
+		if (err) {
+		    // some db error - should not happen in prod ..
+		    debug(err);
+		    err.status = 500;
+		    return next(err);
+		}
 
-	if (req.body.submitadd) {
+		_.each(devices, function(d) {
+		    var checked = _.find(notifs, function(login) { 
+			return d.login === login; 
+		    });
+		    // db object has the flag, but removed on the form .. 
+		    // -> unset in db
+		    if (!checked && d.inactivity_notif_sent) {
+			d.unsetnotif(function(err,dev) {});
+		    }
+		});
+
+		// yield so that the db operations are done
+		setTimeout(rendersucc,0,"Selected flags cleared!");
+	    });	
+
+	} else if (req.body.submitadd) {
+	    // adding a new device
+
 	    if (!req.body.devname || req.body.devname.trim().length <= 0)
 		return rendererr("Missing 'Device Name'");
 	    // This is because the OpenVPN clients replace ' ' by '_' ...
@@ -194,10 +222,11 @@ router.post('/devices', function(req, res, next) {
 			err.status = 500;
 			return next(err);
 		    }
-		    return rendersucc("Added device '"+d.devname+"'");
+		    setTimeout(rendersucc,0,"Added device '"+d.devname+"'");
 		}); // create
 	    }); // findOne
 	} else {
+	    // render devs
 	    return rendersucc();
 	}
     }); // findAllUsers

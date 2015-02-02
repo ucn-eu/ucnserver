@@ -70,8 +70,7 @@ router.post('/account', function(req, res, next) {
 	});
     } else if (req.body.submitunreg) {
 	var opt = {
-	    to: app.get('usercontact'),
-	    subject : '[UCN Study] Withdraw Request',
+	    subject : '[UCN WEB] Withdraw Request',
 	    text : 'User "'+req.user.username+
 		'" requested to quit the study:\n'+
 		'Email: '+req.user.email+'\n'+
@@ -89,7 +88,7 @@ router.post('/account', function(req, res, next) {
 	    }
 	    return res.render('uaccount', robj);
 	};
-	emailer.sendmail(req, res, opt, cb);
+	emailer.ssendmail(opt, cb);
     } else {
 	return res.render('uaccount', robj);
     }

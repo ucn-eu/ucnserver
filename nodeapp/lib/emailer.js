@@ -9,6 +9,7 @@ var debug = require('debug')(app.get('debugns')+':lib:emailer');
 // init email template cache on load
 var templates = {};
 debug(JSON.stringify(app.get('available_locales')));
+
 _.each(app.get('available_locales'), function(l) {
     _.each(['welcome_email.tmpl','passwd_email.tmpl'], function(fn) {
 	fn = l + '_' + fn;
@@ -23,12 +24,13 @@ _.each(app.get('available_locales'), function(l) {
     });
 });
 
-// init mail transport
 var mailtransport = nodemailer.createTransport(app.get('mailerconfig'));
 
+// sendmail with full localization support
 var sendmail = function(req, res, opt, callback) {
     if (!opt.to)
 	throw 'Missing destination email address';
+
     if (opt.template) {
 	// pick the localized email template
 	var template = templates[req.cookies.ucnlang+'_'+opt.template] || templates[app.get('default_locale')+'_'+opt.template];
@@ -54,6 +56,18 @@ var sendmail = function(req, res, opt, callback) {
 
     mailtransport.sendMail(mail,callback);
 };
-
 module.exports.sendmail = sendmail;
+
+// simple send mail for admin stuff (sent to the mailing list by default)
+var ssendmail = function(opt, callback) {
+    var mail = {
+	to: opt.to || app.get('contact'),
+	from : opt.from || app.get('mailer'), 
+	subject: opt.subject || 'no subject',
+	text: opt.text
+    }
+    debug('sendmail',mail);
+    mailtransport.sendMail(mail,callback);
+};
+module.exports.ssendmail = ssendmail;
 

@@ -41,7 +41,8 @@ var DeviceSchema = new db.Schema({
     vpn_conn_hours : {type:Number, default : 0.0},
     vpn_last_start: {type:Date},
     vpn_last_end: {type:Date},
-    vpn_is_connected : {type:Boolean, default : false}
+    vpn_is_connected : {type:Boolean, default : false},
+    inactivity_notif_sent : {type:Boolean, default : false}
 });
 
 DeviceSchema.statics.getAllTypes = function() {
@@ -131,6 +132,18 @@ DeviceSchema.virtual('vpn_avg_duration').get(function () {
 	return 0.0;
 });
 
+/** Email notif sent. */
+DeviceSchema.methods.setnotif = function(cb) {
+    this.inactivity_notif_sent = true;
+    this.save(cb);
+};
+
+/** Reset email notif flag. */
+DeviceSchema.methods.unsetnotif = function(cb) {
+    this.inactivity_notif_sent = false;
+    this.save(cb);
+};
+
 DeviceSchema.methods.updateapp = function(uuid, cb) {
     if (uuid)
 	this.app_uuid = uuid;
@@ -173,6 +186,11 @@ DeviceSchema.virtual('vpn_lastconn_end').get(function() {
 /** Device list. */
 DeviceSchema.statics.findDevicesForUser = function(username, cb) {
     require('./Device').find({username : username}, cb);
+};
+
+/** All devices list. */
+DeviceSchema.statics.findAllDevices = function(cb) {
+    require('./Device').find({}, cb);
 };
 
 /** Get devices summary. */

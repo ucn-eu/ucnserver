@@ -27,7 +27,6 @@
     <table>
       <thead>
 	<tr>
-	  <th>{{#__}}devices_name{{/__}}</th>
 	  <th>{{#__}}devices_login{{/__}}</th>
 	  <th>{{#__}}devices_conn{{/__}}</th>
 	  <th>{{#__}}devices_fail{{/__}}</th>
@@ -38,7 +37,6 @@
       <tbody>
 	{{#devices}}
 	<tr>
-	  <td>{{devname}}</td>
 	  <td>{{login}}</td>
 	  <td>{{vpn_connections}}</td>
 	  <td>{{vpn_auth_failures}}</td>

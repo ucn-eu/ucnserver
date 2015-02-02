@@ -30,29 +30,25 @@ i18n.configure({
   updateFiles: false
 });
 
+app.set('trust proxy', 1); // trust first proxy
+
+app.set('mailerconfig', {
+    host: '127.0.0.1',
+    port: 25,
+    ignoreTLS : true,
+    secure : false
+});
+
 if (app.get('env') === 'production') {
     debug('setting up in production environment (fr)');
 
     app.set('country', 'fr');
-
     app.set('dbname', 'ucnexp');
     app.set('dbhost', 'ucn.inria.fr');
-    app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
-    app.set('port', 3002);    
-
-    app.set('trust proxy', 1); // trust first proxy
-
-    app.set('mailerconfig', {
-	host: '127.0.0.1',
-	port: 25,
-	ignoreTLS : true,
-	secure : false
-    });
-    
-    app.set('usercontact', "Peter.Tolmie@nottingham.ac.uk");
     app.set('mailer', "muse.ucnstudy@inria.fr");
     app.set('contact', "muse.ucnstudy@inria.fr");
-
+    app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
+    app.set('port', 3002);    
     app.set('baseurl', 'https://muse.inria.fr/ucn');
     app.set('vizurl', 'https://muse.inria.fr/viz');
 
@@ -60,27 +56,15 @@ if (app.get('env') === 'production') {
     debug('setting up in production environment (uk)');
 
     app.set('country', 'uk');
-
     app.set('dbname', 'ucnexp');
     app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
-
-    app.set('trust proxy', 1); // trust first proxy
-
-    app.set('mailerconfig', {
-	host: '127.0.0.1',
-	port: 25,
-	ignoreTLS : true,
-	secure : false
-    });
-
-    app.set('usercontact', "Alan.Chamberlain@nottingham.ac.uk");
-    app.set('mailer', "ucn@horizab4.memset.net");
-    app.set('contact', "muse.ucnstudy@inria.fr");
-
-    app.set('baseurl', 'https://horizab4.memset.net/ucn');
-    app.set('vizurl', 'https://horizab4.memset.net/viz');
+    // forwarded to muse.ucnstudy@inria.fr list
+    app.set('mailer', "ucn@ucnproject.uk");
+    app.set('contact', "ucn@ucnproject.uk");
+    app.set('baseurl', 'https://ucnproject.uk/ucn');
+    app.set('vizurl', 'https://ucnproject.uk/viz');
 
 } else {
     debug('setting up in development environment');
@@ -96,7 +80,7 @@ if (app.get('env') === 'production') {
 	service: "Gmail",
 	auth: {
             user: (process.env.GMLU || "annakaisa.pietilainen@gmail.com"),
-            pass: (process.env.GMLP || "asd")
+            pass: (process.env.GMLP || "k0val4nrannant!e")
 	}
     });
 
@@ -217,3 +201,7 @@ app.use(function(err, req, res, next) {
 	partials : {header : 'header', footer : 'footer'}
     });
 });
+
+// enables automatic email notifications on inactive devices
+app.set('inactive', 4);
+require('./lib/notifs');
