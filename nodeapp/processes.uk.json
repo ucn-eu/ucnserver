@@ -1,0 +1,15 @@
+{
+  "apps" : [{
+    "name"         : "ucnweb",
+    "script"       : "bin/www",
+    "instances"    : "1",
+    "exec_mode"    : "fork_mode",
+    "run_as_user"  : "apietila",
+    "run_as_group" : "apietila",
+    "cwd"          : "/home/apietila/ucnserver/nodeapp",
+    "env": {
+        "NODE_ENV" : "ukproduction",
+        "DEBUG"    : "ucnweb:*"
+    }
+  }]
+}

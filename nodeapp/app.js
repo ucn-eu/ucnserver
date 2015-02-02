@@ -61,8 +61,8 @@ if (app.get('env') === 'production') {
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
     // forwarded to muse.ucnstudy@inria.fr list
-    app.set('mailer', "ucn@ucnproject.uk");
-    app.set('contact', "ucn@ucnproject.uk");
+    app.set('mailer', "muse.ucnstudy@inria.fr");
+    app.set('contact', "muse.ucnstudy@inria.fr");
     app.set('baseurl', 'https://ucnproject.uk/ucn');
     app.set('vizurl', 'https://ucnproject.uk/viz');
 
