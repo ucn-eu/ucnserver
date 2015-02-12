@@ -29,19 +29,24 @@ var DeviceSchema = new db.Schema({
     usage : {type:String, required: true, unique: false},
     created: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
-    app_uuid : {type:String, required: false},
-    app_lastseen: {type:Date, required: false},
     vpn_udp_ip : {type:String, required: true, unique: true},
     vpn_tcp_ip : {type:String, required: true, unique: true},
     vpn_mask : {type:String, required: true, unique: false},
-    vpn_connections : {type:Number, default : 0},
-    vpn_auth_failures : {type:Number, default : 0},
-    vpn_bytes_sent : {type:Number, default : 0},
-    vpn_bytes_recv : {type:Number, default : 0},
-    vpn_conn_hours : {type:Number, default : 0.0},
-    vpn_last_start: {type:Date},
-    vpn_last_end: {type:Date},
-    vpn_is_connected : {type:Boolean, default : false},
+
+    // android or win activity logger info
+    loggerapp_uuid : {type:String, required: false},
+    loggerapp_lastseen: {type:Date, required: false},
+    loggerapp_uploads : {type:Number, required: false, default :0},
+
+    // openvpn auth script stats
+    vpn_auths : {type:Number, default : 0, required: true},
+    vpn_auth_failures : {type:Number, default : 0, required: true},
+    vpn_connections : {type:Number, default : 0, required: true},
+    vpn_disconnections : {type:Number, default : 0, required: true},
+    vpn_bytes_sent : {type:Number, default : 0, required: true},
+    vpn_bytes_recv : {type:Number, default : 0, required: true},
+    vpn_last_seen: {type:Date, required: false},
+
     inactivity_notif_sent : {type:Boolean, default : false}
 });
 
@@ -122,16 +127,6 @@ DeviceSchema.pre('validate', function(next) {
     }
 });
 
-/** Avg connection duration in minutes. */
-DeviceSchema.virtual('vpn_avg_duration').get(function () {
-    if (this.vpn_connections > 0 && !this.vpn_is_connected)
-	return (this.vpn_conn_hours * 60.0 / this.vpn_connections).toFixed(2);
-    else if (this.vpn_connections > 1 && this.vpn_is_connected)
-	return (this.vpn_conn_hours * 60.0 / (this.vpn_connections - 1).toFixed(2));
-    else
-	return 0.0;
-});
-
 /** Email notif sent. */
 DeviceSchema.methods.setnotif = function(cb) {
     this.inactivity_notif_sent = true;
@@ -144,19 +139,8 @@ DeviceSchema.methods.unsetnotif = function(cb) {
     this.save(cb);
 };
 
-DeviceSchema.methods.updateapp = function(uuid, cb) {
-    if (uuid)
-	this.app_uuid = uuid;
-    this.app_lastseen = Date.now();
-    this.save(cb);
-};
-
 DeviceSchema.virtual('platform').get(function() {
     return this.type2platform(this.type);
-});
-
-DeviceSchema.virtual('vpn_conn_hours_fmt').get(function() {
-    return (this.vpn_conn_hours).toFixed(2);
 });
 
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
@@ -167,18 +151,9 @@ DeviceSchema.virtual('vpn_bytes_recv_mb').get(function() {
     return (this.vpn_bytes_recv / (1024.0 * 1024.0)).toFixed(2);
 });
 
-DeviceSchema.virtual('vpn_lastconn_start').get(function() {
-    if (this.vpn_last_start)
-	return moment(this.vpn_last_start).format("MMM Do, HH:mm");
-    else
-	return "--";
-});
-
-DeviceSchema.virtual('vpn_lastconn_end').get(function() {
-    if (this.vpn_is_connected) 
-	return "Connected " + moment(this.vpn_last_start).fromNow();
-    else if (this.vpn_last_end)
-	return moment(this.vpn_last_end).format("MMM Do, HH:mm");
+DeviceSchema.virtual('vpn_last_seen_str').get(function() {
+    if (this.vpn_last_seen)
+	return moment(this.vpn_last_seen).format("MMM Do, HH:mm");
     else
 	return "--";
 });
@@ -191,33 +166,6 @@ DeviceSchema.statics.findDevicesForUser = function(username, cb) {
 /** All devices list. */
 DeviceSchema.statics.findAllDevices = function(cb) {
     require('./Device').find({}, cb);
-};
-
-/** Get devices summary. */
-DeviceSchema.statics.findDeviceStatsForUser = function(username, cb) {
-    require('./Device').find({username : username}, function(err, devices) {
-	if (err) cb(err, null);
-
-	var res = {};
-	res['count'] = 0;
-	res['vpn_conn_succ'] = 0;
-	res['vpn_conn_fail'] = 0;
-	res['vpn_conn_active'] = 0;
-
-	for (var i = 0; i < devices.length; i++) {	    
-	    var d = devices[i];
-	    if (d.removed!==undefined)
-		continue;
-
-	    res['count'] += 1;
-	    res['vpn_conn_succ'] += d.vpn_connections;
-	    res['vpn_conn_fail'] += d.vpn_auth_failures;
-	    if (d.vpn_is_connected) {
-		res['vpn_conn_active'] += 1;
-	    }
-	}
-	cb(null, res);
-    });
 };
 
 var model = db.model('Device', DeviceSchema);

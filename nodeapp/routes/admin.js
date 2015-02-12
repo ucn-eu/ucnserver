@@ -68,8 +68,7 @@ router.post('/', function(req, res, next) {
 		});
 	    }
 
-	    // FIXME: this is not very efficient solution to get devs...
-	    // tried sub-doc but it doesn't work well with the IP assignment
+	    // FIXME: this is a bit ugly ... what's a better way?
 	    var ulist = [];
 	    var f = function(idx) {
 		if (idx >= users.length) {
@@ -84,14 +83,14 @@ router.post('/', function(req, res, next) {
 		}
 
 		var u = users[idx].toJSON({virtuals : true});
-		Device.findDeviceStatsForUser(u.username, function(err, dstat) {
+		Device.findDevicesForUser(u.username, function(err, devs) {
 		    if (err) {
 			// some db error - should not happen in prod ..
 			debug(err);
 			err.status = 500;
 			return next(err);
 		    }
-		    u.dev = dstat;
+		    u.devcount = devs.length;
 		    ulist.push(u);
 		    f(idx+1);
 		});

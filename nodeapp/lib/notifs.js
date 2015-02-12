@@ -14,6 +14,8 @@ var datemax = function(a,b) {
 // simple checker for user activity -- send emails to app.get('contact') if
 // a user (device) is inactive for more than app.get('inactive') days.
 var check = function() {
+    // now - x days before => anything that has not been seen after that
+    // is flagged as inactive
     var inactivelim = new Date(Date.now() - app.get('inactive')*86400*1000);
     debug("Checking for inactive devices, last active before " + inactivelim);
 
@@ -28,13 +30,12 @@ var check = function() {
 	    // send email iff:
 	    // 1) has not been done already
 	    // 2) device has not been removed
-	    // 3) - last connection was before the limit OR
+	    // 3) - last seen was before the limit OR
 	    //    - no connections and created before the limit
 	    if (!dev.inactivity_notif_sent && 
 		!dev.removed && 
-		((dev.vpn_last_conn_start && 
-		  datemax(dev.vpn_last_conn_start,
-			  dev._vpn_last_conn_end) < inactivelim) ||
+		((dev.vpn_last_seen && 
+		  dev.vpn_last_seen < inactivelim) ||
 		 (dev.created < inactivelim))) 
 	    {
 		var opt = {
@@ -63,6 +64,6 @@ var check = function() {
 if (app.get('inactive') && app.get('inactive')>0) {
     debug("Enable notifications, max inactivity " + 
 	  app.get('inactive') + ' days');
-    setInterval(check, 2*3600*1000); // check every 2 hours
-    setTimeout(check, 2*60*1000);    // run first in 2min
+    setInterval(check, 6*3600*1000); // check every 6 hours
+    setTimeout(check, 2*60*1000);    // run first in 2min after start
 }

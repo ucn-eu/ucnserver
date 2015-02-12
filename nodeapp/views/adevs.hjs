@@ -58,12 +58,10 @@
         <th>Type</th>
         <th>VPN Login</th>
         <th>VPN IP (tcp,udp)</th>
-        <th>VPN conn/fail</th>
-        <th>VPN tx/rx (MB)</th>
-        <th>VPN total (h)</th>
-        <th>Last start</th>
-        <th>Last end</th>
-        <th>Notifs</th>
+        <th>VPN Auth (succ/fail)</th>
+        <th>VPN Traffic (tx/rx MB)</th>
+        <th>Last Seen</th>
+        <th>Notif Sent</th>
       </tr>
     </thead>
     <tbody>
@@ -77,11 +75,9 @@
         <td>{{type}}</td>
         <td>{{login}}</td>
         <td>{{vpn_tcp_ip}}, {{vpn_udp_ip}}</td>
-        <td>{{vpn_connections}}/{{vpn_auth_failures}}</td>
+        <td>{{vpn_auths}}/{{vpn_auth_failures}}</td>
         <td>{{vpn_bytes_sent_mb}}/{{vpn_bytes_recv_mb}}</td>
-        <td>{{vpn_conn_hours_fmt}}</td>
-        <td>{{vpn_lastconn_start}}</td>
-        <td>{{vpn_lastconn_end}}</td>
+        <td>{{vpn_last_seen_str}}</td>
 	<td>
 	{{#inactivity_notif_sent}}
 	  <label for="notif">
@@ -101,7 +97,7 @@
   <button type="button" id="adddevbutton" {{^username}}disabled{{/username}}>
     New Device
   </button>
-  <input type="submit" value="Clear Notifs" name="submitclear"/>
+  <input type="submit" value="Clear Unselected Notifs" name="submitclear"/>
 
   <!-- hidden by default -->
   <div id="adddev" style="display:none">

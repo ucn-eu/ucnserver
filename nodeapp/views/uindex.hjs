@@ -30,8 +30,7 @@
 	  <th>{{#__}}devices_login{{/__}}</th>
 	  <th>{{#__}}devices_conn{{/__}}</th>
 	  <th>{{#__}}devices_fail{{/__}}</th>
-	  <th>{{#__}}devices_laststart{{/__}}</th>
-	  <th>{{#__}}devices_lastend{{/__}}</th>
+	  <th>{{#__}}devices_lastseen{{/__}}</th>
 	</tr>
       </thead>
       <tbody>
@@ -40,8 +39,7 @@
 	  <td>{{login}}</td>
 	  <td>{{vpn_connections}}</td>
 	  <td>{{vpn_auth_failures}}</td>
-          <td>{{vpn_lastconn_start}}</td>
-          <td>{{vpn_lastconn_end}}</td>
+          <td>{{vpn_last_seen_str}}</td>
 	</tr>
 	{{/devices}}
       </tbody>

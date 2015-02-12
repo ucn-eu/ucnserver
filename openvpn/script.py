@@ -13,8 +13,6 @@ Configure in the server.conf:
 
 Check the db conf below.
 
-TODO: currently supports only mongodb, add SQL backend
-
 Author: Anna-Kaisa Pietilainen <anna-kaisa.pietilainen@inria.fr>
 """
 import sys
@@ -41,13 +39,13 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='/var/log/openvpn/script.log',
                     format='[%(asctime)s] %(levelname)s %(message)s')
 
-def read_credentials():
+def read_credentials(fn):
     """
     Get the password to authenticate from the file provided as argument.
     """
     username = None
     password = None
-    with open(sys.argv[1]) as f:
+    with open(fn) as f:
         username = f.readline().strip()
         password = f.readline().strip()
     return (username,password)
@@ -65,7 +63,7 @@ def auth():
     username = getenv("username")
     if (password==None and username==None and len(sys.argv) == 2):
         # try via-file
-        (username,password) = read_credentials()
+        (username,password) = read_credentials(sys.argv[1])
 
     if (password == None or username == None):
         # nothing worked
@@ -79,6 +77,7 @@ def auth():
         mongoc = MongoClient(mongohost, mongoport)
         db = mongoc[mongodb]
 
+        ts = datetime.utcnow()
         device = db[devicec].find_one({"login" : username})
         user = None
         if (device != None):
@@ -90,7 +89,7 @@ def auth():
 
             # log
             r = {'common_name' : username,
-                 'ts' : datetime.utcnow(),
+                 'ts' : ts,
                  'event' : 'auth',
                  'success' : False,
                  'reason' : 'invalid user',
@@ -115,15 +114,19 @@ def auth():
         if (user[u'isadmin'] or u'removed' in device or u'removed' in user):
             # admin, not active or removed
             logging.warn("user '%s' account not allowed to login"%username)
+
             # dev stats
-            device['vpn_auth_failures'] += 1;
+            if (not u'vpn_auth_failures' in device):
+                device['vpn_auth_failures'] =  0
+            device['vpn_auth_failures'] += 1
+            device['vpn_last_seen'] = ts
             db[devicec].save(device)
 
             # log
             r = {'common_name' : username,
                  'username' : device[u'username'],
                  'device' : device[u'devname'],
-                 'ts' : datetime.utcnow(),
+                 'ts' : ts,
                  'event' : 'auth',
                  'success' : False,
                  'reason' : 'not allowed',
@@ -153,17 +156,17 @@ def auth():
             retval = 0
 
             # dev stats
-            device['vpn_connections'] += 1;
-            device['vpn_last_start'] = None
-            device['vpn_last_end'] = None
-            device['vpn_is_connected'] = False
+            if (not u'vpn_auths' in device):
+                device['vpn_auths'] =  0
+            device['vpn_auths'] += 1;
+            device['vpn_last_seen'] = ts
             db[devicec].save(device)
 
             # log
             r = {'common_name' : username,
                  'username' : device[u'username'],
                  'device' : device[u'devname'],
-                 'ts' : datetime.utcnow(),
+                 'ts' : ts,
                  'event' : 'auth',
                  'success' : True,
                  'proto' : getenv("proto"),
@@ -184,14 +187,17 @@ def auth():
         else:
             logging.warn("user '%s' invalid password"%username)
             # dev stats
+            if (not u'vpn_auth_failures' in device):
+                device['vpn_auth_failures'] =  0
             device['vpn_auth_failures'] += 1;
+            device['vpn_last_seen'] = ts
             db[devicec].save(device)
 
             # log
             r = {'common_name' : username,
                  'username' : device[u'username'],
                  'device' : device[u'devname'],
-                 'ts' : datetime.utcnow(),
+                 'ts' : ts,
                  'event' : 'auth',
                  'success' : False,
                  'reason' : 'invalid password',
@@ -266,9 +272,10 @@ def connect():
             db[logc].insert(r)
 
             # device stats
-            device['vpn_last_start'] = ts
-            device['vpn_last_end'] = None
-            device['vpn_is_connected'] = True
+            if (not u'vpn_connections' in device):
+                device['vpn_connections'] = 0
+            device['vpn_connections'] += 1
+            device['vpn_last_seen'] = ts
             db[devicec].save(device)
                 
             # write static ip to the cli config file
@@ -368,10 +375,19 @@ def disconnect():
             db[logc].insert(r)
 
             # dev stats
-            device['vpn_is_connected'] = False 
-            device['vpn_last_end'] = ts
+            if (not u'vpn_disconnections' in device):
+                device['vpn_disconnections'] = 0
+            device['vpn_disconnections'] += 1
+
+            if (not u'vpn_bytes_sent' in device):
+                device['vpn_bytes_sent'] = 0
             device['vpn_bytes_sent'] += tx
+
+            if (not u'vpn_bytes_recv' in device):
+                device['vpn_bytes_recv'] = 0
             device['vpn_bytes_recv'] += rx
+
+            device['vpn_last_seen'] = ts
             db[devicec].save(device)
 
         else:
