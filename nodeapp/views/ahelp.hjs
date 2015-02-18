@@ -86,7 +86,7 @@
 	    Make sure the VPN tunnel is connected on the device.
 	  </li>
 	  <li>
-	    On the device, go to <a href="{{baseurl}}/viz/moves">UCN website</a> (requires the user to login first).
+	    On the device, go to <a href="{{vizurl}}/moves">UCN website</a> (requires the user to login first).
 	  </li>
 	  <li>
 	    Click on 'get started’. You will be taken to a page where you will be presented with a code. You will need to enter this code in the moves app. When in moves, go to the menu (the three square dots in the top right hand side in Android, and the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK. 
@@ -164,7 +164,7 @@
 	    Make sure the VPN tunnel is connected on the device.
 	  </li>
 	  <li>
-	    On the device, go to <a href="{{baseurl}}/viz/moves">UCN website</a> (requires the user to login first).
+	    On the device, go to <a href="{{vizurl}}/moves">UCN website</a> (requires the user to login first).
 	  </li>	  
 	  <li>
 	    Click on 'get started’. You will be taken to a page where you will be presented with a code. You will need to enter this code in the moves app. When in moves, go to the menu (the three square dots in the top right hand side in Android, and the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK. 
