@@ -77,7 +77,7 @@
 	Start Moves and have the user to create an user account (if not done yet). 
       </li>
       <li>
-	TODO: adjust some battery saving settings in Moves preference as recommended by Renata ?
+	In Moves settings, set the tracking priority to 'battery saving'.
       </li>
       <li>
 	Connect the Moves app to our system:
@@ -143,7 +143,7 @@
 	Enable installation from untrusted sources: Settings -> Security.
       </li>
       <li>
-	Click on the following link to <a href="/ucn/downloads/UCNDataCollector.apk">install the data collector</a> (try switching to HTTP instead of HTTPS or to Firefox browser if the download does not start -- known bug with Android).
+	Click on the following link to <a href="/ucn/downloads/UCNDataCollector.apk">install the data collector</a>.
       </li>
       <li>
 	Launch the data collector on the device: Applications -> UCNDataCollector and toggle ON to enable data collection.
@@ -229,7 +229,7 @@
       </li>
       <li>Double-click the <span class="em">{{country}}.server.ovpn</span> file (or open with OpenVPN) and follow the installation instructions.
       </li>
-      <li>Right-click on the OpenVPN icon in the taskbar and select "Connect {{country}}.server" and connect.</li>
+      <li>Right-click on the OpenVPN icon in the taskbar and select "{{country}}.server" -> connect.</li>
       <li>Configure the tunnel login:
 	<ul class="disc">
 	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>

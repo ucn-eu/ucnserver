@@ -9,7 +9,7 @@
 
     {{#isandroid}}
     <li><a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a></li>
-    <li><a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">Data collector</a> (try switching to HTTP instead of HTTPS or to Firefox browser if the download does not start -- known bug with Android)</li>
+    <li><a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">Data collector</a></li>
     <li><a target="_blank" href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a></li>    
     {{/isandroid}}
 
