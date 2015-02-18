@@ -221,12 +221,30 @@
     <p>
       Software links shortcut: <a href="/ucn/install/win">{{baseurl}}/install/win</a> (browse to this page with the user device to access a list of software links).
     </p>
+
     <ul class="square">
-      <li>TODO</li>
+      <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN (pick the right Windows version).</a></li>
+      <li> Right-click on the OpenVPN GUI icon and select 'Run as Administrator'.</li>
+      <li>Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
+      </li>
+      <li>Double-click the <span class="em">{{country}}.server.ovpn</span> file (or open with OpenVPN) and follow the installation instructions.
+      </li>
+      <li>Right-click on the OpenVPN icon in the taskbar and select "Connect {{country}}.server" and connect.</li>
+      <li>Configure the tunnel login:
+	<ul class="disc">
+	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>
+	  <li>Password: The password is the same as for the user account.</li>
+	</ul>
+      </li>      
+      <li>Download <a target="_blank" href="/ucn/downloads/hostview.zip">the UCN activity logger</a> and install by double-clicking. The installer asks for a username, use the VPN login, <span class="em">username.devname</span>.
+      </li>
     </ul>
+
     <h3>Windows Un-Install</h3>
+
     <ul class="square">
-      <li>TODO</li>
+      <li>Uninstall UCN logger (double-click the 'uninstall' executable at 'Program Files/Hostview/).</li>
+      <li>Uninstall OpenVPN (double-click the 'uninstall' executable at 'Program Files/OpenVPN/).</li>
     </ul>
   </div>
 

@@ -26,6 +26,7 @@
     {{/islinux}}
 
     {{#iswin}}
+    <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
     {{/iswin}}
   </ul>
 </div>
