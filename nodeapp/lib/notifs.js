@@ -4,13 +4,6 @@ var debug = require('debug')(app.get('debugns')+':lib:notifs');
 var emailer = require('../lib/emailer');
 var Device = require('../models/Device');
 
-var datemax = function(a,b) {
-    if (a && b)
-	return (a >= b ? a : b); 
-    else
-	return a || b;
-};
-
 // simple checker for user activity -- send emails to app.get('contact') if
 // a user (device) is inactive for more than app.get('inactive') days.
 var check = function() {
@@ -36,7 +29,8 @@ var check = function() {
 		!dev.removed && 
 		((dev.vpn_last_seen && 
 		  dev.vpn_last_seen < inactivelim) ||
-		 (dev.created < inactivelim))) 
+		 (!dev.vpn_last_seen &&
+		  dev.created < inactivelim))) 
 	    {
 		var opt = {
 		    subject : '[UCN WEB ' + app.get('country') + '] Device Inactivity Notification',
