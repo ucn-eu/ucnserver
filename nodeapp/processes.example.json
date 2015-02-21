@@ -13,8 +13,8 @@
     "env": {
         "NODE_ENV" : "production",
         "DEBUG"    : "ucnweb:*",
-        "MOVES_CLIENT_ID" : "na",        
-        "MOVES_CLIENT_SECRET" : "na"
+        "MOVES_CLIENT_ID" : "FIXME",
+        "MOVES_CLIENT_SECRET" : "FIXME"
     }
   }]
 }

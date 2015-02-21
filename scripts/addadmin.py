@@ -18,9 +18,9 @@ from datetime import datetime
 
 # -------------------------------
 # Configure your backend here
-mongohost = "ucn"
+mongohost = "localhost"
 mongoport = 27017
-mongodb = "ucnexp"
+mongodb = "ucntest"
 userc = "users"
 # -------------------------------
 

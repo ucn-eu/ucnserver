@@ -1,3 +1,4 @@
+var http = require('http');
 var _ = require('underscore');
 var express = require('express');
 var router = express.Router();
@@ -139,7 +140,7 @@ router.post('/devices', function(req, res, next) {
 	};
 
 	var rendersucc = function(succ) {
-	    Device.findDevicesForUser(req.body.username,function(err, devices) {
+	    Device.findDevicesForUser(req.body.username, function(err, devices) {
 		if (err) {
 		    // some db error - should not happen in prod ..
 		    debug(err);
@@ -230,6 +231,92 @@ router.post('/devices', function(req, res, next) {
 	}
     }); // findAllUsers
 });
+
+/** Devices page: callback from moves auth. */
+router.get('/movescallback/:login', function(req, res, next) {
+    // Render the basic admin/devices
+    var render = function(errmsg) {
+        User.findAllUsers(function(err, users) {
+	    if (err) {
+	        // some db error - should not happen in prod ..
+	        debug(err);
+	        err.status = 500;
+	        return next(err);
+	    }
+
+	    var robj =  res.locals.renderobj;
+	    robj.vizurl = app.get('vizurl');
+	    robj.loggedin = true;
+	    robj.users = users;
+            robj.error = errmsg;
+	    return res.render('adevs', robj);
+        }); 
+    }
+    
+    if (req.params.login && req.params.code) {
+        var devicelogin = req.params.login;
+        debug("moves auth code callback for  '" + devicelogin + "'");
+        
+        var path = '/access_token?grant_type=authorization_code&code=' + req.params.code;
+        path += '&client_id=' + app.get('moves_client_id');
+        path += '&client_secret=' + app.get('moves_client_secret');
+//        path += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+devicelogin;
+        var options = {
+            hostname: apt.get('moves_auth_url'),
+            path: path,
+            method: 'POST',
+        };
+
+        var jsontxt = "";
+        var req = http.request(options, function(res) {
+            //res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                jsontxt += chunk;
+            });
+        });
+
+        req.on('error', function(e) {
+            debug('moves auth error when requesting the access_token',e);
+            render("Failed to get the moves token for '" + devicelogin + "'");
+        });
+
+        req.on('end', function() {
+            if (jsontxt && jsontxt.length > 0) {
+                debug("moves auth: " + jsontxt);
+                
+                var json = JSON.parse(jsontxt);
+                
+                Device.findDeviceByLogin(devicelogin, function(err, dev) {
+	            if (err) {
+	                // some db error - should not happen in prod ..
+	                debug(err);
+	                err.status = 500;
+	                return next(err);
+	            }
+
+                    dev.update_moves_token(json['access_token'], function(err) {
+	                if (err) {
+	                    // some db error - should not happen in prod ..
+	                    debug(err);
+	                    err.status = 500;
+	                    return next(err);
+	                }
+                        render();
+                    });
+                });
+            } else {
+                debug("moves auth got empty response to access_token");
+                render("Failed to get the moves token '" + devicelogin + "'");
+            }
+        });
+        
+        req.end();
+        
+    } else {
+        render();
+    }
+});
+
 
 router.get('/help', function(req, res, next) {
     var robj =  res.locals.renderobj;

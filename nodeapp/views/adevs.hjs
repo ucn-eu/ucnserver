@@ -90,6 +90,7 @@
 	  --
 	{{/inactivity_notif_sent}}
 	</td>
+        <td>
 	{{#ismobile}}
 	{{#moves_token}}
         Auth OK
@@ -101,6 +102,7 @@
 	{{^ismobile}}
 	  --
 	{{/ismobile}}
+        </td>
       </tr>
       {{/devices}}
     </tbody>

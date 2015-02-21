@@ -142,12 +142,25 @@ DeviceSchema.methods.unsetnotif = function(cb) {
     this.save(cb);
 };
 
+DeviceSchema.methods.update_moves_token = function(token,cb) {
+    this.moves_token = token;
+    this.save(cb);
+};
+
 DeviceSchema.virtual('platform').get(function() {
     return this.type2platform(this.type);
 });
 
 DeviceSchema.virtual('ismobile').get(function() {
     return _.contains(['android-phone','android-tablet','iphone','ipad'], this.type);
+});
+
+DeviceSchema.virtual('moves_auth_url').get(function() {
+    var u = app.get('moves_auth_url') + '/authorize?response_type=code';
+    u += '&client_id=' + app.get('moves_client_id');
+    u += '&scope=activity location';
+    u += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+this.login;
+    return u;
 });
 
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
@@ -164,6 +177,11 @@ DeviceSchema.virtual('vpn_last_seen_str').get(function() {
     else
 	return "--";
 });
+
+/** Device. */
+DeviceSchema.statics.findDeviceByLogin = function(login, cb) {
+    require('./Device').findOne({login : login}, cb);
+};
 
 /** Device list. */
 DeviceSchema.statics.findDevicesForUser = function(username, cb) {
