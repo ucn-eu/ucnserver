@@ -20,7 +20,7 @@ var debug = require('debug')('ucnweb');
 app.set('debugns', 'ucnweb');
 
 // moves stuff
-app.set('moves_auth_url',"https://api.moves-app.com/oauth/v1");
+app.set('moves_auth_url', "https://api.moves-app.com/oauth/v1");
 app.set('moves_client_id', process.env['MOVES_CLIENT_ID']);
 app.set('moves_client_secret', process.env['MOVES_CLIENT_SECRET']);
 
