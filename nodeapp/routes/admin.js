@@ -260,7 +260,9 @@ router.get('/movescallback/:login', function(req, res, next) {
         var path = '/access_token?grant_type=authorization_code&code=' + req.params.code;
         path += '&client_id=' + app.get('moves_client_id');
         path += '&client_secret=' + app.get('moves_client_secret');
-//        path += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+devicelogin;
+        path += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback?login='+devicelogin;
+        // FIXME: should not use the IP as identifier
+        //    path += '&redirect_uri='+app.get('vizurl')+'/moves/callback?device='+this.vpn_udp_ip;
         var options = {
             hostname: apt.get('moves_auth_url'),
             path: path,
@@ -285,25 +287,32 @@ router.get('/movescallback/:login', function(req, res, next) {
                 debug("moves auth: " + jsontxt);
                 
                 var json = JSON.parse(jsontxt);
-                
-                Device.findDeviceByLogin(devicelogin, function(err, dev) {
-	            if (err) {
-	                // some db error - should not happen in prod ..
-	                debug(err);
-	                err.status = 500;
-	                return next(err);
-	            }
 
-                    dev.update_moves_token(json['access_token'], function(err) {
+                if (json && !json.error && json.access_token) {
+                    Device.findDeviceByLogin(devicelogin, function(err, dev) {
 	                if (err) {
 	                    // some db error - should not happen in prod ..
 	                    debug(err);
 	                    err.status = 500;
 	                    return next(err);
 	                }
-                        render();
+
+                        dev.update_moves_token(json.access_token, function(err) {
+	                    if (err) {
+	                        // some db error - should not happen in prod ..
+	                        debug(err);
+	                        err.status = 500;
+	                        return next(err);
+	                    }
+                            render();
+                        });
                     });
-                });
+                } else {
+	            debug(json);
+                    var err = { error : (json ? json.error : 'invalid response from moves api')};
+	            err.status = 500;
+	            return next(err);
+                }
             } else {
                 debug("moves auth got empty response to access_token");
                 render("Failed to get the moves token '" + devicelogin + "'");

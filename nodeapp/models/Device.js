@@ -159,7 +159,9 @@ DeviceSchema.virtual('moves_auth_url').get(function() {
     var u = '/authorize?response_type=code';
     u += '&client_id=' + app.get('moves_client_id');
     u += '&scope=' + encodeURIComponent('activity location');
-    u += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+this.login;
+    u += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback?login='+this.login;
+    // FIXME: should not use the IP as identifier
+//    u += '&redirect_uri='+app.get('vizurl')+'/moves/callback?device='+this.vpn_udp_ip;
     return app.get('moves_auth_url') + u;
 });
 
