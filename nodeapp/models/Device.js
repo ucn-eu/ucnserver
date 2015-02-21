@@ -32,7 +32,7 @@ var DeviceSchema = new db.Schema({
     vpn_udp_ip : {type:String, required: true, unique: true},
     vpn_tcp_ip : {type:String, required: true, unique: true},
     vpn_mask : {type:String, required: true, unique: false},
-
+    
     // android or win activity logger info
     loggerapp_uuid : {type:String, required: false},
     loggerapp_lastseen: {type:Date, required: false},
@@ -47,7 +47,10 @@ var DeviceSchema = new db.Schema({
     vpn_bytes_recv : {type:Number, default : 0, required: true},
     vpn_last_seen: {type:Date, required: false},
 
-    inactivity_notif_sent : {type:Boolean, default : false}
+    inactivity_notif_sent : {type:Boolean, default : false},
+
+    // moves stuff
+    moves_token : {type:String, required: false, unique: false}
 });
 
 DeviceSchema.statics.getAllTypes = function() {
@@ -141,6 +144,10 @@ DeviceSchema.methods.unsetnotif = function(cb) {
 
 DeviceSchema.virtual('platform').get(function() {
     return this.type2platform(this.type);
+});
+
+DeviceSchema.virtual('ismobile').get(function() {
+    return _.contains(['android-phone','android-tablet','iphone','ipad'], this.type);
 });
 
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {

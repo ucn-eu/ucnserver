@@ -12,7 +12,9 @@
     "cwd"          : "/home/nodeapp/apps/ucn",
     "env": {
         "NODE_ENV" : "production",
-        "DEBUG"    : "ucnweb:*"
+        "DEBUG"    : "ucnweb:*",
+        "MOVES_CLIENT_ID" : "na",        
+        "MOVES_CLIENT_SECRET" : "na"
     }
   }]
 }

@@ -19,6 +19,11 @@ module.exports = exports = app;
 var debug = require('debug')('ucnweb');
 app.set('debugns', 'ucnweb');
 
+// moves stuff
+app.set('moves_auth_url',"https://api.moves-app.com/oauth/v1");
+app.set('moves_client_id', process.env['MOVES_CLIENT_ID']);
+app.set('moves_client_secret', process.env['MOVES_CLIENT_SECRET']);
+
 // language support
 app.set('available_locales', ['en', 'fr']);
 app.set('default_locale', 'en');
@@ -51,7 +56,7 @@ if (app.get('env') === 'production') {
     app.set('port', 3002);    
     app.set('baseurl', 'https://muse.inria.fr/ucn');
     app.set('vizurl', 'https://muse.inria.fr/viz');
-
+    
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
 
@@ -80,7 +85,7 @@ if (app.get('env') === 'production') {
 	service: "Gmail",
 	auth: {
             user: (process.env.GMLU || "annakaisa.pietilainen@gmail.com"),
-            pass: (process.env.GMLP || "k0val4nrannant!e")
+            pass: (process.env.GMLP || "")
 	}
     });
 

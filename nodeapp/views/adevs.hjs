@@ -62,6 +62,7 @@
         <th>VPN Traffic (tx/rx MB)</th>
         <th>Last Seen</th>
         <th>Notif Sent</th>
+        <th>Moves</th>
       </tr>
     </thead>
     <tbody>
@@ -89,6 +90,17 @@
 	  --
 	{{/inactivity_notif_sent}}
 	</td>
+	{{#ismobile}}
+	{{#moves_token}}
+        Auth OK
+	{{/moves_token}}
+	{{^moves_token}}
+        <a href={{moves_auth_url}}>Do auth</a>
+	{{/moves_token}}
+	{{/ismobile}}
+	{{^ismobile}}
+	  --
+	{{/ismobile}}
       </tr>
       {{/devices}}
     </tbody>
