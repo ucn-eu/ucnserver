@@ -158,9 +158,9 @@ DeviceSchema.virtual('ismobile').get(function() {
 DeviceSchema.virtual('moves_auth_url').get(function() {
     var u = '/authorize?response_type=code';
     u += '&client_id=' + app.get('moves_client_id');
-    u += '&scope=activity location';
+    u += '&scope=' + encodeURIComponent('activity location');
     u += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+this.login;
-    return app.get('moves_auth_url') + encodeURIComponent(u);
+    return app.get('moves_auth_url') + u;
 });
 
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
