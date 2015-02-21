@@ -160,7 +160,7 @@ DeviceSchema.virtual('moves_auth_url').get(function() {
     u += '&client_id=' + app.get('moves_client_id');
     u += '&scope=activity location';
     u += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+this.login;
-    return u;
+    return encodeURIComponent(u);
 });
 
 DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {

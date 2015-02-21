@@ -263,7 +263,7 @@ router.get('/movescallback/:login', function(req, res, next) {
 //        path += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback/'+devicelogin;
         var options = {
             hostname: apt.get('moves_auth_url'),
-            path: path,
+            path: encodeURIComponent(path),
             method: 'POST',
         };
 
