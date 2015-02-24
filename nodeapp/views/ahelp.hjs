@@ -230,18 +230,13 @@
 
     <ul class="square">
       <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN (choose the right Windows installer version, use 32bit XP or later if in doubt).</a></li>
-      <li>Right-click on the OpenVPN GUI icon on the desktop and select 'Run as Administrator'.</li>
-      <li>Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
-      </li>
       <li>Download <a href="https://muse.inria.fr/~george/sample.cmd">the VPN tunnel configuration script</a> on the device, go to the downloads folder, right-click on the sample.cmd and select 'run as administrator'. Click yes/allow on all, and type in the VPN credentials when prompted.</li>
-      <li>ALTERNATIVE to the previous step if something goes still wrong (do config manually manually):
-	<ul  class="disc">
-	<li>
-	Copy the configuration file to the OpenVPN configuration directory, usually <it>C:\Program Files\OpenVPN\config</it>. To find the default program files folder (if different from C:), type %PROGRAMFILES% in the file explorer's address field.
-        </li>		
-        <li>
-	Right-click on the OpenVPN icon in the taskbar and click on Connect.
-        </li>
+      <li>ALTERNATIVE to the previous step if that didn't work (do config manually manually):
+	<ul class="disc">
+        <li>Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.</li>
+	<li>Copy the configuration file to the OpenVPN configuration directory, usually <it>C:\Program Files\OpenVPN\config</it>. To find the default program files folder (if different from C:), type %PROGRAMFILES% in the file explorer's address field.</li>		
+        <li>Right-click on the OpenVPN GUI icon on the desktop and select 'Run as Administrator'.</li>
+        <li>Right-click on the OpenVPN icon in the taskbar and click on Connect.</li>
         <li>Configure the tunnel login as follows:
 	<ul class="disc">
 	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>
