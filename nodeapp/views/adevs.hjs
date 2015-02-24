@@ -92,12 +92,7 @@
 	</td>
         <td>
 	{{#ismobile}}
-	{{#moves_token}}
-        Auth&nbsp;OK
-	{{/moves_token}}
-	{{^moves_token}}
         <a href="{{moves_auth_url}}">Do&nbsp;auth</a>
-	{{/moves_token}}
 	{{/ismobile}}
 	{{^ismobile}}
 	  --

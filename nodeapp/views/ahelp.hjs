@@ -80,19 +80,19 @@
 	In Moves settings, set the tracking priority to 'battery saving'.
       </li>
       <li>
-	Connect the Moves app to our system:
+	Configure access to Moves data:
 	<ul class="disc">
 	  <li>
-	    Make sure the VPN tunnel is connected on the device.
+	    Go to the admin website Devices tab and list the devices of the user.
 	  </li>
 	  <li>
-	    On the device, go to <a href="{{vizurl}}/moves">UCN website</a> (requires the user to login first).
+	    Click on the authentication link ('Do auth') for the iOS device where you installed Moves. 
 	  </li>
 	  <li>
-	    Click on 'get started’. You will be taken to a page where you will be presented with a code. You will need to enter this code in the moves app. When in moves, go to the menu (the three square dots in the top right hand side in Android, and the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK. 
+	    You will be presented with a PIN code. You will need to enter this code in the Moves app on the user's device. When in Moves, go to the menu (the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK.
 	  </li>
 	  <li>
-	    Once entered, if successful, go back to the website, and check that there is a success message: “All done! Thank you”.  If you do not see this then the final part of the connecting has not worked.  Please try again.  and have the user to login.
+	    Once entered, if successful, go back to the website, and check that there is a success message: “All done! Thank you”.  If you do not see this then the final part of the connecting has not worked. Please try again.
 	  </li>
 	</ul>
       </li>
@@ -101,7 +101,7 @@
     <h3>iOS Un-Install</h3>
     <ul class="square">
       <li>Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.</li>
-      <li>TODO: revoke Moves connection somewhere in the app and uninstall the app if the user wishes that.</li>
+      <li>Revoke Moves access somewhere in the Moves settings, and uninstall the app if the user wishes that.</li>
     </ul>
   </div>
 
@@ -158,29 +158,35 @@
 	Configure battery saving option. Go to Settings -> device -> battery. You should see Moves in the list.  Click on it, then tap on the button beneath “Select battery-saving mode”.  Tap on Mode, and select “Battery Saving”.
       </li>
       <li>
-	Connect the Moves app to our system:
+	Configure access to Moves data:
 	<ul class="disc">
 	  <li>
-	    Make sure the VPN tunnel is connected on the device.
+	    Go to the admin website Devices tab and list the devices of the user.
 	  </li>
 	  <li>
-	    On the device, go to <a href="{{vizurl}}/moves">UCN website</a> (requires the user to login first).
-	  </li>	  
-	  <li>
-	    Click on 'get started’. You will be taken to a page where you will be presented with a code. You will need to enter this code in the moves app. When in moves, go to the menu (the three square dots in the top right hand side in Android, and the M in a circle at the bottom of the screen on an iPhone/iPad) and click on connected apps. Then click on enter pin. Enter the pin and click OK. 
+	    Click on the authentication link ('Do auth') for the Android device where you installed Moves. 
 	  </li>
 	  <li>
-	    Once entered, if successful, go back to the website, and check that there is a success message: “All done! Thank you”.  If you do not see this then the final part of the connecting has not worked.  Please try again.  and have the user to login.
+	    You will be presented with a PIN code. You will need to enter this code in the Moves app on the user's device. When in Moves, go to the menu (the three square dots in the top right hand side in Android) and click on connected apps. Then click on enter pin. Enter the pin and click OK.
 	  </li>
-	</ul>	
+	  <li>
+	    Once entered, if successful, go back to the website, and check that there is a success message: “All done! Thank you”.  If you do not see this then the final part of the connecting has not worked. Please try again.
+	  </li>
+	</ul>
       </li>
     </ul>
 
     <h3>Android Un-Install</h3>
     <ul class="square">
-      <li>Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.</li>
-      <li>Uninstall the UCN activity logger app.</li>      
-      <li>TODO: revoke Moves connection somewhere in the app and uninstall the app if the user wishes that.</li>
+      <li>
+	Make sure OpenVPN is deactivated, remove the UCN tunnel configuration and/or uninstall the VPN software.
+      </li>
+      <li>
+	Uninstall the UCN activity logger app. Before uninstall, start the app, click on 'Advanced Settings' -> 'Upload', and wait for the date to refresh.
+      </li>      
+      <li>
+	Revoke Moves access somewhere in the Moves settings, and uninstall the app if the user wishes that.
+      </li>
     </ul>
   </div>
 
@@ -223,27 +229,30 @@
     </p>
 
     <ul class="square">
-      <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN (pick the right Windows version).</a></li>
+      <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN (choose the right Windows installer version).</a></li>
       <li> Right-click on the OpenVPN GUI icon and select 'Run as Administrator'.</li>
       <li>Download <a href="/ucn/downloads/{{country}}.server.ovpn">the VPN tunnel configuration file</a> on the device. The file is also attached to the welcome email and can be saved to the device from there.
       </li>
-      <li>Double-click the <span class="em">{{country}}.server.ovpn</span> file (or open with OpenVPN) and follow the installation instructions.
+      <li>
+	Copy the configuration file to the OpenVPN configuration directory, usually <it>C:\Program Files\OpenVPN\config</it>. To find the default program files folder (if different from C:), type %PROGRAMFILES% in the file explorer's address field.
       </li>
-      <li>Right-click on the OpenVPN icon in the taskbar and select "{{country}}.server" -> connect.</li>
-      <li>Configure the tunnel login:
+      <li>
+	Right-click on the OpenVPN icon in the taskbar and click on Connect.
+      </li>
+      <li>Configure the tunnel login as follows:
 	<ul class="disc">
 	  <li>Login: <span class="em">username.devname</span> (check the DEVICES page for the device specific login).</li>
 	  <li>Password: The password is the same as for the user account.</li>
 	</ul>
-      </li>      
-      <li>Download <a target="_blank" href="/ucn/downloads/hostview.zip">the UCN activity logger</a> and install by double-clicking. The installer asks for a username, use the VPN login, <span class="em">username.devname</span>.
+      </li>
+      <li>Install activity logger. Download <a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">the UCN activity logger</a> and install by double-clicking. When the installer asks for a username, use the VPN login, <span class="em">username.devname</span>.
       </li>
     </ul>
 
     <h3>Windows Un-Install</h3>
 
     <ul class="square">
-      <li>Uninstall UCN logger (double-click the 'uninstall' executable at 'Program Files/Hostview/).</li>
+      <li>Uninstall UCN logger (double-click the 'uninstall' executable at 'Program Files/Hostview/). Make sure the device is connected to the internet so that the uninstaller can upload any remaining data files.</li>
       <li>Uninstall OpenVPN (double-click the 'uninstall' executable at 'Program Files/OpenVPN/).</li>
     </ul>
   </div>

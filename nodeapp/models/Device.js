@@ -48,9 +48,6 @@ var DeviceSchema = new db.Schema({
     vpn_last_seen: {type:Date, required: false},
 
     inactivity_notif_sent : {type:Boolean, default : false},
-
-    // moves stuff
-    moves_token : {type:String, required: false, unique: false}
 });
 
 DeviceSchema.statics.getAllTypes = function() {
@@ -159,9 +156,7 @@ DeviceSchema.virtual('moves_auth_url').get(function() {
     var u = '/authorize?response_type=code';
     u += '&client_id=' + app.get('moves_client_id');
     u += '&scope=' + encodeURIComponent('activity location');
-    u += '&redirect_uri='+app.get('baseurl')+'/admin/movescallback?login='+this.login;
-    // FIXME: should not use the IP as identifier
-//    u += '&redirect_uri='+app.get('vizurl')+'/moves/callback?device='+this.vpn_udp_ip;
+    u += '&redirect_uri='+app.get('vizurl')+'/movescallback?login='+this.login;
     return app.get('moves_auth_url') + u;
 });
 

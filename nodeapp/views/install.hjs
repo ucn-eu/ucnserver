@@ -9,7 +9,7 @@
 
     {{#isandroid}}
     <li><a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a></li>
-    <li><a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">Data collector</a></li>
+    <li><a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">UCN activity logger</a></li>
     <li><a target="_blank" href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a></li>    
     {{/isandroid}}
 
@@ -27,6 +27,7 @@
 
     {{#iswin}}
     <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
+    <li><a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">UCN activity logger</a></li>
     {{/iswin}}
   </ul>
 </div>

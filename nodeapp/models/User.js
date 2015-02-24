@@ -34,6 +34,11 @@ var UserSchema = new db.Schema({
     resetpasswdtoken: {type:String, required: false, unique: false}
 });
 
+/** Google calendar auth callback. */
+UserSchema.virtual('calendar_auth_url').get(function() {
+    return app.get('vizurl')+'/calendar?login='+this.username;
+});
+
 /** Create password token. */
 UserSchema.methods.resetpasswdreq = function(cb) {
     // generate unique random token for resetting the password
