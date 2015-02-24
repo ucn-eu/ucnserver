@@ -4,7 +4,7 @@
 <div class="sixteen columns">
   <h2>Software Links</h2>
   <ul class="square">
-    <li><a target="_blank" href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a> (if this does not work, try TCP version below (some VPN clients let you switch the protocol from the software)</li>
+    <li><a target="_blank" href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a> (if this does not work, try TCP version below.</li>
     <li><a target="_blank" href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP</a></li>
 
     {{#isandroid}}
@@ -19,14 +19,15 @@
     {{/isios}}
 
     {{#isosx}}
-    <li>Install <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a></li> 
-   {{/isosx}}
+    <li><a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a></li> 
+    {{/isosx}}
 
     {{#islinux}}
     {{/islinux}}
 
     {{#iswin}}
-    <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
+    <li><a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
+    <li><a target="_blank" href="https://muse.inria.fr/~george/sample.cmd">OpenVPN configuration script</a> (run as administrator!)</li> 
     <li><a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">UCN activity logger</a></li>
     {{/iswin}}
   </ul>
