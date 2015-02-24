@@ -12,6 +12,7 @@ router.all('/:what', function(req, res, next) {
     robj.isios = (dev && dev==='ios');
     robj.islinux = (dev && dev==='linux');
     robj.iswin = (dev && dev==='win');
+    robj.isosx = (dev && dev==='darwin');
     return res.render('install', robj);
 });
 
