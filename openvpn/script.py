@@ -27,9 +27,9 @@ from datetime import datetime, timedelta
 
 # -------------------------------
 # Configure your backend here
-mongohost = 'localhost'
+mongohost = 'ucn.inria.fr'
 mongoport = 27017
-mongodb = "ucntest"
+mongodb = "ucnexp"
 userc = "users"
 devicec = "devices"
 logc = "vpn_server_logs"

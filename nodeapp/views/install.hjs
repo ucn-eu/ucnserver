@@ -20,14 +20,15 @@
     {{/isios}}
 
     {{#isosx}}
-    <li>Install <a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a></li> 
-   {{/isosx}}
+    <li><a target="_blank" href="https://code.google.com/p/tunnelblick/">Tunnelblick</a></li> 
+    {{/isosx}}
 
     {{#islinux}}
     {{/islinux}}
 
     {{#iswin}}
-    <li>Install <a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
+    <li><a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
+    <li><a target="_blank" href="https://muse.inria.fr/~george/sample.cmd">OpenVPN configuration script</a> (run as administrator!)</li> 
     <li><a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">UCN activity logger</a></li>
     {{/iswin}}
   </ul>
