@@ -28,10 +28,13 @@
 
   <ul class="square">
     <li>
-      <a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a>  (this is the default shipped to clients). If this does not work, try TCP version below (some VPN clients let you switch the protocol within the software).
+      <a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config combined UDP + TCP fallback</a>  (this is the default config emailed to the participants). If the VPN client software has trouble parsing the config file, try the single server configs below (prefer UDP).
     </li>
     <li>
-      <a href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP</a>.
+      <a href="/ucn/downloads/{{country}}.udp.server.ovpn">VPN tunnel config UDP only</a>.
+    </li>
+    <li>
+      <a href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP only</a>.
     </li>
   </ul>	
 

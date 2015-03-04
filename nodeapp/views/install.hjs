@@ -4,8 +4,9 @@
 <div class="sixteen columns">
   <h2>Software Links</h2>
   <ul class="square">
-    <li><a target="_blank" href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config UDP</a> (if this does not work, try TCP version below (some VPN clients let you switch the protocol from the software)</li>
-    <li><a target="_blank" href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP</a></li>
+    <li><a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config combined UDP + TCP fallback</a>  (this is the default config emailed to the participants). If the VPN client software has trouble parsing the config file, try the single server configs below (prefer UDP).</li>
+    <li><a target="_blank" href="/ucn/downloads/{{country}}.udp.server.ovpn">VPN tunnel config UDP only</a></li>
+    <li><a target="_blank" href="/ucn/downloads/{{country}}.tcp.server.ovpn">VPN tunnel config TCP only</a></li>
 
     {{#isandroid}}
     <li><a target="_blank" href="https://play.google.com/store/apps/details?id=de.blinkt.openvpn">OpenVPN for Android from the Play Store</a></li>
