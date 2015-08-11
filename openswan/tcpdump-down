@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# called by /etc/ppp/ip-down which sets the PPP_XXXX env variables
+echo "stopping tcpdump on $PPP_IFACE with peer $PPP_REMOTE"
+
+PIDFILE=/var/run/tcpdump_$PPP_REMOTE.pid
+if [ -f $PIDFILE ]; then
+  if [ -d "/proc/`cat $PIDFILE`" ]; then
+	kill `cat $PIDFILE`
+  fi
+  rm -f $PIDFILE
+fi
+
+# process the closed capture file
+PCAP=/var/log/pcaps/$PPP_REMOTE.pcap
+/etc/ppp/compress.sh $PCAP

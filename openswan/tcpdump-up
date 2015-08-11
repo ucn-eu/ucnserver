@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# called from /etc/ppp/ip-up which sets the PPP_XXX env variables
+echo "starting tcpdump on $PPP_IFACE peer $PPP_REMOTE"
+
+CAPLEN=300  # capture first x bytes
+MAXSIZE=100 # rotate files bigger than x Mbytes
+TCPDUMP=/usr/sbin/tcpdump
+LOGDIR=/var/log/pcaps
+PCAPFILE=$LOGDIR/$PPP_REMOTE.pcap
+COMPSCRIPT=/etc/ppp/compress.sh
+
+if [ ! -d $LOGDIR ]; then
+  mkdir $LOGDIR
+  chown proxy:adm $LOGDIR
+  chmod ug+rwx $LOGDIR
+fi
+
+PIDFILE=/var/run/tcpdump_$PPP_REMOTE.pid
+if [ -f $PIDFILE ]; then
+  if [ -d "/proc/`cat $PIDFILE`" ]; then
+	kill `cat $PIDFILE`
+  fi
+  rm -f $PIDFILE
+fi
+
+$TCPDUMP -n -i $PPP_IFACE -s $CAPLEN -W 1 -C $MAXSIZE -z $COMPSCRIPT -w $PCAPFILE &
+
+echo $! > $PIDFILE
+cat $PIDFILE
+
+

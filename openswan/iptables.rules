@@ -1,0 +1,8 @@
+*nat
+#-A PREROUTING -s 10.0.0.0/8 -i ppp+ -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 31280
+-A POSTROUTING -s 10.0.0.0/8 -o eth0 -j MASQUERADE
+COMMIT
+*filter
+-A FORWARD -s 10.0.0.0/8 -i ppp+ -o eth0 -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT 
+COMMIT
