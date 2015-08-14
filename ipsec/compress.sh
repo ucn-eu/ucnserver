@@ -15,6 +15,10 @@ if [ -f $PCAPFILE ]; then
   chown proxy:adm $NEW.bz2
   chmod ug+rwx $NEW.bz2
 
+  # keep backups
+  cp -u /var/log/pcaps/*.bz2 /home/apietila/ucnexp/pcaps/
+  chown apietila:apietila /home/apietila/ucnexp/pcaps/*.bz2
+
   # run db processing script
   #cd /home/txl/ucnviz && venv/bin/python collect_dns.py
 fi
