@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{{> header}}
+
+<div class="sixteen columns">
+  <h2>Software Uninstall</h2>
+
+  <h3>Mac (OS X)</h3>
+
+  <ul class="square">
+    <li>Uninstall VPN configuration.
+        <ul class="dot">
+            <li>Search with Spotlight (the reading glass icon) for 'Profiles' application and open it.</li>
+            <li>Remove 'UCN Study' profile by selecting it from the left column and then clicking on the minus sign (requires user password).</li>
+        </ul>
+    </li>
+  </ul>
+
+  <h3>iPhone/iPad (iOS)</h3>
+
+  <ul class="square">
+    <li>Uninstall VPN configuration (TODO).</li>
+    <li>Uninstall Moves (optional).</li>
+  </ul>
+
+  <h3>Android Device</h3>
+
+  <ul class="square">
+    <li>Uninstall VPN configuration (Settings -> Wireless &amp; Networks -> More -> VPN).</li>
+    <li>Uninstall UCN Activity Logger.</li>
+    <li>Uninstall Moves (optional).</li>
+  </ul>
+
+  <h3>Windows PC</h3>
+
+  <ul class="square">
+    <li>Uninstall VPN configuration.
+        <ul class="dot">
+            <li>TODO</li>
+        </ul>
+    </li>
+  </ul>
+
+  <h3>Linux</h3>
+
+  <ul class="square">
+    <li>Uninstall VPN configuration.
+        <ul class="dot">
+            <li>TODO</li>
+        </ul>
+    </li>
+  </ul>
+
+</div>
+
+{{> footer}}
+
+</body>
+</html>

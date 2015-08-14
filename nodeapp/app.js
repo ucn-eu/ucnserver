@@ -82,11 +82,11 @@ if (app.get('env') === 'production') {
     app.set('port', 3002);
 
     app.set('mailerconfig', {
-	service: "Gmail",
-	auth: {
-            user: (process.env.GMLU),
-            pass: (process.env.GMLP)
-	}
+    	service: "Gmail",
+    	auth: {
+                user: (process.env.GMLU),
+                pass: (process.env.GMLP)
+    	}
     });
 
     app.set('usercontact', "annakaisa.pietilainen@gmail.com");
@@ -98,16 +98,18 @@ if (app.get('env') === 'production') {
 
     // strip proxy path from all urls in testing (done by the proxy in prod)
     app.use(function(req, res, next) {
-	if (req.url.slice(0,4) == '/ucn') {
-	    req.url = req.url.replace('/ucn','');
-	}
-	return next();
+    	if (req.url.slice(0,4) == '/ucn') {
+    	    req.url = req.url.replace('/ucn','');
+    	}
+    	return next();
     });
 }
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
+
+// more verbose logging in dev env
 if (app.get('env') === 'development') {
     app.use(logger('dev'));
 }
@@ -125,7 +127,7 @@ const hour = 3600000;
 app.use(session({secret: 'VikyowyogBocHatAckdi', 
 		 cookie: { maxAge: hour},
 		 store: new RedisStore()
-		}));
+}));
 
 // authentication
 var User = require('./models/User');
@@ -176,6 +178,7 @@ app.use('/register', require('./routes/register'));
 app.use('/resetpassword', require('./routes/resetpassword'));
 app.use('/about', require('./routes/about'));
 app.use('/install', require('./routes/install'));
+app.use('/uninstall', require('./routes/uninstall'));
 
 // login protected
 app.use('/users', require('./routes/users'));
@@ -195,18 +198,22 @@ app.use(function(err, req, res, next) {
     var status = err.status || 500;
     res.status(status);
     if (app.get('env') !== 'development') {
-	err = {}; // don't leak the stack trace in production
+    	err = {}; // don't leak the stack trace in production
     }
     return res.render('error', {
-	locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
-	loggedin : false,
+        locale_fr : (req.cookies.ucnlang === 'fr' ? true : false),
+	    loggedin : false,
         message: msg,
-	status: status,
+	    status: status,
         error: err,
-	partials : {header : 'header', footer : 'footer'}
+	    partials : {header : 'header', footer : 'footer'}
     });
 });
 
-// enables automatic email notifications on inactive devices
-app.set('inactive', 4);
+// enable automatic email notifications on inactive devices
+INACTIVE_DAYS= process.env['INACTIVE_DAYS'] || 4;
+app.set('inactive', INACTIVE_DAYS);
+
+// TODO: add configs for user email notifs to fetch input by email
+
 require('./lib/notifs');
