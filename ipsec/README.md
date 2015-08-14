@@ -1,14 +1,16 @@
-OpenSwan Setup
-==============
+StrongSwan Setup
+================
 
-OpenSwan provides IPSec (L2TP + ppp) based VPN that is supported by native
+StrongSwan provides IPSec (L2TP + ppp) based VPN that is supported by native
 Android, iOS, OS X, ... VPN clients.
 
 ## Installation
 
-Mostly following instructions from: http://vitobotta.com/l2tp-ipsec-vpn-ios/
+Mostly following instructions from: http://vitobotta.com/l2tp-ipsec-vpn-ios/, execpt
+we are using strongswan instead of OpenSwan due to OS X compatibility problems (reconnect
+failures etc).
 
-	apt-get install openswan xl2tpd ppp
+	apt-get install strongswan xl2tpd ppp
 
 ### Configure IPSec
 
@@ -24,6 +26,7 @@ Mostly following instructions from: http://vitobotta.com/l2tp-ipsec-vpn-ios/
 
 * run ipsec verify (all should be OK)
 
+
 ### Configure xl2tpd/ppp
 
 * configure /etc/xl2tpd/xl2tpd.conf 
@@ -35,7 +38,7 @@ Mostly following instructions from: http://vitobotta.com/l2tp-ipsec-vpn-ios/
 
 ### Restart Services
 
-	/etc/init.d/xl2tpd restart
-	/etc/init.d/ipsec restart
+	sudo /etc/init.d/xl2tpd restart
+	sudo ipsec restart
 	/etc/init.d/pppd-dns restart
 
