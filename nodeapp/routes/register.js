@@ -80,11 +80,11 @@ router.post('/', function(req, res, next) {
 				template : 'welcome',
 				username : user.username,
 				url : app.get('baseurl') + '/auth/login',
-				contactemail : app.get('contact'),
-				attachments: [{
-				    path : path.join(__dirname, '../downloads',vpnconffile),
-				    filename : "ucn.ovpn"
-				}]
+				contactemail : app.get('contact')//,
+//				attachments: [{
+//				    path : path.join(__dirname, '../downloads',vpnconffile),
+//				    filename : "ucn.ovpn"
+//				}]
 	    	}
 	    
 		    // email callback
@@ -94,7 +94,7 @@ router.post('/', function(req, res, next) {
 				    User.remove(uobj, function(err2) {
 						if (err2) debug("db user remove error: " + err2);
 				    });
-				    
+
 				    // assume it's because user gave invalid email or something
 				    return rendererr(res.__('error_email', uobj.email));
 				}
