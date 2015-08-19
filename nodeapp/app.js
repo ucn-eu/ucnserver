@@ -27,6 +27,9 @@ app.set('moves_client_secret', process.env['MOVES_CLIENT_SECRET']);
 // ipsec vpn secret
 app.set('vpnkey', process.env['IPSEC_SECRET']);
 
+// MongoDB database
+app.set('dbname', process.env['MONGO_DB'] || 'ucnexp');
+
 // language support
 app.set('available_locales', ['en', 'fr']);
 app.set('default_locale', 'en');
@@ -51,7 +54,6 @@ if (app.get('env') === 'production') {
     });
 
     app.set('country', 'fr');
-    app.set('dbname', 'ucnexp');
     app.set('dbhost', 'ucn.inria.fr');
     app.set('mailer', "muse.ucnstudy@inria.fr");
     app.set('contact', "muse.ucnstudy@inria.fr");
@@ -72,7 +74,6 @@ if (app.get('env') === 'production') {
     });
 
     app.set('country', 'uk');
-    app.set('dbname', 'ucnexp');
     app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
@@ -86,7 +87,6 @@ if (app.get('env') === 'production') {
     debug('setting up in development environment');
 
     app.set('country', 'fr');
-    app.set('dbname', 'ucntest');
     app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
