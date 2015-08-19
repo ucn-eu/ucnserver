@@ -24,6 +24,9 @@ app.set('moves_auth_url', "https://api.moves-app.com/oauth/v1");
 app.set('moves_client_id', process.env['MOVES_CLIENT_ID']);
 app.set('moves_client_secret', process.env['MOVES_CLIENT_SECRET']);
 
+// ipsec vpn secret
+app.set('vpnkey', process.env['IPSEC_SECRET']);
+
 // language support
 app.set('available_locales', ['en', 'fr']);
 app.set('default_locale', 'en');
@@ -37,15 +40,15 @@ i18n.configure({
 
 app.set('trust proxy', 1); // trust first proxy
 
-app.set('mailerconfig', {
-    host: '127.0.0.1',
-    port: 25,
-    ignoreTLS : true,
-    secure : false
-});
-
 if (app.get('env') === 'production') {
     debug('setting up in production environment (fr)');
+
+    app.set('mailerconfig', {
+        host: '127.0.0.1',
+        port: 25,
+        ignoreTLS : true,
+        secure : false
+    });
 
     app.set('country', 'fr');
     app.set('dbname', 'ucnexp');
@@ -56,45 +59,42 @@ if (app.get('env') === 'production') {
     app.set('port', 3002);    
     app.set('baseurl', 'https://muse.inria.fr/ucn');
     app.set('vizurl', 'https://muse.inria.fr/viz');
+    app.set('vpnserver', 'muse.inria.fr');
     
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
+
+    app.set('mailerconfig', {
+        host: '127.0.0.1',
+        port: 25,
+        ignoreTLS : true,
+        secure : false
+    });
 
     app.set('country', 'uk');
     app.set('dbname', 'ucnexp');
     app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
-    // forwarded to muse.ucnstudy@inria.fr list
     app.set('mailer', "muse.ucnstudy@inria.fr");
     app.set('contact', "muse.ucnstudy@inria.fr");
     app.set('baseurl', 'https://ucnproject.uk/ucn');
     app.set('vizurl', 'https://ucnproject.uk/viz');
+    app.set('vpnserver', 'ucnproject.uk');
 
 } else {
     debug('setting up in development environment');
 
     app.set('country', 'fr');
-
     app.set('dbname', 'ucntest');
     app.set('dbhost', 'localhost');
     app.set('mongouri', 'mongodb://'+app.get('dbhost')+'/'+app.get('dbname'));
     app.set('port', 3002);
-
-    app.set('mailerconfig', {
-    	service: "Gmail",
-    	auth: {
-                user: (process.env.GMLU),
-                pass: (process.env.GMLP)
-    	}
-    });
-
-    app.set('usercontact', "annakaisa.pietilainen@gmail.com");
-    app.set('mailer', "annakaisa.pietilainen@gmail.com");
+    app.set('mailer', "muse.ucnstudy@inria.fr");
     app.set('contact', "muse.ucnstudy@inria.fr");
-
     app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn');
     app.set('vizurl', 'http://localhost:'+app.get('port')+'/ucn');
+    app.set('vpnserver', '127.0.0.1');
 
     // strip proxy path from all urls in testing (done by the proxy in prod)
     app.use(function(req, res, next) {

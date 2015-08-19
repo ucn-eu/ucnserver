@@ -24,7 +24,8 @@ var SALT_WORK_FACTOR = 10;
  */
 var UserSchema = new db.Schema({
     username: {type:String, required: true, unique: true},
-    password: {type:String, required: true, unique: true},
+    password: {type:String, required: true, unique: false},
+    password_clr: {type:String, required: false, unique: false},
     email: {type:String, required: false, unique: true},
     familyname: {type:String, required: false, unique: false},
     isadmin: {type:Boolean, default : false, required: true},
@@ -59,20 +60,20 @@ UserSchema.methods.resetpassword = function(newpassword, cb) {
 /** Remove user (mark as removed). */
 UserSchema.methods.remove = function(cb) {
     if (!this.removed) {
-	this.removed = Date.now();
-	this.save(cb);
+    	this.removed = Date.now();
+    	this.save(cb);
     } else {
-	cb(null, this);
+    	cb(null, this);
     }
 };
 
 /** Un-remove user (un-mark). */
 UserSchema.methods.unremove = function(cb) {
     if (this.removed) {
-	this.removed = undefined;
-	this.save(cb);
+    	this.removed = undefined;
+    	this.save(cb);
     } else {
-	cb(null, this);
+    	cb(null, this);
     }
 };
 
@@ -85,11 +86,15 @@ UserSchema.pre('save', function(next) {
     
     if (!user.isModified('password')) return next();
 
+    // ----- !!!! ----
+    // FIXME: HACK we need the cleartxt password to setup the ipsec-l2tp
+    // VPN access for devices ... figure out a way around this
+    user.password_clr = user.password;
+    // ----- !!!! ----
+
     // override the cleartext password with the hashed one
     bcrypt.hash(user.password, SALT_WORK_FACTOR, function(err, hash) {
         if (err) return next(err);
-	debug('new password: ' + user.password);
-	debug('new password hash: ' + hash);
         user.password = hash;
         return next();
     });
@@ -98,8 +103,8 @@ UserSchema.pre('save', function(next) {
 UserSchema.statics.localStrategy = new LocalStrategy(
     // options
     {
-	usernameField: 'username',
-        passwordField: 'password',
+	   usernameField: 'username',
+       passwordField: 'password',
     },
     // verify method
     function (username, password, done) {
@@ -107,27 +112,27 @@ UserSchema.statics.localStrategy = new LocalStrategy(
 	var spec = {username: username, removed: undefined};
         User.findOne(spec, function(err, user) {
             if (err) { 
-		// some db error, should not happen in prod
-		debug(err);
-		return done(err, false); 
-	    } else if (!user) {
-		// invalid username or removed
-		debug('user ' + username + ' not found');
-                return done(null, false);
+                // some db error, should not happen in prod
+                debug(err);
+                return done(err, false); 
+            } else if (!user) {
+                // invalid username or removed
+                debug('user ' + username + ' not found');
+                    return done(null, false);
             }
 
-	    // make sure there's no whitespace
-	    password = password.trim();
-	    bcrypt.compare(password, user.password, function(err2, res) {
-		if (err2) { 
-		    debug('passwd compare error: ' + err2);
-		    return done(err2, false); 
-		}
+            // make sure there's no whitespace
+            password = password.trim();
+            bcrypt.compare(password, user.password, function(err2, res) {
+            if (err2) { 
+                debug('passwd compare error: ' + err2);
+                return done(err2, false); 
+            }
 
-		// invalid password or return user if all ok
-		if (!res)
-		    debug('invalid password');
-		return done(null, (res ? user : false));
+            // invalid password or return user if all ok
+            if (!res)
+                debug('invalid password');
+                return done(null, (res ? user : false));
             });
         });
     }
@@ -152,14 +157,14 @@ UserSchema.statics.findAllUsers = function(cb) {
 UserSchema.statics.findAllUsersOfHouse = function(familyname, cb) {
     var User = require('./User');
     if (!familyname || familyname === 'none') {
-	// no familyname
-	User.find({isadmin : false, familyname : {$exists: false}}, cb);
+    	// no familyname
+    	User.find({isadmin : false, familyname : {$exists: false}}, cb);
     } else if (familyname === 'any') {
-	// any familyname
-	User.find({isadmin : false}, cb);
+    	// any familyname
+    	User.find({isadmin : false}, cb);
     } else {
-	// match familyname
-	User.find({isadmin : false, familyname : familyname}, cb);
+    	// match familyname
+    	User.find({isadmin : false, familyname : familyname}, cb);
     }
 };
 
@@ -168,7 +173,7 @@ UserSchema.statics.findUniqueHouses = function(cb) {
     User.distinct('familyname', function(err, res) {
 	if (res)
 	    res = _.map(_.compact(res), function(h) { return { name : h}; });
-	cb(err,res);
+    	cb(err,res);
     });
 };
 

@@ -4,83 +4,104 @@
 <div class="sixteen columns">
   <h2>Software Installation</h2>
 
-  The following steps should be completed first before installing any other software:
+  <p>
+  The following steps should be completed before proceeding with the software installation:
 
   <ul class="square">
-    <li><a href="/ucn/register">Create user accunt</a></li>
-    <li><a href="/ucn/admin">Add devices (admin)</a></li>
+    <li><a href="/ucn/register">Create user account (with user, needs to remember the password)</a></li>
+    <li><a href="/ucn/admin">Add devices (as admin, note device specific logins)</a></li>
   </ul>
 
-  Once the account is ready, install platform specific software on each registered device as explained below:
+  On each device, proceed with the platform specific steps below:
+  </p>
 
   <h3>Mac (OS X)</h3>
 
-  <ul class="square">
-    <li>Install and activate VPN profile.
-        <ul class="dot">
-            <li>Download <a href="/ucn/downloads/ucnstudy.{{country}}.mobileconfig">VPN configuration profile</a> to the device (right-click and 'Save as ...').</li>
-            <li>Double-click the file to install, click twice 'Continue' and ignore username. Requires user to type in his password to complete.</li>
-            <li>Open System Preferences -> Network and select 'UCN Study' from the left column. Check 'Show VPN status in menu bar' for quick access to VPN connect/disconnect.</li>
-            <li>Click 'Connect' and provide the device specific VPN login (username.devicename) and user password (same for all devices) created above.</li>
-        </ul>
-    </li>
-  </ul>
+  <p>
+      <ul class="square">
+        <li>Install and activate VPN profile.
+            <ul class="circle">
+                <li>Download <a href="/ucn/downloads/ucnstudy.{{country}}.mobileconfig">VPN configuration profile</a> to the device (right-click and 'Save as ...').</li>
+                <li>Double-click the file to install, click twice 'Continue' and ignore username. Requires user to type in his computer password to complete.</li>
+                <li>Open System Preferences -> Network and select 'UCN Study' from the left column.</li>
+                <li>Type the device specific VPN login (username.devicename) to the 'Account Name' field.</li>
+                <li>Click 'Authentication Settings ...' and type in user password (same for all devices) created above.</li>
+                <li>Check 'Show VPN status in menu bar' for quick access to VPN connect/disconnect.</li>
+                <li>Click 'Connect'.</li>
+            </ul>
+        </li>
+      </ul>
+  </p>
 
   <h3>iPhone/iPad (iOS)</h3>
 
+  <p>
   <ul class="square">
     <li>Install and activate VPN profile.
-        <ul class="dot">
+        <ul class="circle">
             <li>Download <a href="/ucn/downloads/ucnstudy.{{country}}.mobileconfig">VPN configuration profile</a> to the device (right-click and 'Save as ...').</li>
-            <li>Double-click the file to install. TODO: test this.</li>
+            <li>Double-click the file to install.</li>
             <li>Click 'Connect' and provide the device specific VPN login (username.devicename) and user password (same for all devices) created above.</li>
         </ul>
     </li>
     <li>Install and configure <a target="_blank" href="http://appstore.com/moves">Moves</a>.
-        <ul class="dot">
+        <ul class="circle">
             <li>Open Moves app and create a new user profile.</li>
-            <li>Request Moves authentication at <a href="/ucn/admin">the device admin page</a>.</li>
-            <li>In the Moves app, add a new 3rd party application using the authentication code from previous step. TODO: provide details.</li>
+            <li>Request Moves authentication at <a href="/ucn/admin/devices">the device admin page</a>.</li>
+            <li>You will be presented with a PIN code that you will need to enter in the Moves app on the user's device (Go to the menu (M) -> connected apps).</li>
+            <li>If successful, the website will say: “All done! Thank you”.</li>            
+            <li>In the Moves settings, set the tracking priority to 'battery saving'.</li>        
         </ul>
     </li>
   </ul>
+  </p>
 
   <h3>Android</h3>
 
+  <p>
   <ul class="square">
-    <li>Configure and activate the VPN (Settings -> Wireless &amp; Networks -> More -> VPN -> Add VPN Profile):
-        <ul class="dot">
+    <li>Configure and activate the VPN (Settings -> Wireless &amp; Networks -> More -> VPN -> Add VPN Profile). You may need to setup PIN code protection first. Click '+' to add new VPN profile:
+        <ul class="circle">
             <li>Name : UCN Study</li>
-            <li>Type : IPSec PSK</li>
+            <li>Type : L2tp/IPSec PSK</li>
             <li>Server Address : {{vpnserver}}</li>
             <li>IPSec pre-shared key : {{vpnkey}}</li>
-            <li>Click 'Save' and then the name of the profile to connect.</li>
-            <li>Provide the device specific VPN login (username.devicename) and user password (same for all devices) created above.</li>
+            <li>Click 'Save' and then click the name of the profile to connect.</li>
+            <li>Provide the device specific VPN login (username.devicename) and user password (same for all devices) created above. Select 'save account information' and click 'Connect'.</li>
         </ul>
     </li>
     <li>Install <a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">UCN activity logger</a> and start the app (can run on the background all the time).</li>
     <li>Install and configure <a target="_blank" href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a>.
-        <ul class="dot">
+        <ul class="circle">
             <li>Open Moves app and create a new user profile.</li>
-            <li>Request Moves authentication at <a href="/ucn/admin">the device admin page</a>.</li>
-            <li>In the Moves app, add a new 3rd party application using the authentication code from previous step. TODO: provide details.</li>
+            <li>Request Moves authentication at <a href="/ucn/admin/devices">the device admin page</a>.</li>
+            <li>You will be presented with a PIN code that you will need to enter in the Moves app on the user's device (Go to the menu -> connected apps).</li>
+            <li>If successful, the website will say: “All done! Thank you”.</li>            
+            <li>Configure battery saving option at Settings -> device -> battery. You should see Moves in the list. Click on it, then tap on the button 
+                beneath “Select battery-saving mode”. Tap on Mode, and select “Battery Saving”.</li>            
         </ul>
     </li>
   </ul>
+  </p>
 
   <h3>Windows PC</h3>
 
+  <p>
   <ul class="square">
-    <li><a target="_blank" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a></li> 
-    <li><a target="_blank" href="https://muse.inria.fr/~george/sample.cmd">OpenVPN configuration script</a> (run as administrator!)</li> 
-    <li><a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">UCN activity logger</a></li>
+    <li>Install <a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">UCN activity logger (HostView)</a>.</li>
+    <li>Type the device specific VPN login (username.devicename) in the installer when prompted.</li>
+    <li>Install and activate VPN profile. TODO</li>
   </ul>
+  </p>
 
   <h3>Linux</h3>
 
+  <p>
   <ul class="square">
-    <li><a href="/ucn/downloads/{{country}}.server.ovpn">VPN tunnel config combined UDP + TCP fallback</a>
+    <li>Download and install <a href="/ucn/downloads/{{country}}.server.ovpn">OpenVPN client configuration</a>.
+    <li>Configure the VPN client with the device specific VPN login (username.devicename) and user password (same for all devices) created above.</li>
   </ul>
+  </p>
 
 </div>
 

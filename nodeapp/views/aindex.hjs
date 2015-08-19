@@ -46,7 +46,6 @@
         <th>Username</th>
         <th>Email</th>
         <th>Devices</th>
-        <th>Google Calendar</th>
         <th>Disabled</th>
       </tr>
     </thead>
@@ -56,7 +55,6 @@
         <td>{{username}}</td>
         <td>{{email}}</td>
         <td>{{devcount}}</td>
-        <td><a href="{{calendar_auth_url}}">Do&nbsp;auth</a></td>
         <td>
 	  <label for="disable">
 	    <input type="checkbox" id="disable" name="disable[]" 

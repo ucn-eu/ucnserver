@@ -12,10 +12,10 @@ var debug = require('debug')(app.get('debugns')+':routes:admin');
  */
 router.use(function(req, res, next) {
     if (!req.user || !req.user.isadmin) {
-	var robj =  res.locals.renderobj;
-	robj.loggedin = false;
-	robj.error = res.__('error_not_authorized');
-	return res.render('login', robj);
+		var robj =  res.locals.renderobj;
+		robj.loggedin = false;
+		robj.error = res.__('error_not_authorized');
+		return res.render('login', robj);
     }
     next();
 });
@@ -23,18 +23,18 @@ router.use(function(req, res, next) {
 /** Main page : users. */
 router.get('/', function(req, res, next) {
     User.findUniqueHouses(function(err, houses) {
-	if (err) {
-	    // some db error - should not happen in prod ..
-	    debug(err);
-	    err.status = 500;
-	    return next(err);
-	}
+		if (err) {
+		    // some db error - should not happen in prod ..
+		    debug(err);
+		    err.status = 500;
+		    return next(err);
+		}
 
-	var robj =  res.locals.renderobj;
-	robj.loggedin = true;
-	robj.houses = houses;
-	robj.vizurl = app.get('vizurl');
-	return res.render('aindex', robj);
+		var robj =  res.locals.renderobj;
+		robj.loggedin = true;
+		robj.houses = houses;
+		robj.vizurl = app.get('vizurl');
+		return res.render('aindex', robj);
     }); // findHouses
 });
 
@@ -104,67 +104,24 @@ router.post('/', function(req, res, next) {
 /** Devices page: initially just populate the user list. */
 router.get('/devices', function(req, res, next) {
     User.findAllUsers(function(err, users) {
-	if (err) {
-	    // some db error - should not happen in prod ..
-	    debug(err);
-	    err.status = 500;
-	    return next(err);
-	}
+		if (err) {
+		    // some db error - should not happen in prod ..
+		    debug(err);
+		    err.status = 500;
+		    return next(err);
+		}
 
-	var robj =  res.locals.renderobj;
-	robj.vizurl = app.get('vizurl');
-	robj.loggedin = true;
-	robj.users = users;
-	return res.render('adevs', robj);
+		var robj =  res.locals.renderobj;
+		robj.vizurl = app.get('vizurl');
+		robj.loggedin = true;
+		robj.users = users;
+		return res.render('adevs', robj);
     });
 });
 
 /** Devices page: handle form action. */
 router.post('/devices', function(req, res, next) {
     User.findAllUsers(function(err, users) {
-	if (err) {
-	    // some db error - should not happen in prod ..
-	    debug(err);
-	    err.status = 500;
-	    return next(err);
-	}
-
-	var robj =  res.locals.renderobj;
-	var rendererr = function(err) {
-	    robj.vizurl = app.get('vizurl');
-	    robj.loggedin = true;
-	    robj.users = users;
-	    robj.error = err;
-	    robj.username = req.body.username;
-	    return res.render('adevs', robj);
-	};
-
-	var rendersucc = function(succ) {
-	    Device.findDevicesForUser(req.body.username, function(err, devices) {
-		if (err) {
-		    // some db error - should not happen in prod ..
-		    debug(err);
-		    err.status = 500;
-		    return next(err);
-		}
-		robj.vizurl = app.get('vizurl');
-		robj.loggedin = true;
-		robj.users = users;
-		robj.devices = devices;
-		robj.success = succ;
-		robj.username = req.body.username;
-		return res.render('adevs', robj);
-	    });
-	};
-
-	if (!req.body.username) {
-	    return rendererr("Select user!");
-	}
-	
-	if (req.body.submitclear) {
-	    var notifs = req.body.notif || [];
-	    // remove selected notification flags
-	    Device.findDevicesForUser(req.body.username,function(err, devices) {
 		if (err) {
 		    // some db error - should not happen in prod ..
 		    debug(err);
@@ -172,63 +129,106 @@ router.post('/devices', function(req, res, next) {
 		    return next(err);
 		}
 
-		_.each(devices, function(d) {
-		    var checked = _.find(notifs, function(login) { 
-			return d.login === login; 
+		var robj =  res.locals.renderobj;
+		var rendererr = function(err) {
+		    robj.vizurl = app.get('vizurl');
+		    robj.loggedin = true;
+		    robj.users = users;
+		    robj.error = err;
+		    robj.username = req.body.username;
+		    return res.render('adevs', robj);
+		};
+
+		var rendersucc = function(succ) {
+		    Device.findDevicesForUser(req.body.username, function(err, devices) {
+				if (err) {
+				    // some db error - should not happen in prod ..
+				    debug(err);
+				    err.status = 500;
+				    return next(err);
+				}
+				robj.vizurl = app.get('vizurl');
+				robj.loggedin = true;
+				robj.users = users;
+				robj.devices = devices;
+				robj.success = succ;
+				robj.username = req.body.username;
+				return res.render('adevs', robj);
 		    });
-		    // db object has the flag, but removed on the form .. 
-		    // -> unset in db
-		    if (!checked && d.inactivity_notif_sent) {
-			d.unsetnotif(function(err,dev) {});
-		    }
-		});
+		};
 
-		// yield so that the db operations are done
-		setTimeout(rendersucc,0,"Selected flags cleared!");
-	    });	
-
-	} else if (req.body.submitadd) {
-	    // adding a new device
-
-	    if (!req.body.devname || req.body.devname.trim().length <= 0)
-		return rendererr("Missing 'Device Name'");
-	    // This is because the OpenVPN clients replace ' ' by '_' ...
-	    if (req.body.devname.indexOf(' ')>=0)
-		return rendererr("No spaces allowed in 'Device Name'");
-
-	    var d = {
-		login : req.body.username + '.' + req.body.devname.trim(),
-		username : req.body.username,
-		devname : req.body.devname.trim(),
-		type : req.body.devtype,
-		usage : req.body.devusage
-	    };
-
-	    Device.findOne({login : d.login}, function(err, dev) {
-		if (err) {
-		    // some db error - should not happen in prod ..
-		    debug(err);
-		    err.status = 500;
-		    return next(err);
+		if (!req.body.username) {
+		    return rendererr("Select user!");
 		}
-		if (dev)
-		    return rendererr("User already has a device named '"+
-				     d.devname+"'");
+	
+		if (req.body.submitclear) {
+		    var notifs = req.body.notif || [];
+		    // remove selected notification flags
+		    Device.findDevicesForUser(req.body.username,function(err, devices) {
+				if (err) {
+				    // some db error - should not happen in prod ..
+				    debug(err);
+				    err.status = 500;
+				    return next(err);
+				}
 
-		Device.create(d, function(err, dev) {
-		    if (err) {
-			// some db error - should not happen in prod ..
-			debug(err);
-			err.status = 500;
-			return next(err);
-		    }
-		    setTimeout(rendersucc,0,"Added device '"+d.devname+"'");
-		}); // create
-	    }); // findOne
-	} else {
-	    // render devs
-	    return rendersucc();
-	}
+				_.each(devices, function(d) {
+				    var checked = _.find(notifs, function(login) { 
+					return d.login === login; 
+				    });
+				    // db object has the flag, but removed on the form .. 
+				    // -> unset in db
+				    if (!checked && d.inactivity_notif_sent) {
+					d.unsetnotif(function(err,dev) {});
+				    }
+				});
+
+				// yield so that the db operations are done
+				setTimeout(rendersucc,0,"Selected flags cleared!");
+		    });	
+
+		} else if (req.body.submitadd) {
+		    // adding a new device
+
+		    if (!req.body.devname || req.body.devname.trim().length <= 0)
+				return rendererr("Missing 'Device Name'");
+		    // This is because the OpenVPN clients replace ' ' by '_' ...
+		    if (req.body.devname.indexOf(' ')>=0)
+				return rendererr("No spaces allowed in 'Device Name'");
+
+		    var d = {
+				login : req.body.username + '.' + req.body.devname.trim(),
+				username : req.body.username,
+				devname : req.body.devname.trim(),
+				type : req.body.devtype,
+				usage : req.body.devusage
+		    };
+
+		    Device.findOne({login : d.login}, function(err, dev) {
+				if (err) {
+				    // some db error - should not happen in prod ..
+				    debug(err);
+				    err.status = 500;
+				    return next(err);
+				}
+				if (dev)
+				    return rendererr("User already has a device named '"+
+						     d.devname+"'");
+
+				Device.create(d, function(err, dev) {
+				    if (err) {
+						// some db error - should not happen in prod ..
+						debug(err);
+						err.status = 500;
+						return next(err);
+				    }
+				    setTimeout(rendersucc,0,"Added device '"+d.devname+"'");
+				}); // create
+		    }); // findOne
+		} else {
+		    // render devs
+		    return rendersucc();
+		}
     }); // findAllUsers
 });
 

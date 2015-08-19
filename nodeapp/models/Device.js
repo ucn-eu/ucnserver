@@ -1,3 +1,4 @@
+var exec = require('child_process').exec;
 var ip = require('ip');
 var moment = require('moment');
 var _ = require('underscore');
@@ -5,10 +6,15 @@ var db = require('../lib/db');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:Device');
 
-var UDP_RANGE_START = '10.2.0.2';
-var UDP_RANGE_END = ip.toLong('10.2.99.251');
+// for OpenVPN
 var TCP_RANGE_START = '10.1.0.2';
 var TCP_RANGE_END = ip.toLong('10.1.99.251');
+var UDP_RANGE_START = '10.2.0.2';
+var UDP_RANGE_END = ip.toLong('10.2.99.251');
+
+// for IPSec
+var IPSEC_RANGE_START = '10.3.0.2';
+var IPSEC_RANGE_END = ip.toLong('10.3.0.253');
 
 /** Device JSON schema.
  * 
@@ -29,14 +35,21 @@ var DeviceSchema = new db.Schema({
     usage : {type:String, required: true, unique: false},
     created: {type:Date, default: Date.now},
     removed: {type:Date, required: false},
+
     vpn_udp_ip : {type:String, required: true, unique: true},
     vpn_tcp_ip : {type:String, required: true, unique: true},
+    vpn_ipsec_ip : {type:String, required: true, unique: true},
     vpn_mask : {type:String, required: true, unique: false},
     
     // android or win activity logger info
     loggerapp_uuid : {type:String, required: false},
     loggerapp_lastseen: {type:Date, required: false},
     loggerapp_uploads : {type:Number, required: false, default :0},
+
+    // browser addon info
+    browseraddon_uuid : {type:String, required: false},
+    browseraddon_lastseen: {type:Date, required: false},
+    browseraddon_uploads : {type:Number, required: false, default :0},
 
     // openvpn auth script stats
     vpn_auths : {type:Number, default : 0, required: true},
@@ -60,26 +73,26 @@ DeviceSchema.statics.getAllPlatforms = function() {
 
 DeviceSchema.statics.type2platform = function(type) {
     switch (type) {
-    case 'ipad':
-    case 'iphone':
-	return 'ios';
-	break;
+        case 'ipad':
+        case 'iphone':
+    	return 'ios';
+    	break;
     case 'android-phone':
     case 'android-tablet':
-	return 'android';
-	break;
+    	return 'android';
+    	break;
     case 'macbook':
     case 'imac':
-	return 'darwin';
-	break;
+    	return 'darwin';
+    	break;
     case 'windows-laptop': 
     case 'windows-pc': 
-	return 'windows';
-	break;
+    	return 'windows';
+    	break;
     case 'linux-laptop':
     case 'linux-pc':
-	return 'linux';
-	break;
+    	return 'linux';
+    	break;
     }
     return undefined;
 };
@@ -91,39 +104,63 @@ DeviceSchema.statics.isMobilePlatform = function(platform) {
 DeviceSchema.pre('validate', function(next) {
     var device = this;
     if (device.isNew) {
-	var Device = require('./Device');
-	Device
-	    .find()
-	    .sort('-created')
-	    .limit(1)
-	    .select('vpn_udp_ip vpn_tcp_ip')
-	    .exec(function(err, dev) {    
-		if (err) next(err);
-		if (dev.length>0) {
-		    // next free UDP
-		    dev = dev[0]
-		    tmp = ip.toLong(dev.vpn_udp_ip);
-		    tmp += 1;
-		    device.vpn_udp_ip = ip.fromLong(tmp);
-		    if (device.vpn_udp_ip > UDP_RANGE_END) // should not happen
-			next(new Error('Run out of UDP addresses'));
+        var User = require('./User');
+    	var Device = require('./Device');
+    	Device.find()
+    	.sort('-created')
+    	.limit(1)
+    	.select('vpn_udp_ip vpn_tcp_ip vpn_ipsec_ip')
+    	.exec(function(err, dev) {    
+    		if (err) next(err);
+    		if (dev.length>0) {
+    		    // next free UDP
+    		    dev = dev[0]
+    		    tmp = ip.toLong(dev.vpn_udp_ip);
+    		    tmp += 1;
+    		    device.vpn_udp_ip = ip.fromLong(tmp);
+    		    if (device.vpn_udp_ip > UDP_RANGE_END) // should not happen
+        			next(new Error('Run out of UDP addresses'));
 
-		    // next free TCP
-		    tmp = ip.toLong(dev.vpn_tcp_ip);
-		    tmp += 1;
-		    device.vpn_tcp_ip = ip.fromLong(tmp);
-		    if (device.vpn_tcp_ip > TCP_RANGE_END) // should not happen
-			next(new Error('Run out of TCP addresses'));
-		} else {
-		    device.vpn_tcp_ip = TCP_RANGE_START;
-		    device.vpn_udp_ip = UDP_RANGE_START;
-		}
-		device.vpn_mask = '255.255.0.0'
-		debug(JSON.stringify(device));
-		next();
-	    });
+    		    // next free TCP
+    		    tmp = ip.toLong(dev.vpn_tcp_ip);
+    		    tmp += 1;
+    		    device.vpn_tcp_ip = ip.fromLong(tmp);
+    		    if (device.vpn_tcp_ip > TCP_RANGE_END) // should not happen
+        			next(new Error('Run out of TCP addresses'));
+
+                // next free ipsec
+                tmp = ip.toLong(dev.vpn_ipsec_ip);
+                tmp += 1;
+                device.vpn_ipsec_ip = ip.fromLong(tmp);
+                if (device.vpn_ipsec_ip > IPSEC_RANGE_END) // should not happen
+                    next(new Error('Run out of IPSEC addresses'));
+
+    		} else {
+    		    device.vpn_tcp_ip = TCP_RANGE_START;
+    		    device.vpn_udp_ip = UDP_RANGE_START;
+                device.vpn_ipsec_ip = IPSEC_RANGE_START;
+    		}
+    		device.vpn_mask = '255.255.0.0'
+    		debug(JSON.stringify(device));
+
+            // Add ipsec secret
+            User.findOne({username : device.username}, function(err, u) {
+                if (err) next(err);
+
+                // FIXME: HACK requires clear text password ... figure out another way .. ?
+                exec('/etc/ppp/add-chap-secret ' + device.login + ' ' + u.password_clr + ' ' + device.vpn_ipsec_ip,
+                  function (error, stdout, stderr) {                
+                    if (error !== null) {
+                      debug('exec error::' + error + ': ' + stderr);
+                      next(new Error('Failed to add IPSec config'));
+                    } else {
+                        next();
+                    }
+                }); // exec
+	       }); // findOne
+        }); // exec
     } else {
-	next();
+      	next();
     }
 });
 
@@ -160,19 +197,11 @@ DeviceSchema.virtual('moves_auth_url').get(function() {
     return app.get('moves_auth_url') + u;
 });
 
-DeviceSchema.virtual('vpn_bytes_sent_mb').get(function() {
-    return (this.vpn_bytes_sent / (1024.0 * 1024.0)).toFixed(2);
-});
-
-DeviceSchema.virtual('vpn_bytes_recv_mb').get(function() {
-    return (this.vpn_bytes_recv / (1024.0 * 1024.0)).toFixed(2);
-});
-
 DeviceSchema.virtual('vpn_last_seen_str').get(function() {
     if (this.vpn_last_seen)
-	return moment(this.vpn_last_seen).format("MMM Do, HH:mm");
+    	return moment(this.vpn_last_seen).format("MMM Do, HH:mm");
     else
-	return "--";
+	   return "--";
 });
 
 /** Device. */
@@ -192,4 +221,3 @@ DeviceSchema.statics.findAllDevices = function(cb) {
 
 var model = db.model('Device', DeviceSchema);
 exports = module.exports = model;
-

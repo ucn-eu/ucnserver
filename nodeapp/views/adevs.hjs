@@ -57,9 +57,8 @@
       <tr>
         <th>Type</th>
         <th>VPN Login</th>
-        <th>VPN IP (tcp,udp)</th>
-        <th>VPN Auth (succ/fail)</th>
-        <th>VPN Traffic (tx/rx MB)</th>
+        <th>VPN IP (tcp,udp,ipsec)</th>
+        <th>VPN Connections</th>
         <th>Last Seen</th>
         <th>Notif Sent</th>
         <th>Moves</th>
@@ -67,36 +66,35 @@
     </thead>
     <tbody>
       {{#devices}}
-      {{#inactivity_notif_sent}}
-      <tr style="background-color:#ff4d4d;">
-      {{/inactivity_notif_sent}}
-      {{^inactivity_notif_sent}}
-      <tr style="background-color:#90e070;">
-      {{/inactivity_notif_sent}}
+        {{#inactivity_notif_sent}}
+          <tr style="background-color:#ff4d4d;">
+        {{/inactivity_notif_sent}}
+        {{^inactivity_notif_sent}}
+          <tr style="background-color:#90e070;">
+        {{/inactivity_notif_sent}}
         <td>{{type}}</td>
         <td>{{login}}</td>
-        <td>{{vpn_tcp_ip}}, {{vpn_udp_ip}}</td>
-        <td>{{vpn_auths}}/{{vpn_auth_failures}}</td>
-        <td>{{vpn_bytes_sent_mb}}/{{vpn_bytes_recv_mb}}</td>
+        <td>{{vpn_tcp_ip}}, {{vpn_udp_ip}}, {{vpn_ipsec_ip}}</td>
+        <td>{{vpn_connections}}</td>
         <td>{{vpn_last_seen_str}}</td>
-	<td>
-	{{#inactivity_notif_sent}}
-	  <label for="notif">
-	    <input type="checkbox" id="notif" name="notif[]" 
-		   value="{{login}}" checked /> 
-	  </label>
-	{{/inactivity_notif_sent}}
-	{{^inactivity_notif_sent}}
-	  --
-	{{/inactivity_notif_sent}}
-	</td>
+      	<td>
+      	{{#inactivity_notif_sent}}
+      	  <label for="notif">
+      	    <input type="checkbox" id="notif" name="notif[]" 
+      		   value="{{login}}" checked /> 
+      	  </label>
+      	{{/inactivity_notif_sent}}
+      	{{^inactivity_notif_sent}}
+      	  --
+      	{{/inactivity_notif_sent}}
+      	</td>
         <td>
-	{{#ismobile}}
-        <a href="{{moves_auth_url}}">Do&nbsp;auth</a>
-	{{/ismobile}}
-	{{^ismobile}}
-	  --
-	{{/ismobile}}
+      	{{#ismobile}}
+              <a href="{{moves_auth_url}}">Do&nbsp;auth</a>
+      	{{/ismobile}}
+      	{{^ismobile}}
+      	  --
+      	{{/ismobile}}
         </td>
       </tr>
       {{/devices}}
