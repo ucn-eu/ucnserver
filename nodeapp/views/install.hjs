@@ -88,9 +88,8 @@
 
   <p>
   <ul class="square">
-    <li>Install <a target="_blank" href="/ucn/downloads/hostviewinstaller.exe">UCN activity logger (HostView)</a>.</li>
+    <li>Install <a target="_blank" href="/hostview/">UCN activity logger (HostView)</a>.</li>
     <li>Type the device specific VPN login (username.devicename) in the installer when prompted.</li>
-    <li>Install and activate VPN profile. TODO</li>
   </ul>
   </p>
 
