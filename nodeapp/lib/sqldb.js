@@ -36,31 +36,32 @@ var addDevice = exports.addDevice = function(dev, os, cb) {
             return done(err);
         }
 
-        var q = util.format('INSERT INTO devices (devicename, collector, os) VALUES (%s, %s, %s) RETURNING id;', dev.login, 'vpn', os);
+        var q = util.format("INSERT INTO devices (devicename, collector, os) VALUES ('%s', '%s', '%s') RETURNING id;", dev.login, 'vpn', os);
+
         client.query(q, function(err, result) {
             if (err) {
-                debug('sql insert error', err);
+                debug('sql insert error: ' + q, err);
                 return done(err);
             }
 
             var deviceid = result.rows[0].id;
-
-            q = util.format('INSERT INTO vpnips VALUES (%s, %s);', deviceid, dev.vpn_tcp_ip);
+            var qformat = "INSERT INTO vpnips VALUES ('%s', '%s');";
+            q = util.format(qformat, deviceid, dev.vpn_tcp_ip);
             client.query(q, function(err, result) {
                 if (err) {
-                    debug('sql insert error', err);
+                    debug('sql insert error: ' + q, err);
                     return done(err);
                 }
-                q = util.format('INSERT INTO vpnips VALUES (%s, %s);', deviceid, dev.vpn_udp_ip);
+                q = util.format(qformat, deviceid, dev.vpn_udp_ip);
                 client.query(q, function(err, result) {
                     if (err) {
-                        debug('sql insert error', err);
+                        debug('sql insert error: ' + q, err);
                         return done(err);
                     }
-                    q = util.format('INSERT INTO vpnips VALUES (%s, %s);', deviceid, dev.vpn_ipsec_ip);
+                    q = util.format(qformat, deviceid, dev.vpn_ipsec_ip);
                     client.query(q, function(err, result) {
                         if (err) {
-                            debug('sql insert error', err);
+                            debug('sql insert error: ' + q, err);
                             return done(err);
                         }
                         // all done
