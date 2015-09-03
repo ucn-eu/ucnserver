@@ -90,6 +90,13 @@
   <ul class="square">
     <li>Install <a target="_blank" href="/hostview/">UCN activity logger (HostView)</a>.</li>
     <li>Type the device specific VPN login (username.devicename) in the installer when prompted.</li>
+    <li>Install browser plugins (for browsers used by the user):
+	<ul class="circle">
+		<li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</li>
+		<li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</li>
+		<li>Internet Explorer (bundled with HostView)</li>
+	</ul>
+    </li>
   </ul>
   </p>
 
