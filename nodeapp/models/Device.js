@@ -3,6 +3,7 @@ var ip = require('ip');
 var moment = require('moment');
 var _ = require('underscore');
 var db = require('../lib/db');
+var sqldb = require('../lib/sqldb');
 var app = require('../app');
 var debug = require('debug')(app.get('debugns')+':model:Device');
 
@@ -73,8 +74,8 @@ DeviceSchema.statics.getAllPlatforms = function() {
 
 DeviceSchema.statics.type2platform = function(type) {
     switch (type) {
-        case 'ipad':
-        case 'iphone':
+    case 'ipad':
+    case 'iphone':
     	return 'ios';
     	break;
     case 'android-phone':
@@ -143,21 +144,30 @@ DeviceSchema.pre('validate', function(next) {
     		device.vpn_mask = '255.255.0.0'
     		debug(JSON.stringify(device));
 
+            // Update dev info to the SQL db
+            if (device.platform !== 'windows') {
+                sqldb.addDevice(dev);
+            }
+
             // Add ipsec secret
             User.findOne({username : device.username}, function(err, u) {
                 if (err) next(err);
 
+                // #### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #####
                 // FIXME: HACK requires clear text password ... figure out another way .. ?
                 exec('/etc/ppp/add-chap-secret ' + device.login + ' ' + u.password_clr + ' ' + device.vpn_ipsec_ip,
                   function (error, stdout, stderr) {                
                     if (error !== null) {
-                      debug('exec error::' + error + ': ' + stderr);
-                      next(new Error('Failed to add IPSec config'));
+                        debug('exec error::' + error + ': ' + stderr);
+                        next(new Error('Failed to add IPSec config'));
                     } else {
                         next();
                     }
                 }); // exec
-	       }); // findOne
+                // HACK END
+                // #### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #####
+
+	        }); // findOne
         }); // exec
     } else {
       	next();

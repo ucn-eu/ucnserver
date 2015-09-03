@@ -30,6 +30,7 @@
     "underscore": "latest",
     "i18n": "latest",
     "ip" : "latest",
-    "moment" : "latest"
+    "moment" : "latest",
+    "pg" : "latest"
   }
 }

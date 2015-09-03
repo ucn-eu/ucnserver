@@ -28,7 +28,15 @@ app.set('moves_client_secret', process.env['MOVES_CLIENT_SECRET']);
 app.set('vpnkey', process.env['IPSEC_SECRET']);
 
 // MongoDB database
-app.set('dbname', process.env['MONGO_DB'] || 'ucnexp');
+app.set('dbname', process.env['MONGO_DB'] || 'ucntest');
+
+// SQL DB (optional)
+if (process.env['SQLDB_DATABASE']) {
+    app.set('sqldb_username', process.env['SQLDB_USERNAME'] || '');
+    app.set('sqldb_password', process.env['SQLDB_PASSWORD'] || '');
+    app.set('sqldb_server', process.env['SQLDB_SERVER'] || 'localhost');
+    app.set('sqldb_database', process.env['SQLDB_DATABASE']);
+}
 
 // language support
 app.set('available_locales', ['en', 'fr']);

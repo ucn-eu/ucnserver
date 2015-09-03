@@ -3,7 +3,7 @@
     "name"         : "ucnweb",
     "script"       : "bin/www",
     "instances"    : "1",
-    "exec_mode"    : "fork_mode",
+    "exec_mode"    : "cluster_mode",
     "error_file"   : "/home/nodeapp/logs/ucnweb-error.log",
     "out_file"     : "/home/nodeapp/logs/ucnweb.log",
     "pid_file"     : "/home/nodeapp/pids/ucnweb",
@@ -13,8 +13,13 @@
     "env": {
         "NODE_ENV" : "production",
         "DEBUG"    : "ucnweb:*",
+        "MONGO_DB" : "ucnexp",
         "MOVES_CLIENT_ID" : "FIXME",
-        "MOVES_CLIENT_SECRET" : "FIXME"
+        "MOVES_CLIENT_SECRET" : "FIXME",
+        "SQLDB_USERNAME" : "FIXME",
+        "SQLDB_PASSWORD" : "FIXME",
+        "SQLDB_SERVER" : "FIXME",
+        "SQLDB_DATABASE" : "FIXME"
     }
   }]
 }
