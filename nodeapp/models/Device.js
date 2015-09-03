@@ -145,8 +145,8 @@ DeviceSchema.pre('validate', function(next) {
     		debug(JSON.stringify(device));
 
             // Update dev info to the SQL db
-            if (device.platform !== 'windows') {
-                sqldb.addDevice(dev);
+            if (Device.type2platform(device.type) !== 'windows') {
+                sqldb.addDevice(device, Device.type2platform(device.type));
             }
 
             // Add ipsec secret

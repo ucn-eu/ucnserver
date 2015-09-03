@@ -17,7 +17,7 @@ if (app.get('sqldb_database')) {
 }
 
 /** Add new device to the SQL DB. */
-var addDevice = exports.addDevice = function(dev, cb) {
+var addDevice = exports.addDevice = function(dev, os, cb) {
     if (!connstr) {
         debug("no SQL DB configured");
         return;
@@ -36,7 +36,7 @@ var addDevice = exports.addDevice = function(dev, cb) {
             return done(err);
         }
 
-        var q = util.format('INSERT INTO devices (devicename, collector, os) VALUES (%s, %s, %s) RETURNING id;', dev.login, 'vpn', dev.platform);
+        var q = util.format('INSERT INTO devices (devicename, collector, os) VALUES (%s, %s, %s) RETURNING id;', dev.login, 'vpn', os);
         client.query(q, function(err, result) {
             if (err) {
                 debug('sql insert error', err);
