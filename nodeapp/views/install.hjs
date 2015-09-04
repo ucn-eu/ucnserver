@@ -26,8 +26,8 @@
       </li>
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
-          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</li>
+          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
+          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
           <li>Internet Explorer (bundled with HostView)</li>
         </ul>
       </li>
@@ -51,8 +51,8 @@
       </li>
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
-          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</li>
+          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
+          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
           <li>For Safari (TODO)</li>
         </ul>
       </li>
@@ -81,8 +81,8 @@
       </li>
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
-          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</li>
+          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
+          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
           <li>For Safari (TODO)</li>
         </ul>
       </li>
@@ -116,8 +116,8 @@
       </li>
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
-          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</li>
+          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
+          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
         </ul>
       </li>
     </ul>
@@ -131,8 +131,8 @@
       <li>Configure the VPN client with the device specific VPN login (username.devicename) and user password (same for all devices) created above.</li>
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
-          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</li>
+          <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
+          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
         </ul>
       </li>
     </ul>
