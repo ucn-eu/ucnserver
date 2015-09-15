@@ -127,7 +127,8 @@
 
   <p>
     <ul class="square">
-      <li>Download and install <a href="/ucn/downloads/{{country}}.server.ovpn">OpenVPN client configuration</a>.
+      <li>Install OpenVPN using distribution's package manager (e.g. sudo apt-get install openvpn).</li>
+      <li>Download and install <a href="/ucn/downloads/{{country}}.server.ovpn">OpenVPN client configuration</a>.</li>
       <li>Configure the VPN client with the device specific VPN login (username.devicename) and user password (same for all devices) created above.</li>
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
