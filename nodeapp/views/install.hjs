@@ -24,11 +24,11 @@
           <li>Type the device specific VPN login (username.devicename) in the installer when prompted.</li>
         </ul>
       </li>
-      <li>Install browser plugin(s) (for browsers used by the user):
+      <li>Install browser plugin(s) (for browsers used by the user, open the links in the corresponding browser):
         <ul class="circle">
+          <li>Internet Explorer (bundled with HostView - restart the browser and accept the new plugin)</li>
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
           <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
-          <li>Internet Explorer (bundled with HostView)</li>
         </ul>
       </li>
     </ul>
@@ -49,11 +49,11 @@
               <li>Click 'Connect'.</li>
           </ul>
       </li>
-      <li>Install browser plugin(s) (for browsers used by the user):
+      <li>Install browser plugin(s) (for browsers used by the user, open the links in the corresponding browser):
         <ul class="circle">
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
           <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
-          <li>For Safari (TODO)</li>
+          <li>For Safari (TODO ?)</li>
         </ul>
       </li>
     </ul>
@@ -79,7 +79,7 @@
               <li>In the Moves settings, set the tracking priority to 'battery saving'.</li>        
           </ul>
       </li>
-      <li>Install browser plugin(s) (for browsers used by the user):
+      <li>Install browser plugin(s) (for browsers used by the user, open the links in the corresponding browser):
         <ul class="circle">
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
           <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
@@ -114,7 +114,7 @@
                 beneath “Select battery-saving mode”. Tap on Mode, and select “Battery Saving”.</li>            
         </ul>
       </li>
-      <li>Install browser plugin(s) (for browsers used by the user):
+      <li>Install browser plugin(s) (for browsers used by the user, open the links in the corresponding browser):
         <ul class="circle">
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
           <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
