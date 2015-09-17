@@ -7,12 +7,17 @@
   <h3>Mac (OS X)</h3>
 
   <ul class="square">
-    <li>Disconnect the VPN</li>
-    <li>Remove the VPN configuration
+    <li>Disconnect the VPN and remove the VPN configuration
         <ul class="circle">
             <li>Search with Spotlight (the reading glass icon) for 'Profiles' application and open it.</li>
             <li>Remove 'UCN Study' profile by selecting it from the left column and then clicking on the minus sign (requires user password).</li>
         </ul>
+    </li>
+    <li>Remove the browser addons:
+      <ul class="circle">
+          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
+          <li>Chrome: TODO.</li>
+      </ul>
     </li>
   </ul>
 
@@ -20,6 +25,12 @@
 
   <ul class="square">
     <li>Disconnect the VPN and remove the VPN configuration.</li>
+    <li>Remove the browser addons:
+      <ul class="circle">
+          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
+          <li>Chrome: TODO.</li>
+      </ul>
+    </li>
     <li>Uninstall Moves (optional).</li>
   </ul>
 
@@ -27,6 +38,12 @@
 
   <ul class="square">
     <li>Disconnect the VPN and remove the VPN configuration (Settings -> Wireless &amp; Networks -> More -> VPN).</li>
+    <li>Remove the browser addons:
+      <ul class="circle">
+          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
+          <li>Chrome: TODO.</li>
+      </ul>
+    </li>
     <li>Uninstall UCN Activity Logger.</li>
     <li>Uninstall Moves (optional).</li>
   </ul>
@@ -34,14 +51,26 @@
   <h3>Windows PC</h3>
 
   <ul class="square">
-    <li>Uninstall HostView (C:\\Program Files\HostView\uninstall.exe).</li>
     <li>Disconnect the VPN and remove the VPN configuration.</li>
+    <li>Uninstall HostView (C:\\Program Files\HostView\uninstall.exe).</li>
+    <li>Remove the browser addons:
+      <ul class="circle">
+          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
+          <li>Chrome: TODO.</li>
+      </ul>
+    </li>
   </ul>
 
   <h3>Linux</h3>
 
   <ul class="square">
     <li>Disconnect OpenVPN and remove the VPN configuration.</li>
+    <li>Remove the browser addons:
+      <ul class="circle">
+          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
+          <li>Chrome: TODO.</li>
+      </ul>
+    </li>
   </ul>
 
 </div>

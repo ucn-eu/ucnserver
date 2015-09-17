@@ -103,7 +103,14 @@
               <li>Provide the device specific VPN login (username.devicename) and user password (same for all devices) created above. Select 'save account information' and click 'Connect'.</li>
           </ul>
       </li>
-      <li>Install <a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">UCN activity logger</a> and start the app (can run on the background all the time).</li>
+      <li>Allow installation of apps from non-market sources: Settings -> Security -> Select 'Unknown sources'.</li>
+      <li>Install <a target="_blank" href="/ucn/downloads/UCNDataCollector.apk">UCN activity logger</a>.      
+        <ul class="circle">
+            <li>Start the app.</li>
+            <li>Check that the country of resiedence is set to '{{country}}'.</li>
+            <li>Toggle the ON-OFF button at the top right corner to start the collector (can be left running on the background all the time).</li>
+        </ul>
+      </li>    
       <li>Install and configure <a target="_blank" href="https://play.google.com/store/apps/details?id=com.protogeo.moves">Moves</a>.
         <ul class="circle">
             <li>Open Moves app and create a new user profile.</li>
