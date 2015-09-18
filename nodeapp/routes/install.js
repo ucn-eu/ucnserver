@@ -7,6 +7,7 @@ router.all('*', function(req, res, next) {
     robj.loggedin = (req.user !== undefined);
     robj.country = app.get('country');
     robj.vpnserver = app.get('vpnserver');
+    robj.vpnserverip = app.get('vpnserverip');
     robj.vpnkey = app.get('vpnkey');
     return res.render('install', robj);
 });

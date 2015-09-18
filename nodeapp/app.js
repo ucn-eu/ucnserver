@@ -70,6 +70,8 @@ if (app.get('env') === 'production') {
     app.set('baseurl', 'https://muse.inria.fr/ucn');
     app.set('vizurl', 'https://muse.inria.fr/viz');
     app.set('vpnserver', 'muse.inria.fr');
+    app.set('vpnserverip', '128.93.165.1');
+    app.set('vpnserverdns', '128.93.58.7 128.93.58.6 8.8.8.8');
     
 } else if (app.get('env') === 'ukproduction') {
     debug('setting up in production environment (uk)');
@@ -90,6 +92,8 @@ if (app.get('env') === 'production') {
     app.set('baseurl', 'https://ucnproject.uk/ucn');
     app.set('vizurl', 'https://ucnproject.uk/viz');
     app.set('vpnserver', 'ucnproject.uk');
+    app.set('vpnserverip', '31.25.186.141');
+    app.set('vpnserverdns', ' 31.25.184.10 78.31.108.12 8.8.8.8');
 
 } else {
     debug('setting up in development environment');
@@ -103,6 +107,8 @@ if (app.get('env') === 'production') {
     app.set('baseurl', 'http://localhost:'+app.get('port')+'/ucn');
     app.set('vizurl', 'http://localhost:'+app.get('port')+'/ucn');
     app.set('vpnserver', '127.0.0.1');
+    app.set('vpnserverip', '127.0.0.1');
+    app.set('vpnserverdns', '127.0.0.1');
 
     // strip proxy path from all urls in testing (done by the proxy in prod)
     app.use(function(req, res, next) {
