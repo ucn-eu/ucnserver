@@ -21,27 +21,52 @@
 <div class="thirteen columns">
   <h2>{{#__}}devices_title{{/__}}</h2>
 
-  <p>{{#__}}devices_help{{/__}}</p>
+  {{#error}}
+  <p id="error">
+    {{#__}}devices_forget_err{{/__}}
+  </p>
+  {{/error}}
+  {{#success}}
+  <p id="success">
+    {{#__}}devices_forget_succ{{/__}}
+  </p>
+  {{/success}}
+
+
+  <div>
+    {{#__}}devices_help{{/__}}
+  </div>
 
   <div id="rtable" class="condensed">
     <table>
       <thead>
-	<tr>
-	  <th>{{#__}}devices_login{{/__}}</th>
-	  <th>{{#__}}devices_conn{{/__}}</th>
-	  <th>{{#__}}devices_fail{{/__}}</th>
-	  <th>{{#__}}devices_lastseen{{/__}}</th>
-	</tr>
+      	<tr>
+      	  <th>{{#__}}devices_login{{/__}}</th>
+      	  <th>{{#__}}devices_lastseen{{/__}}</th>
+          <th>{{#__}}devices_forget{{/__}}</th>
+          <th></th>
+      	</tr>
       </thead>
       <tbody>
-	{{#devices}}
-	<tr>
-	  <td>{{login}}</td>
-	  <td>{{vpn_connections}}</td>
-	  <td>{{vpn_auth_failures}}</td>
-          <td>{{vpn_last_seen_str}}</td>
-	</tr>
-	{{/devices}}
+      	{{#devices}}
+      	<tr>
+          <form id="forget" action="/ucn/users" method="post">
+      	  <td>{{login}}</td>
+          <td>{{last_seen_str}}</td>
+          <td>
+            <input type="hidden" name="login" value="{{login}}" />
+            <select id="forgetlast" name="forgetlast">
+              {{#forgetoptions}}  
+              <option value="{{value}}">{{name}}</option>
+              {{/forgetoptions}}  
+            </select>
+          </td>
+          <td>
+            <input type="submit" value="{{#__}}devices_forget_button{{/__}}" name="submitforget" />
+          </td>
+          </form>
+      	</tr>
+      	{{/devices}}
       </tbody>
     </table>
   </div>

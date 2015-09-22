@@ -53,7 +53,6 @@
         <ul class="circle">
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
           <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
-          <li>For Safari (TODO ?)</li>
         </ul>
       </li>
     </ul>
@@ -104,7 +103,7 @@
               <li>In 'advanced settings', <b>DNS servers :</b> {{vpnserverdns}}</li>
               <li>Click 'Save' and then click the name of the profile to connect.</li>
               <li>Provide the device specific VPN login (username.devicename) and user password (same for all devices) created above. Select 'save account information' and click 'Connect'.</li>
-              <li>Click the menu button (three dots), 'Always-on VPN', and select 'UCN Study' (will enforce VPN connection for all network activity).</li>
+              <li>Click the menu button (three dots), 'Always-on VPN', and select 'UCN Study' (will enforce the VPN connection for all network activity).</li>
           </ul>
       </li>
       <li>Allow installation of apps from non-market sources: Settings -> Security -> Select 'Unknown sources'.</li>

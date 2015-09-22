@@ -7,12 +7,11 @@
   <h3>Windows PC</h3>
 
   <ul class="square">
-    <li>Disconnect the VPN and remove the VPN configuration.</li>
-    <li>Uninstall HostView (C:\\Program Files\HostView\uninstall.exe).</li>
+    <li>Uninstall HostView (uninstaller is typically located at C:\\Program Files\HostView\uninstall.exe).</li>
     <li>Remove the browser addons:
       <ul class="circle">
-          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
-          <li>Chrome: TODO.</li>
+          <li>Firefox: click on the menu icon -> Add-ons, and remove Hostview addon.</li>
+          <li>Chrome: click on the menu icon -> More Tools -> Extensions, and trash the Hostview extension.</li>
       </ul>
     </li>
   </ul>
@@ -28,8 +27,8 @@
     </li>
     <li>Remove the browser addons:
       <ul class="circle">
-          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
-          <li>Chrome: TODO.</li>
+          <li>Firefox: click on the menu icon -> Add-ons, and remove Hostview addon.</li>
+          <li>Chrome: click on the menu icon -> More Tools -> Extensions, and trash the Hostview extension.</li>
       </ul>
     </li>
   </ul>
@@ -41,12 +40,12 @@
     <!--
     <li>Remove the browser addons:
       <ul class="circle">
-          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
-          <li>Chrome: TODO.</li>
+          <li>Firefox: click on the menu icon -> Add-ons, and remove Hostview addon.</li>
+          <li>Chrome: click on the menu icon -> More Tools -> Extensions, and trash the Hostview extension.</li>
       </ul>
     </li>
     -->
-    <li>Uninstall Moves (optional).</li>
+    <li>Uninstall Moves (if required).</li>
   </ul>
 
   <h3>Android Device</h3>
@@ -56,13 +55,13 @@
     <!--
     <li>Remove the browser addons:
       <ul class="circle">
-          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
-          <li>Chrome: TODO.</li>
+          <li>Firefox: click on the menu icon -> Add-ons, and remove Hostview addon.</li>
+          <li>Chrome: click on the menu icon -> More Tools -> Extensions, and trash the Hostview extension.</li>
       </ul>
     </li>
     -->
     <li>Uninstall UCN Activity Logger.</li>
-    <li>Uninstall Moves (optional).</li>
+    <li>Uninstall Moves (if required).</li>
   </ul>
 
   <h3>Linux</h3>
@@ -71,8 +70,8 @@
     <li>Disconnect OpenVPN and remove the VPN configuration.</li>
     <li>Remove the browser addons:
       <ul class="circle">
-          <li>Firefox: go to url 'about:addons', uninstall Hostview Addon.</li>
-          <li>Chrome: TODO.</li>
+          <li>Firefox: click on the menu icon -> Add-ons, and remove Hostview addon.</li>
+          <li>Chrome: click on the menu icon -> More Tools -> Extensions, and trash the Hostview extension.</li>
       </ul>
     </li>
   </ul>

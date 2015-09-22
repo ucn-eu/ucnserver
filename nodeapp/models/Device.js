@@ -214,6 +214,42 @@ DeviceSchema.virtual('vpn_last_seen_str').get(function() {
 	   return "--";
 });
 
+DeviceSchema.virtual('last_seen_dt').get(function() {
+    var lastseen = undefined;
+
+    // last activity from this device
+    if (this.vpn_last_seen)
+        lastseen = this.vpn_last_seen.getTime();
+//    if (this.browseraddon_lastseen)
+//        lastseen = max(lastseen, this.browseraddon_lastseen.getTime());
+    if (this.loggerapp_lastseen)
+        lastseen = max(lastseen, this.loggerapp_lastseen.getTime());
+
+    if (lastseen)
+        return new Date(lastseen);
+    else
+       return undefined; // never
+});
+
+
+DeviceSchema.virtual('last_seen_str').get(function() {
+    var lastseen = undefined;
+
+    // last activity from this device
+    if (this.vpn_last_seen)
+        lastseen = this.vpn_last_seen.getTime();
+//    if (this.browseraddon_lastseen)
+//        lastseen = max(lastseen, this.browseraddon_lastseen.getTime());
+    if (this.loggerapp_lastseen)
+        lastseen = max(lastseen, this.loggerapp_lastseen.getTime());
+
+    if (lastseen)
+        return moment(new Date(lastseen)).format("MMM Do, HH:mm");
+    else
+       return "--";
+});
+
+
 /** Device. */
 DeviceSchema.statics.findDeviceByLogin = function(login, cb) {
     require('./Device').findOne({login : login}, cb);
