@@ -221,9 +221,9 @@ DeviceSchema.virtual('last_seen_dt').get(function() {
     if (this.vpn_last_seen)
         lastseen = this.vpn_last_seen.getTime();
 //    if (this.browseraddon_lastseen)
-//        lastseen = max(lastseen, this.browseraddon_lastseen.getTime());
+//        lastseen = Math.max(lastseen, this.browseraddon_lastseen.getTime());
     if (this.loggerapp_lastseen)
-        lastseen = max(lastseen, this.loggerapp_lastseen.getTime());
+        lastseen = Math.max(lastseen, this.loggerapp_lastseen.getTime());
 
     if (lastseen)
         return new Date(lastseen);
@@ -239,9 +239,9 @@ DeviceSchema.virtual('last_seen_str').get(function() {
     if (this.vpn_last_seen)
         lastseen = this.vpn_last_seen.getTime();
 //    if (this.browseraddon_lastseen)
-//        lastseen = max(lastseen, this.browseraddon_lastseen.getTime());
+//        lastseen = Math.max(lastseen, this.browseraddon_lastseen.getTime());
     if (this.loggerapp_lastseen)
-        lastseen = max(lastseen, this.loggerapp_lastseen.getTime());
+        lastseen = Math.max(lastseen, this.loggerapp_lastseen.getTime());
 
     if (lastseen)
         return moment(new Date(lastseen)).format("MMM Do, HH:mm");
