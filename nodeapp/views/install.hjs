@@ -28,7 +28,7 @@
         <ul class="circle">
           <li>Internet Explorer (bundled with HostView - restart the browser and accept the new plugin)</li>
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
+          <li><a href="/ucn/downloads/hostview_addon-0.0.2-fx+an-windows.xpi">For Mozilla Firefox</a></li>
         </ul>
       </li>
     </ul>
@@ -52,7 +52,7 @@
       <li>Install browser plugin(s) (for browsers used by the user, open the links in the corresponding browser):
         <ul class="circle">
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
+          <li><a href="/ucn/downloads/hostview_addon-0.0.2-fx+an-mac.xpi">For Mozilla Firefox</a></li>
         </ul>
       </li>
     </ul>
@@ -145,7 +145,7 @@
       <li>Install browser plugin(s) (for browsers used by the user):
         <ul class="circle">
           <li><a href="https://chrome.google.com/webstore/detail/ucn-hostview/palcemkacanbhdkabbjnidechmogincj">For Google Chrome</a></li>
-          <li><a href="/ucn/downloads/hostview.xpi">For Mozilla Firefox</a></li>
+          <li><a href="/ucn/downloads/hostview_addon-0.0.2-fx+an-linux.xpi">For Mozilla Firefox</a></li>
         </ul>
       </li>
     </ul>
